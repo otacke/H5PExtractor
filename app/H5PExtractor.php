@@ -148,6 +148,15 @@ class H5PExtractor
             );
         }
 
+        try {
+            $extract = $generator->create();
+        }
+        catch (\Exception $error) {
+            return $this->_done(
+                null, $error->getMessage()
+            );
+        }
+
         $extract = $generator->create();
         $h5pFileHandler = null;
 

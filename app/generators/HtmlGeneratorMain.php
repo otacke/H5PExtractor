@@ -45,7 +45,12 @@ class HtmlGeneratorMain
      */
     public function create()
     {
-        $css = $this->getH5PCoreCSS();
+        try {
+            $css = $this->getH5PCoreCSS();
+        }
+        catch (\Exception $error) {
+            throw new \Exception($error->getMessage());
+        }
 
         // Get the CSS for the H5P content + subcontents
         $preloadedDependencies
@@ -205,7 +210,17 @@ class HtmlGeneratorMain
      */
     public function getH5PCoreCSS()
     {
-        $stylesPath = __DIR__ . '/../../public/styles';
+        $h5pCorePath = 'h5p/h5p-core';
+
+        $vendorPath = FileUtils::getVendorPath(__DIR__);
+        $stylesPath = $vendorPath . '/'  . $h5pCorePath . '/' . 'styles';
+        if (!isset($stylesPath)) {
+            throw new \Exception(
+                'Could not find the H5P core styles.'
+            );
+            return ''; // No core styles found.
+        }
+
         $requiredFiles = [
             'h5p.css',
             'h5p-confirmation-dialog.css',

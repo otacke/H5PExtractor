@@ -16,15 +16,5 @@
     ],
     "require": {
         "h5p/h5p-core": "^1.26"
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "mkdir -p public/styles",
-            "cp -r vendor/h5p/h5p-core/styles/* public/styles/"
-        ],
-        "post-update-cmd": [
-            "mkdir -p public/styles",
-            "cp -r vendor/h5p/h5p-core/styles/* public/styles/"
-        ]
     }
 }

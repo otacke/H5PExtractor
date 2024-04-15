@@ -46,4 +46,23 @@ class FileUtils
 
         return 'data:' . $fileType . ';base64,' . base64_encode($fileContent);
     }
+
+    /**
+     * Get composer vendor path.
+     *
+     * @param string $startDir The directory to start the search from.
+     *
+     * @return string|null The vendor path or null if not found.
+     */
+    public static function getVendorPath($startDir)
+    {
+        while (!file_exists($startDir . '/vendor')) {
+            $startDir = dirname($startDir);
+            if ($startDir === '/') {
+                return null;
+            }
+        }
+
+        return $startDir . '/vendor';
+    }
 }
