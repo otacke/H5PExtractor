@@ -205,8 +205,7 @@ class HtmlGeneratorMain
      */
     public function getH5PCoreCSS()
     {
-        $h5pCorePath = __DIR__ . '/../../vendor/h5p/h5p-core';
-        $stylesDirectory = 'styles';
+        $stylesPath = __DIR__ . '/../../public/styles';
         $requiredFiles = [
             'h5p.css',
             'h5p-confirmation-dialog.css',
@@ -218,7 +217,7 @@ class HtmlGeneratorMain
         $coreCss = '';
         foreach ($requiredFiles as $fileName) {
             $coreCss .= file_get_contents(
-                $h5pCorePath . '/' . $stylesDirectory . '/' . $fileName
+                $stylesPath . '/' . $fileName
             );
         }
 
@@ -232,9 +231,7 @@ class HtmlGeneratorMain
         $coreCss = str_replace("@import 'font-open-sans.css';", "", $coreCss);
 
         // Replace URLs to fonts with respective base64 encoded strings
-        $coreCss = CSSUtils::replaceUrlsWithBase64(
-            $coreCss, $h5pCorePath . '/' . $stylesDirectory
-        );
+        $coreCss = CSSUtils::replaceUrlsWithBase64($coreCss, $stylesPath);
 
         return $coreCss;
     }
