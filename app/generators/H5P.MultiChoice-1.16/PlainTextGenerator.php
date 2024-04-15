@@ -14,7 +14,7 @@
 namespace H5PExtractor;
 
 require_once __DIR__ . '/../PlainTextGeneratorInterface.php';
-require_once __DIR__ . '/../../TextUtils.php';
+require_once __DIR__ . '/../../utils/TextUtils.php';
 
 /**
  * Class for generating HTML for H5P.Blanks-1.14.

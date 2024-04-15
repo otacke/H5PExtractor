@@ -13,8 +13,8 @@
 
 namespace H5PExtractor;
 
-require_once __DIR__ . '/../' . 'FileUtils.php';
-require_once __DIR__ . '/../' . 'H5PUtils.php';
+require_once __DIR__ . '/../utils/' . 'FileUtils.php';
+require_once __DIR__ . '/../utils/' . 'H5PUtils.php';
 
 /**
  * Class for generating plain text for H5P content.

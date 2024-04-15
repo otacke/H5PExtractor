@@ -13,7 +13,7 @@
 
 namespace H5PExtractor;
 
-require_once __DIR__ . '/' . 'CSSUtils.php';
+require_once __DIR__ . '/utils/' . 'CSSUtils.php';
 
 /**
  * Class for generating HTML for H5P content.
