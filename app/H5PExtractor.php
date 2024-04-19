@@ -157,7 +157,6 @@ class H5PExtractor
             );
         }
 
-        $extract = $generator->create();
         $h5pFileHandler = null;
 
         return $this->_done($extract);
