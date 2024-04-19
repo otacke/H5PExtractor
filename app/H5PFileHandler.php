@@ -237,7 +237,11 @@ class H5PFileHandler
                 );
             }
 
-            if (!mkdir($extractDir, 0777, true) && !is_dir($extractDir)) {
+            if (
+                !file_exists($extractDir) &&
+                !mkdir($extractDir, 0777, true) &&
+                !is_dir($extractDir)
+            ) {
                 throw new \Exception(
                     'Could not create upload directory ' . $extractDir . '.'
                 );
