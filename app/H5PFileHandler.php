@@ -337,6 +337,7 @@ class H5PFileHandler
             return;
         }
 
+        // TODO: How could scandir($dirWithBase) be false if we checked is_dir above?
         $files = array_diff(scandir($dirWithBase), array('.', '..'));
         foreach ($files as $file) {
             if (is_dir($dirWithBase . '/' . $file)) {
