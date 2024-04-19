@@ -124,7 +124,7 @@ class HtmlGeneratorMain
         );
 
         if (!$bestLibraryMatch) {
-            return 'No renderer for ' . $params['machineName'] . ' available.';
+            return 'No HTML renderer for ' . $params['machineName'] . ' available.';
         }
 
         $bestLibraryMatchVersion
@@ -144,7 +144,7 @@ class HtmlGeneratorMain
         $htmlClosing = ($tag_name) ? '</' . $tag_name . '>' : '</div>';
 
         if (!file_exists(__DIR__ . '/' . $bestLibraryMatch . '/HTMLGenerator.php')) {
-            return 'No renderer for ' . $params['machineName'] . ' available.';
+            return 'No HTML renderer for ' . $params['machineName'] . ' available.';
         }
 
         include_once __DIR__ . '/' . $bestLibraryMatch . '/HTMLGenerator.php';
