@@ -61,10 +61,17 @@ class CSSUtils
     {
         // Define the properties and pseudo-elements to remove
         $unwanted_properties = array(
+            '/\bcursor\s*:\s*[^;]+;/',
+            // Remove :active
+        );
+
+        // Remove unwanted properties and pseudo-elements
+        $css = preg_replace($unwanted_properties, '', $css);
+
+        // Define the properties and pseudo-elements to remove
+        $unwanted_pseudo_elements = array(
             // Remove :hover
             '/\b:hover\b[^{]*\{[^}]*\}|:hover[^{]*\{[^}]*\}/',
-            // Remove cursor property
-            '/\bcursor\s*:\s*[^;]+;/',
             // Remove :active
             '/\b:active\b[^{]*\{[^}]*\}|:active[^{]*\{[^}]*\}/',
             // Remove :focus
@@ -75,8 +82,8 @@ class CSSUtils
             '/\b:focus-visible\b[^{]*\{[^}]*\}|\b:focus-visible\b[^{]*\{[^}]*\}/'
         );
 
-        // Remove unwanted properties and pseudo-elements
-        $css = preg_replace($unwanted_properties, '', $css);
+        // Remove unwanted pseudo-elements
+        $css = preg_replace($unwanted_pseudo_elements, '{}', $css);
 
         // Remove cursor and interactivity from common interaction elements
         $elements = ['input', 'button', 'a', 'p', 'span'];
