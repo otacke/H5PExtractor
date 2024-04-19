@@ -237,6 +237,10 @@ class H5PFileHandler
                 );
             }
 
+            /*
+             * TODO: Check why this would claim that $extractDir already exists
+             * if whe checked that with is_dir above?
+             */
             if (!mkdir($extractDir, 0777, true) && !is_dir($extractDir)) {
                 throw new \Exception(
                     'Could not create upload directory ' . $extractDir . '.'
