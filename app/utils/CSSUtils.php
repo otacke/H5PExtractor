@@ -61,11 +61,11 @@ class CSSUtils
     {
         // Define the properties and pseudo-elements to remove
         $unwanted_properties = array(
-            '/\bcursor\s*:\s*[^;]+;/',
-            // Remove :active
+            // cursor, but not part of a larger word, e.g. in class name
+            '/(?:^|[^-_])\bcursor\s*:\s*[^;]+;/',
         );
 
-        // Remove unwanted properties and pseudo-elements
+        // Remove unwanted properties
         $css = preg_replace($unwanted_properties, '', $css);
 
         // Define the properties and pseudo-elements to remove
