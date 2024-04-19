@@ -17,7 +17,7 @@ require_once __DIR__ . '/../PlainTextGeneratorInterface.php';
 require_once __DIR__ . '/../../TextUtils.php';
 
 /**
- * Class for generating HTML for H5P.Blanks-1.14.
+ * Class for generating plain text for H5P.Blanks-1.14.
  *
  * @category Tool
  * @package  H5PExtractor
@@ -28,12 +28,12 @@ require_once __DIR__ . '/../../TextUtils.php';
 class PlainTextGeneratorBlanks_1_14 implements PlainTextGeneratorInterface
 {
     /**
-     * Create the HTML for the given H5P content type.
+     * Create the plain text for the given H5P content type.
      *
      * @param array                  $params Parameters.
-     * @param PlainTextGeneratorMain $main   The main HTML generator.
+     * @param PlainTextGeneratorMain $main   The main plain text generator.
      *
-     * @return string The HTML for the H5P content type.
+     * @return string The plain text for the H5P content type.
      */
     public function get($params, $main)
     {

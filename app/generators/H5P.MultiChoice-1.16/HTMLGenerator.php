@@ -16,7 +16,7 @@ namespace H5PExtractor;
 require_once __DIR__ . '/../HtmlGeneratorInterface.php';
 
 /**
- * Class for generating HTML for H5P.Blanks-1.14.
+ * Class for generating HTML for H5P.MultipleChoice-1.16.
  *
  * @category Tool
  * @package  H5PExtractor
