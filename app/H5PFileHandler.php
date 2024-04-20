@@ -14,6 +14,7 @@
 namespace H5PExtractor;
 
 require_once __DIR__ . '/utils/' . 'CSSUtils.php';
+require_once __DIR__ . '/utils/' . 'GeneralUtils.php';
 
 /**
  * Class for generating HTML for H5P content.
@@ -227,7 +228,7 @@ class H5PFileHandler
     private function _extractContent($file)
     {
         // Create temporary directory with time stamp+uuid for garbage collection
-        $directoryName = time() . '-' . uniqid();
+        $directoryName = time() . '-' . GeneralUtils::createUUID();
 
         $extractDir = $this->baseDirectory . '/' . $directoryName;
         if (!is_dir($extractDir)) {
@@ -237,10 +238,6 @@ class H5PFileHandler
                 );
             }
 
-            /*
-             * TODO: Check why this would claim that $extractDir already exists
-             * if whe checked that with is_dir above?
-             */
             if (!mkdir($extractDir, 0777, true) && !is_dir($extractDir)) {
                 throw new \Exception(
                     'Could not create upload directory ' . $extractDir . '.'
@@ -252,7 +249,6 @@ class H5PFileHandler
 
         if ($zip->open($file) !== true) {
             throw new \Exception('Error extracting H5P file ZIP archive.');
-
         }
 
         for ($i = 0; $i < $zip->numFiles; $i++) {
@@ -337,7 +333,6 @@ class H5PFileHandler
             return;
         }
 
-        // TODO: How could scandir($dirWithBase) be false if we checked is_dir above?
         $files = array_diff(scandir($dirWithBase), array('.', '..'));
         foreach ($files as $file) {
             if (is_dir($dirWithBase . '/' . $file)) {
