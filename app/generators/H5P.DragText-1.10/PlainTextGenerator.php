@@ -65,9 +65,8 @@ class PlainTextGeneratorDragText_1_10 implements PlainTextGeneratorInterface
         );
         $segments = UtilsDragText_1_10::parseText($textFieldHtml);
         foreach ($segments as $segment) {
-            if (
-                !str_starts_with($segment, '*') ||
-                !str_ends_with($segment, '*')
+            if (!str_starts_with($segment, '*') 
+                || !str_ends_with($segment, '*')
             ) {
                 $textParts[] = $segment;
                 continue;
@@ -91,9 +90,8 @@ class PlainTextGeneratorDragText_1_10 implements PlainTextGeneratorInterface
         );
         $segments = UtilsDragText_1_10::parseText($distractorsHtml);
         foreach ($segments as $segment) {
-            if (
-                !str_starts_with($segment, '*') ||
-                !str_ends_with($segment, '*')
+            if (!str_starts_with($segment, '*') 
+                || !str_ends_with($segment, '*')
             ) {
                 continue;
             }

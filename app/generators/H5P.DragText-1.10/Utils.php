@@ -42,6 +42,13 @@ class UtilsDragText_1_10
         );
     }
 
+    /**
+     * Lex the given solution text. Weird name, but used by H5P Group.
+     *
+     * @param string $solutionText The solution text.
+     *
+     * @return array The lexed solution text.
+     */
     public static function lex($solutionText)
     {
         preg_match(
@@ -80,6 +87,14 @@ class UtilsDragText_1_10
         ];
     }
 
+    /**
+     * Clean the given character from the beginning and end of the string.
+     *
+     * @param string $char The character to clean.
+     * @param string $str  The string to clean.
+     *
+     * @return string The cleaned string.
+     */
     private static function _cleanCharacter($char = '', $str = '')
     {
         if (str_starts_with($str, $char)) {

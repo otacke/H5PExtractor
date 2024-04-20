@@ -27,6 +27,13 @@ require_once __DIR__ . '/../../utils/TextUtils.php';
  */
 class PlainTextGeneratorMarkTheWords_1_11 implements PlainTextGeneratorInterface
 {
+    /**
+     * Get the content of the lines in the given input.
+     *
+     * @param string $input The input.
+     *
+     * @return string[] The content of the lines in the given input.
+     */
     private function _getLinesContent($input)
     {
         if (strpos($input, '<p>') === false) {
@@ -40,12 +47,18 @@ class PlainTextGeneratorMarkTheWords_1_11 implements PlainTextGeneratorInterface
         return $matches[1];
     }
 
+    /**
+     * Interpret the given text.
+     *
+     * @param string $input The input.
+     *
+     * @return string The interpreted text.
+     */
     private function _interpretText($input)
     {
         // Remove asterisks as required
         $pattern = '/\*(\w+\**)\*/';
-        $callback = function ($matches)
-        {
+        $callback = function ($matches) {
             return str_replace('**', '*', $matches[1]);
         };
         $output = preg_replace_callback($pattern, $callback, $input);
@@ -57,8 +70,7 @@ class PlainTextGeneratorMarkTheWords_1_11 implements PlainTextGeneratorInterface
 
         // Sandwich each word with non-breaking spaces, keep HTML tags together
         $pattern = '/(?:<[^>]+>)|(\b(?:\w+|-|–)+\**\b)/';
-        $callback = function ($matches) use ($nbsp_before, $nbsp_after)
-        {
+        $callback = function ($matches) use ($nbsp_before, $nbsp_after) {
             $match = $matches[1] ?? $matches[0];
             return $nbsp_before . $match . $nbsp_after;
         };

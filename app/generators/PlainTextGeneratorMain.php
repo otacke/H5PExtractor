@@ -82,7 +82,8 @@ class PlainTextGeneratorMain
         );
 
         if (!$bestLibraryMatch) {
-            return 'No plain text renderer for ' . $params['machineName'] . ' available.';
+            return 'No plain text renderer for ' . $params['machineName'] .
+                ' available.';
         }
 
         $contentParams = $params['params'];
@@ -99,7 +100,8 @@ class PlainTextGeneratorMain
 
         if (!file_exists($generatorPath)
         ) {
-            return 'No plain text renderer for ' . $params['machineName'] . ' available.';
+            return 'No plain text renderer for ' . $params['machineName'] .
+                ' available.';
         }
 
         include_once __DIR__ . '/' . $bestLibraryMatch . '/PlainTextGenerator.php';

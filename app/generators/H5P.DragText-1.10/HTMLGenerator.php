@@ -68,9 +68,8 @@ class HtmlGeneratorDragText_1_10 implements HtmlGeneratorInterface
         );
         $segments = UtilsDragText_1_10::parseText($textFieldHtml);
         foreach ($segments as $segment) {
-            if (
-                !str_starts_with($segment, '*') ||
-                !str_ends_with($segment, '*')
+            if (!str_starts_with($segment, '*')
+                || !str_ends_with($segment, '*')
             ) {
                 $textParts[] = '<span>' . $segment . '</span>';
                 continue;
@@ -86,7 +85,9 @@ class HtmlGeneratorDragText_1_10 implements HtmlGeneratorInterface
                 '</div>';
 
             $dropzone = '<div class="h5p-drag-dropzone-container">' .
-                '<div aria-dropeffect="none" class="ui-droppable" style="width: 100px"></div>' .
+                '<div ' .
+                'aria-dropeffect="none" class="ui-droppable" style="width: 100px">' .
+                '</div>' .
                 '</div>';
 
             $textParts[] = $dropzone;
@@ -99,9 +100,8 @@ class HtmlGeneratorDragText_1_10 implements HtmlGeneratorInterface
         );
         $segments = UtilsDragText_1_10::parseText($distractorsHtml);
         foreach ($segments as $segment) {
-            if (
-                !str_starts_with($segment, '*') ||
-                !str_ends_with($segment, '*')
+            if (!str_starts_with($segment, '*')
+                || !str_ends_with($segment, '*')
             ) {
                 continue;
             }

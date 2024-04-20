@@ -27,6 +27,13 @@ require_once __DIR__ . '/../HtmlGeneratorInterface.php';
 class HtmlGeneratorMarkTheWords_1_11 implements HtmlGeneratorInterface
 {
 
+    /**
+     * Get the content of the lines in the given input.
+     *
+     * @param string $input The input.
+     *
+     * @return string[] The content of the lines in the given input.
+     */
     private function _getLinesContent($input)
     {
         if (strpos($input, '<p>') === false) {
@@ -40,14 +47,20 @@ class HtmlGeneratorMarkTheWords_1_11 implements HtmlGeneratorInterface
         return $matches[1];
     }
 
+    /**
+     * Interpret the given text.
+     *
+     * @param string $input The input.
+     *
+     * @return string The interpreted text.
+     */
     private function _interpretText($input)
     {
         $output = str_replace('<br>', "\n\n", $input);
 
         // Remove asterisks as required
         $pattern = '/\*(\w+\**)\*/';
-        $callback = function ($matches)
-        {
+        $callback = function ($matches) {
             return str_replace('**', '*', $matches[1]);
         };
         $output = preg_replace_callback($pattern, $callback, $output);
@@ -56,8 +69,7 @@ class HtmlGeneratorMarkTheWords_1_11 implements HtmlGeneratorInterface
 
         // Sandwich each word with span, but keep HTML tags
         $pattern = '/(?:<[^>]+>)|(\b(?:\w+|-|–)+\b)/';
-        $callback = function ($matches)
-        {
+        $callback = function ($matches) {
             $match = $matches[1] ?? htmlspecialchars($matches[0]);
             return '<span role="option">' . $match . "</span>";
         };
@@ -65,8 +77,16 @@ class HtmlGeneratorMarkTheWords_1_11 implements HtmlGeneratorInterface
         $output = preg_replace_callback($pattern, $callback, $output);
 
         // Asterisks that were inside asterisks may belong to the word
-        $output = str_replace('</span>*', '*</span>', $output);
-        $output = str_replace('*<span role="option">', '<span role="option">*', $output);
+        $output = str_replace(
+            '</span>*',
+            '*</span>',
+            $output
+        );
+        $output = str_replace(
+            '*<span role="option">',
+            '<span role="option">*',
+            $output
+        );
 
         // Remove gaps in between tags
         $output = str_replace('&gt;</span><span role="option">', '&gt;', $output);
