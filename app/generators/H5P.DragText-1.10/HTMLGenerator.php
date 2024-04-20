@@ -113,6 +113,7 @@ class HtmlGeneratorDragText_1_10 implements HtmlGeneratorInterface
               'style="position: relative; left: 0; top: 0;"' .
               '>' .
               '<span>' . $lexed['text'] . '</span>' .
+              // TODO: Tips
               '</div>';
         }
 
