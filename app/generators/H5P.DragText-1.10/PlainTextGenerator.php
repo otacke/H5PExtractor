@@ -8,7 +8,7 @@
  * @package  H5PExtractor
  * @author   Oliver Tacke <oliver@snordian.de>
  * @license  MIT License
- * @link     https://todo
+ * @link     https://github.com/otacke/H5PExtractor
  */
 
 namespace H5PExtractor;
@@ -24,7 +24,7 @@ require_once __DIR__ . '/Utils.php';
  * @package  H5PExtractor
  * @author   Oliver Tacke <oliver@snordian.de>
  * @license  MIT License
- * @link     https://todo
+ * @link     https://github.com/otacke/H5PExtractor
  */
 class PlainTextGeneratorDragText_1_10 implements PlainTextGeneratorInterface
 {
@@ -65,7 +65,7 @@ class PlainTextGeneratorDragText_1_10 implements PlainTextGeneratorInterface
         );
         $segments = UtilsDragText_1_10::parseText($textFieldHtml);
         foreach ($segments as $segment) {
-            if (!str_starts_with($segment, '*') 
+            if (!str_starts_with($segment, '*')
                 || !str_ends_with($segment, '*')
             ) {
                 $textParts[] = $segment;
@@ -90,7 +90,7 @@ class PlainTextGeneratorDragText_1_10 implements PlainTextGeneratorInterface
         );
         $segments = UtilsDragText_1_10::parseText($distractorsHtml);
         foreach ($segments as $segment) {
-            if (!str_starts_with($segment, '*') 
+            if (!str_starts_with($segment, '*')
                 || !str_ends_with($segment, '*')
             ) {
                 continue;

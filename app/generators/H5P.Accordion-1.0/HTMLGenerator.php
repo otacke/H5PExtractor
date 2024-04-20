@@ -8,7 +8,7 @@
  * @package  H5PExtractor
  * @author   Oliver Tacke <oliver@snordian.de>
  * @license  MIT License
- * @link     https://todo
+ * @link     https://github.com/otacke/H5PExtractor
  */
 
 namespace H5PExtractor;
@@ -22,7 +22,7 @@ require_once __DIR__ . '/../HtmlGeneratorInterface.php';
  * @package  H5PExtractor
  * @author   Oliver Tacke <oliver@snordian.de>
  * @license  MIT License
- * @link     https://todo
+ * @link     https://github.com/otacke/H5PExtractor
  */
 class HtmlGeneratorAccordion_1_0 implements HtmlGeneratorInterface
 {

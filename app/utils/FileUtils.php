@@ -8,7 +8,7 @@
  * @package  H5PExtractor
  * @author   Oliver Tacke <oliver@snordian.de>
  * @license  MIT License
- * @link     https://todo
+ * @link     https://github.com/otacke/H5PExtractor
  */
 
 namespace H5PExtractor;
@@ -20,7 +20,7 @@ namespace H5PExtractor;
  * @package  H5PExtractor
  * @author   Oliver Tacke <oliver@snordian.de>
  * @license  MIT License
- * @link     https://todo
+ * @link     https://github.com/otacke/H5PExtractor
  */
 class FileUtils
 {
