@@ -13,8 +13,6 @@
 
 namespace H5PExtractor;
 
-require_once __DIR__ . '/../HtmlGeneratorInterface.php';
-
 /**
  * Class for generating HTML for H5P.MarkTheWords-1.11.
  *
@@ -24,7 +22,7 @@ require_once __DIR__ . '/../HtmlGeneratorInterface.php';
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class HtmlGeneratorMarkTheWords_1_11 implements HtmlGeneratorInterface
+class HtmlGeneratorMarkTheWordsMajor1Minor11 implements HtmlGeneratorInterface
 {
 
     /**
@@ -34,7 +32,7 @@ class HtmlGeneratorMarkTheWords_1_11 implements HtmlGeneratorInterface
      *
      * @return string[] The content of the lines in the given input.
      */
-    private function _getLinesContent($input)
+    private function getLinesContent($input)
     {
         if (strpos($input, '<p>') === false) {
             return array($input);
@@ -54,7 +52,7 @@ class HtmlGeneratorMarkTheWords_1_11 implements HtmlGeneratorInterface
      *
      * @return string The interpreted text.
      */
-    private function _interpretText($input)
+    private function interpretText($input)
     {
         $output = str_replace('<br>', "\n\n", $input);
 
@@ -138,9 +136,9 @@ class HtmlGeneratorMarkTheWords_1_11 implements HtmlGeneratorInterface
 
         $textField = $contentParams['textField'] ?? '';
 
-        $lines = $this->_getLinesContent($textField);
+        $lines = $this->getLinesContent($textField);
         foreach ($lines as $line) {
-            $line = $this->_interpretText($line);
+            $line = $this->interpretText($line);
             $line = '<p>' . $line . '</p>';
 
             $html .= $line;

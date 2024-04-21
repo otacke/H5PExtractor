@@ -13,8 +13,6 @@
 
 namespace H5PExtractor;
 
-require_once __DIR__ . '/' . 'FileUtils.php';
-
 /**
  * Class for handling CSS.
  *

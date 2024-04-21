@@ -13,10 +13,6 @@
 
 namespace H5PExtractor;
 
-require_once __DIR__ . '/../PlainTextGeneratorInterface.php';
-require_once __DIR__ . '/../../utils/TextUtils.php';
-require_once __DIR__ . '/Utils.php';
-
 /**
  * Class for generating HTML for H5P.DragText-1.10.
  *
@@ -26,7 +22,7 @@ require_once __DIR__ . '/Utils.php';
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorDragText_1_10 implements PlainTextGeneratorInterface
+class PlainTextGeneratorDragTextMajor1Minor10 implements PlainTextGeneratorInterface
 {
     /**
      * Create the plain text for the given H5P content type.
@@ -38,6 +34,8 @@ class PlainTextGeneratorDragText_1_10 implements PlainTextGeneratorInterface
      */
     public function get($params, $main)
     {
+        include_once __DIR__ . '/Utils.php';
+
         $contentParams = $params['params'];
 
         $text = $params['container'];
@@ -63,7 +61,7 @@ class PlainTextGeneratorDragText_1_10 implements PlainTextGeneratorInterface
             '<br/>',
             $contentParams['textField'] ?? ''
         );
-        $segments = UtilsDragText_1_10::parseText($textFieldHtml);
+        $segments = UtilsDragTextMajor1Minor10::parseText($textFieldHtml);
         foreach ($segments as $segment) {
             if (!str_starts_with($segment, '*')
                 || !str_ends_with($segment, '*')
@@ -72,7 +70,7 @@ class PlainTextGeneratorDragText_1_10 implements PlainTextGeneratorInterface
                 continue;
             }
 
-            $lexed = UtilsDragText_1_10::lex($segment);
+            $lexed = UtilsDragTextMajor1Minor10::lex($segment);
 
             $draggables[] = $lexed['text'];
 
@@ -88,7 +86,7 @@ class PlainTextGeneratorDragText_1_10 implements PlainTextGeneratorInterface
             '<br/>',
             $contentParams['distractors'] ?? ''
         );
-        $segments = UtilsDragText_1_10::parseText($distractorsHtml);
+        $segments = UtilsDragTextMajor1Minor10::parseText($distractorsHtml);
         foreach ($segments as $segment) {
             if (!str_starts_with($segment, '*')
                 || !str_ends_with($segment, '*')
@@ -96,7 +94,7 @@ class PlainTextGeneratorDragText_1_10 implements PlainTextGeneratorInterface
                 continue;
             }
 
-            $lexed = UtilsDragText_1_10::lex($segment);
+            $lexed = UtilsDragTextMajor1Minor10::lex($segment);
             $draggables[] = $lexed['text'];
         }
 

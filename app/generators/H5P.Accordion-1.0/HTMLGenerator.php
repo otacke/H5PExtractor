@@ -13,8 +13,6 @@
 
 namespace H5PExtractor;
 
-require_once __DIR__ . '/../HtmlGeneratorInterface.php';
-
 /**
  * Class for generating HTML for H5P.Accordion-1.0.
  *
@@ -24,7 +22,7 @@ require_once __DIR__ . '/../HtmlGeneratorInterface.php';
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class HtmlGeneratorAccordion_1_0 implements HtmlGeneratorInterface
+class HtmlGeneratorAccordionMajor1Minor0 implements HtmlGeneratorInterface
 {
     /**
      * Create the HTML for the given H5P content type.

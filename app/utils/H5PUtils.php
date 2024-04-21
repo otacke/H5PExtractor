@@ -40,8 +40,8 @@ class H5PUtils
         $minorVersion,
         $prefix = ''
     ) {
-        return $prefix . explode('.', $machineName)[1] . '_' .
-          $majorVersion . '_' . $minorVersion;
+        return $prefix . explode('.', $machineName)[1] . 'Major' .
+          $majorVersion . 'Minor' . $minorVersion;
     }
 
     /**

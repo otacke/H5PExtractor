@@ -13,9 +13,6 @@
 
 namespace H5PExtractor;
 
-require_once __DIR__ . '/utils/' . 'CSSUtils.php';
-require_once __DIR__ . '/utils/' . 'GeneralUtils.php';
-
 /**
  * Class for generating HTML for H5P content.
  *
@@ -39,14 +36,14 @@ class H5PFileHandler
         $this->baseDirectory = $uploadsPath;
 
         try {
-            $this->filesDirectory = $this->_extractContent($file);
+            $this->filesDirectory = $this->extractContent($file);
         } catch (\Exception $error) {
             throw new \Exception($error->getMessage());
         }
 
         try {
             // TODO: separate class for H5P information (?)
-            $this->h5pInfo = $this->_extractH5PInformation();
+            $this->h5pInfo = $this->extractH5PInformation();
         } catch (\Exception $error) {
             throw new \Exception($error->getMessage());
         }
@@ -73,8 +70,8 @@ class H5PFileHandler
             return;
         }
 
-        $this->_collectGarbage();
-        $this->_deleteDirectory($this->filesDirectory);
+        $this->collectGarbage();
+        $this->deleteDirectory($this->filesDirectory);
     }
 
     /**
@@ -200,7 +197,7 @@ class H5PFileHandler
             return false;
         }
 
-        $libraryJson = $this->_getLibraryJson($contentTypeDir);
+        $libraryJson = $this->getLibraryJson($contentTypeDir);
         if ($libraryJson === false || !isset($libraryJson['preloadedCss'])) {
             return false;
         }
@@ -225,7 +222,7 @@ class H5PFileHandler
      *
      * @return string|false Name of temporary directory or false.
      */
-    private function _extractContent($file)
+    private function extractContent($file)
     {
         // Create temporary directory with time stamp+uuid for garbage collection
         $directoryName = time() . '-' . GeneralUtils::createUUID();
@@ -267,7 +264,7 @@ class H5PFileHandler
      *
      * @return array|bool JSON data if the file exists and is valid, false otherwise.
      */
-    private function _getLibraryJson($dir)
+    private function getLibraryJson($dir)
     {
         if (!is_dir($dir)) {
             return false;
@@ -293,7 +290,7 @@ class H5PFileHandler
      *
      * @return string|null The H5P content type CSS if it exists, null otherwise.
      */
-    private function _extractH5PInformation()
+    private function extractH5PInformation()
     {
         $extractDir = $this->baseDirectory . '/' . $this->filesDirectory;
 
@@ -326,7 +323,7 @@ class H5PFileHandler
      *
      * @return void
      */
-    private function _deleteDirectory($dir)
+    private function deleteDirectory($dir)
     {
         $dirWithBase = $this->baseDirectory . '/' . $dir;
         if (!is_dir($dirWithBase)) {
@@ -336,7 +333,7 @@ class H5PFileHandler
         $files = array_diff(scandir($dirWithBase), array('.', '..'));
         foreach ($files as $file) {
             if (is_dir($dirWithBase . '/' . $file)) {
-                $this->_deleteDirectory($dir . '/' . $file);
+                $this->deleteDirectory($dir . '/' . $file);
             } else {
                 unlink($dirWithBase . '/' . $file);
             }
@@ -352,7 +349,7 @@ class H5PFileHandler
      *
      * @return void
      */
-    private function _collectGarbage($timediff = 60)
+    private function collectGarbage($timediff = 60)
     {
         $currentTimestamp = time();
 
@@ -363,7 +360,7 @@ class H5PFileHandler
             $timestamp = explode('-', $dirName)[0];
 
             if ($currentTimestamp - $timestamp >= $timediff) {
-                $this->_deleteDirectory($dirName);
+                $this->deleteDirectory($dirName);
             }
         }
     }

@@ -13,8 +13,6 @@
 
 namespace H5PExtractor;
 
-require_once __DIR__ . '/../PlainTextGeneratorInterface.php';
-
 /**
  * Class for generating plain text for H5P.Accordion-1.0.
  *
@@ -24,7 +22,7 @@ require_once __DIR__ . '/../PlainTextGeneratorInterface.php';
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorAccordion_1_0 implements PlainTextGeneratorInterface
+class PlainTextGeneratorAccordionMajor1Minor0 implements PlainTextGeneratorInterface
 {
     /**
      * Create the output for the given H5P content type.

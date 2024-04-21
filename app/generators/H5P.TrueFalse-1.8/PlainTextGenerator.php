@@ -13,9 +13,6 @@
 
 namespace H5PExtractor;
 
-require_once __DIR__ . '/../PlainTextGeneratorInterface.php';
-require_once __DIR__ . '/../../utils/TextUtils.php';
-
 /**
  * Class for generating plain text for H5P.TrueFalse-1.8.
  *
@@ -25,7 +22,7 @@ require_once __DIR__ . '/../../utils/TextUtils.php';
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorTrueFalse_1_8 implements PlainTextGeneratorInterface
+class PlainTextGeneratorTrueFalseMajor1Minor8 implements PlainTextGeneratorInterface
 {
     /**
      * Create the plain text for the given H5P content type.

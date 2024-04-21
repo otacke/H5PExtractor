@@ -13,9 +13,6 @@
 
 namespace H5PExtractor;
 
-require_once __DIR__ . '/../PlainTextGeneratorInterface.php';
-require_once __DIR__ . '/../../utils/TextUtils.php';
-
 /**
  * Class for generating HTML for H5P.MultiChoice-1.16.
  *
@@ -25,7 +22,7 @@ require_once __DIR__ . '/../../utils/TextUtils.php';
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorMultiChoice_1_16 implements PlainTextGeneratorInterface
+class PlainTextGeneratorMultiChoiceMajor1Minor16 implements PlainTextGeneratorInterface
 {
     /**
      * Create the HTML for the given H5P content type.

@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class UtilsDragText_1_10
+class UtilsDragTextMajor1Minor10
 {
     /**
      * Parse the given text into an array of text and tags.
@@ -77,7 +77,7 @@ class UtilsDragText_1_10
         $text = str_replace($correctFeedback, '', $text);
         $text = str_replace($incorrectFeedback, '', $text);
         $text = trim($text);
-        $text = UtilsDragText_1_10::_cleanCharacter('*', $text);
+        $text = UtilsDragTextMajor1Minor10::cleanCharacter('*', $text);
 
         $tip = substr($tip, 1);
         $tip = trim($tip);
@@ -96,7 +96,7 @@ class UtilsDragText_1_10
      *
      * @return string The cleaned string.
      */
-    private static function _cleanCharacter($char = '', $str = '')
+    private static function cleanCharacter($char = '', $str = '')
     {
         if (str_starts_with($str, $char)) {
             $str = substr($str, 1);

@@ -13,9 +13,6 @@
 
 namespace H5PExtractor;
 
-require_once __DIR__ . '/../HtmlGeneratorInterface.php';
-require_once __DIR__ . '/Utils.php';
-
 /**
  * Class for generating HTML for H5P.DragText-1.10.
  *
@@ -25,7 +22,7 @@ require_once __DIR__ . '/Utils.php';
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class HtmlGeneratorDragText_1_10 implements HtmlGeneratorInterface
+class HtmlGeneratorDragTextMajor1Minor10 implements HtmlGeneratorInterface
 {
     /**
      * Create the HTML for the given H5P content type.
@@ -37,6 +34,8 @@ class HtmlGeneratorDragText_1_10 implements HtmlGeneratorInterface
      */
     public function get($params, $main)
     {
+        include_once __DIR__ . '/Utils.php';
+
         $contentParams = $params['params'];
 
         $html = $params['container'];
@@ -66,7 +65,7 @@ class HtmlGeneratorDragText_1_10 implements HtmlGeneratorInterface
             '<br/>',
             $contentParams['textField'] ?? ''
         );
-        $segments = UtilsDragText_1_10::parseText($textFieldHtml);
+        $segments = UtilsDragTextMajor1Minor10::parseText($textFieldHtml);
         foreach ($segments as $segment) {
             if (!str_starts_with($segment, '*')
                 || !str_ends_with($segment, '*')
@@ -75,7 +74,7 @@ class HtmlGeneratorDragText_1_10 implements HtmlGeneratorInterface
                 continue;
             }
 
-            $lexed = UtilsDragText_1_10::lex($segment);
+            $lexed = UtilsDragTextMajor1Minor10::lex($segment);
             $draggables[] = '<div ' .
                 'role="button" aria-grabbed="false" ' .
                 'class="ui-draggable ui-draggable-handle" ' .
@@ -98,7 +97,7 @@ class HtmlGeneratorDragText_1_10 implements HtmlGeneratorInterface
             '<br/>',
             $contentParams['distractors'] ?? ''
         );
-        $segments = UtilsDragText_1_10::parseText($distractorsHtml);
+        $segments = UtilsDragTextMajor1Minor10::parseText($distractorsHtml);
         foreach ($segments as $segment) {
             if (!str_starts_with($segment, '*')
                 || !str_ends_with($segment, '*')
@@ -106,7 +105,7 @@ class HtmlGeneratorDragText_1_10 implements HtmlGeneratorInterface
                 continue;
             }
 
-            $lexed = UtilsDragText_1_10::lex($segment);
+            $lexed = UtilsDragTextMajor1Minor10::lex($segment);
             $draggables[] = '<div ' .
               'role="button" aria-grabbed="false" ' .
               'class="ui-draggable ui-draggable-handle" ' .

@@ -13,9 +13,6 @@
 
 namespace H5PExtractor;
 
-require_once __DIR__ . '/../PlainTextGeneratorInterface.php';
-require_once __DIR__ . '/../../TextUtils.php';
-
 /**
  * Class for generating plain text for H5P.Blanks-1.14.
  *
@@ -25,7 +22,7 @@ require_once __DIR__ . '/../../TextUtils.php';
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorBlanks_1_14 implements PlainTextGeneratorInterface
+class PlainTextGeneratorBlanksMajor1Minor14 implements PlainTextGeneratorInterface
 {
     /**
      * Create the plain text for the given H5P content type.

@@ -13,8 +13,6 @@
 
 namespace H5PExtractor;
 
-require_once __DIR__ . '/../HtmlGeneratorInterface.php';
-
 /**
  * Class for generating HTML for H5P.Essay-1.5.
  *
@@ -24,7 +22,7 @@ require_once __DIR__ . '/../HtmlGeneratorInterface.php';
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class HtmlGeneratorEssay_1_5 implements HtmlGeneratorInterface
+class HtmlGeneratorEssayMajor1Minor5 implements HtmlGeneratorInterface
 {
     /**
      * Create the HTML for the given H5P content type.

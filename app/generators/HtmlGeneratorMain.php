@@ -13,10 +13,6 @@
 
 namespace H5PExtractor;
 
-require_once __DIR__ . '/../utils/' . 'CSSUtils.php';
-require_once __DIR__ . '/../utils/' . 'FileUtils.php';
-require_once __DIR__ . '/../utils/' . 'H5PUtils.php';
-
 /**
  * Class for generating HTML for H5P content.
  *
@@ -82,7 +78,7 @@ class HtmlGeneratorMain
             )
         );
 
-        return $this->_createMain($css, $contentHtml);
+        return $this->createMain($css, $contentHtml);
     }
 
     /**
@@ -93,7 +89,7 @@ class HtmlGeneratorMain
      *
      * @return string The main HTML for the H5P content.
      */
-    private function _createMain($css = '', $contentHtml = '')
+    private function createMain($css = '', $contentHtml = '')
     {
         $html  = '<style>' . $css . '</style>';
         $html .= '<div class="h5p-iframe">';

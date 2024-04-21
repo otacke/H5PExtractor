@@ -1,4 +1,4 @@
 <ruleset name="Just files to exclude">
-    <rule ref="PEAR" />
+    <rule ref="PSR2" />
     <file>./app</file>
 </ruleset>

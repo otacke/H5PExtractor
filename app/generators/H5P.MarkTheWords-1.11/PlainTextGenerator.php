@@ -13,9 +13,6 @@
 
 namespace H5PExtractor;
 
-require_once __DIR__ . '/../PlainTextGeneratorInterface.php';
-require_once __DIR__ . '/../../utils/TextUtils.php';
-
 /**
  * Class for generating HTML for H5P.MarkTheWords-1.11.
  *
@@ -25,7 +22,7 @@ require_once __DIR__ . '/../../utils/TextUtils.php';
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorMarkTheWords_1_11 implements PlainTextGeneratorInterface
+class PlainTextGeneratorMarkTheWordsMajor1Minor11 implements PlainTextGeneratorInterface
 {
     /**
      * Get the content of the lines in the given input.
@@ -34,7 +31,7 @@ class PlainTextGeneratorMarkTheWords_1_11 implements PlainTextGeneratorInterface
      *
      * @return string[] The content of the lines in the given input.
      */
-    private function _getLinesContent($input)
+    private function getLinesContent($input)
     {
         if (strpos($input, '<p>') === false) {
             return array($input);
@@ -54,7 +51,7 @@ class PlainTextGeneratorMarkTheWords_1_11 implements PlainTextGeneratorInterface
      *
      * @return string The interpreted text.
      */
-    private function _interpretText($input)
+    private function interpretText($input)
     {
         // Remove asterisks as required
         $pattern = '/\*(\w+\**)\*/';
@@ -113,12 +110,12 @@ class PlainTextGeneratorMarkTheWords_1_11 implements PlainTextGeneratorInterface
         $text .= TextUtils::htmlToText(($contentParams['taskDescription'] ?? ''));
 
         $textField = $contentParams['textField'] ?? '';
-        $lines = $this->_getLinesContent($textField);
+        $lines = $this->getLinesContent($textField);
 
         foreach ($lines as $line) {
             $line = str_replace('<br>', "\n", $line);
 
-            $text .= $this->_interpretText($line);
+            $text .= $this->interpretText($line);
             $text .= "\n\n";
         }
 
