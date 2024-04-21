@@ -104,7 +104,7 @@ class PlainTextGeneratorMain
                 ' available.';
         }
 
-        require_once __DIR__ . '/' . $bestLibraryMatch . '/PlainTextGenerator.php';
+        include_once __DIR__ . '/' . $bestLibraryMatch . '/PlainTextGenerator.php';
 
         $className = H5PUtils::buildClassName(
             $params['machineName'],

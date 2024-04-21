@@ -39,9 +39,9 @@ class H5PExtractor
 
         $this->config = $config;
 
-        require_once __DIR__ .'/H5PFileHandler.php';
-        require_once __DIR__ .'/generators/HtmlGeneratorMain.php';
-        require_once __DIR__ .'/generators/PlainTextGeneratorMain.php';
+        include_once __DIR__ .'/H5PFileHandler.php';
+        include_once __DIR__ .'/generators/HtmlGeneratorMain.php';
+        include_once __DIR__ .'/generators/PlainTextGeneratorMain.php';
     }
 
     /**
