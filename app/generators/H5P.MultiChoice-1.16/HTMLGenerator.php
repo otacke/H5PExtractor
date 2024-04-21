@@ -77,7 +77,7 @@ class HtmlGeneratorMultiChoice_1_16 implements HtmlGeneratorInterface
         $mode = ($numCorrect === 1) ? 'h5p-radio' : 'h5p-check';
         if ($contentParams['behaviour']['type'] === 'single') {
             $mode = 'h5p-radio';
-        } else if ($contentParams['behaviour']['type'] === 'multi') {
+        } elseif ($contentParams['behaviour']['type'] === 'multi') {
             $mode = 'h5p-check';
         }
 

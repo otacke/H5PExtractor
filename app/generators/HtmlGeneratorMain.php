@@ -214,7 +214,7 @@ class HtmlGeneratorMain
             $html .= ' />';
             $html .= '</div>';
             $html .= '</div>';
-        } else if ($machineName === 'H5P.Audio') {
+        } elseif ($machineName === 'H5P.Audio') {
             $imagePath = __DIR__ . '/../assets/placeholder-audio.svg';
 
             $html = '<div' .
@@ -225,7 +225,7 @@ class HtmlGeneratorMain
                 ' style="width: 100%;"' .
                 '>';
             $html .= '</div>';
-        } else if ($machineName === 'H5P.Video') {
+        } elseif ($machineName === 'H5P.Video') {
             $imagePath = __DIR__ . '/../assets/placeholder-video.svg';
 
             $html = '<div class="h5p-question-video h5p-video">';

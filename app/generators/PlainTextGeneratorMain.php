@@ -160,9 +160,9 @@ class PlainTextGeneratorMain
                 $text = '![' . $title . ']' . "\n";
             }
             return $text . "\n";
-        } else if ($machineName === 'H5P.Audio') {
+        } elseif ($machineName === 'H5P.Audio') {
             return 'Audio: ' . $title . "\n\n";
-        } else if ($machineName === 'H5P.Video') {
+        } elseif ($machineName === 'H5P.Video') {
             return 'Video: ' . $title . "\n\n";
         }
 

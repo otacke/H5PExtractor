@@ -56,7 +56,7 @@ class H5PExtractor
     {
         if (isset($error)) {
             $result = null;
-        } else if (!isset($result)) {
+        } elseif (!isset($result)) {
             $error = 'Something went wrong, but I dunno what, sorry!';
         }
 
