@@ -27,22 +27,26 @@ class FileUtils
     /**
      * Convert the given file to a base64 encoded string.
      *
-     * @param string $url The URL of the file to convert.
+     * @param string $path The URL of the file to convert.
      *
      * @return string The base64 encoded string.
      */
-    public static function fileToBase64($url)
+    public static function fileToBase64($path)
     {
-        $url = explode('?', $url)[0];
+        if (getType($path) !== 'string') {
+            return '';
+        }
 
-        if (!file_exists($url)) {
+        $path = explode('?', $path)[0];
+
+        if (!file_exists($path)) {
             return '';
         }
 
         $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
-        $fileType = finfo_file($fileInfo, $url);
+        $fileType = finfo_file($fileInfo, $path);
 
-        $fileContent = file_get_contents($url);
+        $fileContent = file_get_contents($path);
 
         return 'data:' . $fileType . ';base64,' . base64_encode($fileContent);
     }

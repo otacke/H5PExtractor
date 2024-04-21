@@ -121,6 +121,37 @@ class H5PFileHandler
     }
 
     /**
+     * Get the icon of the main H5P content.
+     *
+     * @return
+     */
+    public function getIconPath()
+    {
+        $extractDir = $this->baseDirectory . '/' . $this->filesDirectory;
+        if (!is_dir($extractDir)) {
+            return false;
+        }
+
+        $h5pInfo = $this->extractH5PInformation();
+        if (empty($h5pInfo['mainLibrary'])) {
+            return false;
+        }
+
+        $pattern = $extractDir . '/' . $h5pInfo['mainLibrary'] . '-*';
+        $contentDirs = glob($pattern, GLOB_ONLYDIR);
+        if (empty($contentDirs)) {
+            return false;
+        }
+
+        $iconFile = $contentDirs[0] . '/icon.svg';
+        if (!file_exists($iconFile)) {
+            return false;
+        }
+
+        return $iconFile;
+    }
+
+    /**
      * Get the H5P content parameters from the content.json file.
      *
      * @return array|bool Content parameters if file exists, false otherwise.

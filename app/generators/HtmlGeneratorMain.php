@@ -102,6 +102,29 @@ class HtmlGeneratorMain
     }
 
     /**
+     * Build a placeholder HTML for the given H5P content type.
+     *
+     * @param string $machineName The machine name of the H5P content type.
+     *
+     * @return string The placeholder HTML for the H5P content type.
+     */
+    private function buildPlaceholder($machineName)
+    {
+        $html  = '<p style="text-align: center">';
+        $html .= 'No HTML renderer for <em>' . $machineName . '</em> available.';
+        $html .= '</p>';
+
+        $iconData = FileUtils::fileToBase64($this->h5pFileHandler->getIconPath());
+
+        if ($iconData) {
+            $html .= '<img src="' . $iconData .
+            '" style="width: min(16rem, 100%); margin: 0 auto; display: block;" />';
+        }
+
+        return $html;
+    }
+
+    /**
      * Create the output for the given H5P content type.
      *
      * @param array $params Parameters.
@@ -119,7 +142,7 @@ class HtmlGeneratorMain
         );
 
         if (!$bestLibraryMatch) {
-            return 'No HTML renderer for ' . $params['machineName'] . ' available.';
+            return $this->buildPlaceholder($params['machineName']);
         }
 
         $bestLibraryMatchVersion
@@ -139,7 +162,7 @@ class HtmlGeneratorMain
         $htmlClosing = ($tag_name) ? '</' . $tag_name . '>' : '</div>';
 
         if (!file_exists(__DIR__ . '/' . $bestLibraryMatch . '/HTMLGenerator.php')) {
-            return 'No HTML renderer for ' . $params['machineName'] . ' available.';
+            return $this->buildPlaceholder($params['machineName']);
         }
 
         include_once __DIR__ . '/' . $bestLibraryMatch . '/HTMLGenerator.php';
