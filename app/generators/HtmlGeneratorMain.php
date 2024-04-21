@@ -217,7 +217,7 @@ class HtmlGeneratorMain
             $imagePath = __DIR__ . '/../assets/placeholder-audio.svg';
 
             $html = '<div' .
-                'class="h5p-question-audio h5p-audio-wrapper h5p-audio-controls"' .
+                ' class="h5p-question-audio h5p-audio-wrapper h5p-audio-controls"' .
                 '>';
             $html .= '<img' .
                 ' src="' . FileUtils::fileToBase64($imagePath) . '"' .
