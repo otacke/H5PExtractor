@@ -1,5 +1,4 @@
 <ruleset name="Just files to exclude">
     <rule ref="PEAR" />
     <file>./app</file>
-    <exclude-pattern>.vendor</exclude-pattern>
 </ruleset>
