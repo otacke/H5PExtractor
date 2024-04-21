@@ -51,10 +51,6 @@ class HtmlGeneratorEssay_1_5 implements HtmlGeneratorInterface
          */
         $html = str_replace('h5pClassName', 'h5p-essay', $html);
 
-        if ($contentParams['behaviour']['randomAnswers']) {
-            shuffle($contentParams['answers']);
-        }
-
         if (isset($contentParams['media']['type'])) {
             $html .= $main->renderH5PQuestionMedia(
                 $contentParams['media']['type']
