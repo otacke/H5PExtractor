@@ -169,4 +169,3 @@ class PlainTextGeneratorMain
         return $text;
     }
 }
-?>

@@ -69,10 +69,8 @@ class HtmlGeneratorBlanks_1_14 implements HtmlGeneratorInterface
 
         // loop through $contentParams['questions']
         $questionCount = count($contentParams['questions']);
-        for (
-            $questionIndex = 0; $questionIndex < $questionCount; $questionIndex++
-        ) {
-            $questionData = $contentParams['questions'][$questionIndex];
+        for ($index = 0; $index < $questionCount; $index++) {
+            $questionData = $contentParams['questions'][$index];
             $blankWidth = $contentParams['behaviour']['separateLines'] ?
                 '100%' : '56px';
 

@@ -51,10 +51,8 @@ class PlainTextGeneratorBlanks_1_14 implements PlainTextGeneratorInterface
 
         // loop through $contentParams['questions']
         $questionCount = count($contentParams['questions']);
-        for (
-            $questionIndex = 0; $questionIndex < $questionCount; $questionIndex++
-        ) {
-            $questionData = $contentParams['questions'][$questionIndex];
+        for ($index = 0; $index < $questionCount; $index++) {
+            $questionData = $contentParams['questions'][$index];
 
             $blank = ($contentParams['behaviour']['separateLines']) ?
                 "\n__________\n" : '__________';

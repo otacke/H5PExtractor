@@ -40,11 +40,13 @@ class CSSUtils
 
         // Replace URLs with base64 encoded strings
         $css = preg_replace_callback(
-            $pattern, function ($matches) use ($basePath) {
+            $pattern,
+            function ($matches) use ($basePath) {
                 return FileUtils::fileToBase64(
                     $basePath . '/' . trim($matches[0], '\'"')
                 );
-            }, $css
+            },
+            $css
         );
 
         return $css;

@@ -37,7 +37,8 @@ class UtilsDragText_1_10
     {
         return preg_split(
             '/(\*.*?\*)/',
-            $text, -1,
+            $text,
+            -1,
             PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
         );
     }

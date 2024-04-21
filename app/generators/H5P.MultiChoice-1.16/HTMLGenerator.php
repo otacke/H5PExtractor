@@ -88,9 +88,7 @@ class HtmlGeneratorMultiChoice_1_16 implements HtmlGeneratorInterface
 
         $role = $mode === 'h5p-radio' ? 'radio' : 'checkbox';
         $answerCount = count($contentParams['answers']);
-        for (
-            $answerIndex = 0; $answerIndex < $answerCount; $answerIndex++
-        ) {
+        for ($answerIndex = 0; $answerIndex < $answerCount; $answerIndex++) {
             $html .= '<li class="h5p-answer" role="' . $role . '">';
             $html .= '<div class="h5p-alternative-container">';
             $html .= '<span class="h5p-alternative-inner">';

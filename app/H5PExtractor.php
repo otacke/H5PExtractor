@@ -116,8 +116,7 @@ class H5PExtractor
                 $file,
                 $this->config['uploadsPath']
             );
-        }
-        catch(\Exception $error) {
+        } catch (\Exception $error) {
             return $this->_done(null, $error->getMessage());
         }
 
@@ -150,10 +149,10 @@ class H5PExtractor
 
         try {
             $extract = $generator->create();
-        }
-        catch (\Exception $error) {
+        } catch (\Exception $error) {
             return $this->_done(
-                null, $error->getMessage()
+                null,
+                $error->getMessage()
             );
         }
 

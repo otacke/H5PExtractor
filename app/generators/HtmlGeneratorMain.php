@@ -47,8 +47,7 @@ class HtmlGeneratorMain
     {
         try {
             $css = $this->getH5PCoreCSS();
-        }
-        catch (\Exception $error) {
+        } catch (\Exception $error) {
             throw new \Exception($error->getMessage());
         }
 
@@ -286,4 +285,3 @@ class HtmlGeneratorMain
         return $coreCss;
     }
 }
-?>

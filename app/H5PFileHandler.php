@@ -40,16 +40,14 @@ class H5PFileHandler
 
         try {
             $this->filesDirectory = $this->_extractContent($file);
-        }
-        catch (\Exception $error) {
+        } catch (\Exception $error) {
             throw new \Exception($error->getMessage());
         }
 
         try {
             // TODO: separate class for H5P information (?)
             $this->h5pInfo = $this->_extractH5PInformation();
-        }
-        catch (\Exception $error) {
+        } catch (\Exception $error) {
             throw new \Exception($error->getMessage());
         }
 
@@ -167,7 +165,9 @@ class H5PFileHandler
      * @return string|bool CSS for content type, false if not available.
      */
     public function getH5PContentTypeCSS(
-        $machineName, $majorVersion = null, $minorVersion = null
+        $machineName,
+        $majorVersion = null,
+        $minorVersion = null
     ) {
         $extractDir = $this->baseDirectory . '/' . $this->filesDirectory;
         if (!is_dir($extractDir)) {

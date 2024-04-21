@@ -75,9 +75,7 @@ class PlainTextGeneratorMultiChoice_1_16 implements PlainTextGeneratorInterface
         }
 
         $answerCount = count($contentParams['answers']);
-        for (
-            $answerIndex = 0; $answerIndex < $answerCount; $answerIndex++
-        ) {
+        for ($answerIndex = 0; $answerIndex < $answerCount; $answerIndex++) {
             $answerData = $contentParams['answers'][$answerIndex];
             $text .= $listItem . ' ' .
                 TextUtils::htmlToText(($answerData['text'] ?? "\n"));

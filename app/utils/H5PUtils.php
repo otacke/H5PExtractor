@@ -35,7 +35,10 @@ class H5PUtils
      * @return string The class name for the given H5P content type.
      */
     public static function buildClassName(
-        $machineName, $majorVersion, $minorVersion, $prefix = ''
+        $machineName,
+        $majorVersion,
+        $minorVersion,
+        $prefix = ''
     ) {
         return $prefix . explode('.', $machineName)[1] . '_' .
           $majorVersion . '_' . $minorVersion;
@@ -54,10 +57,14 @@ class H5PUtils
      * @return string|null The best matching library or null if none found.
      */
     public static function getBestLibraryMatch(
-        $list, $machineName, $majorVersion, $minorVersion
+        $list,
+        $machineName,
+        $majorVersion,
+        $minorVersion
     ) {
         $list = array_filter(
-            $list, function ($name) use ($machineName) {
+            $list,
+            function ($name) use ($machineName) {
                 return strpos($name, $machineName . '-') !== false;
             }
         );
@@ -76,7 +83,8 @@ class H5PUtils
         $list[] = $target;
 
         usort(
-            $list, function ($a, $b) {
+            $list,
+            function ($a, $b) {
                 $versionA = explode('-', $a)[1];
                 $versionB = explode('-', $b)[1];
                 $versionA = explode('.', $versionA);
