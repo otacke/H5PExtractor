@@ -163,6 +163,11 @@ class HtmlGeneratorMain
     /**
      * Render the HTML for the given H5P question media.
      *
+     * // TODO: This can't use H5P.Image, H5P.Audio, H5P.Video directly, but
+     * //       can be tweaked to use the same logic as H5P.Question, so
+     * //       no custom render code is required here. Do when the former three
+     * //       are implemented.
+     *
      * @param array $params The parameters for the media.
      *
      * @return string The HTML for the H5P question media.
@@ -172,6 +177,17 @@ class HtmlGeneratorMain
         $html = '';
         if (!isset($params['library'])) {
             return '';
+        }
+
+        $title = '';
+        if (empty($title) && isset($params['metadata'])) {
+            $metadata = $params['metadata'];
+
+            if (!empty($metadata['a11yTitle'])) {
+                $title = $metadata['a11yTitle'];
+            } elseif (!empty($metadata['title'])) {
+                $title = $metadata['title'];
+            }
         }
 
         $machineName = explode(' ', $params['library'])[0];
@@ -184,6 +200,10 @@ class HtmlGeneratorMain
                 $this->h5pFileHandler->getFilesDirectory() . '/' .
                 'content' . '/' . $params['params']['file']['path'];
 
+            $alt = isset($params['params']['alt']) ?
+                $params['params']['alt'] :
+                $title;
+
             $html
                 = '<div class="h5p-question-image h5p-question-image-fill-width">';
             $html .= '<div class="h5p-question-image-wrap">';
@@ -195,9 +215,22 @@ class HtmlGeneratorMain
             $html .= '</div>';
             $html .= '</div>';
         } else if ($machineName === 'H5P.Audio') {
-            return '<div style="margin:1em;"><em>Audio introduction</em></div>';
+            $imagePath = __DIR__ . '/../assets/placeholder-audio.svg';
+
+            $html = '<div class="h5p-question-audio h5p-audio-wrapper h5p-audio-controls">';
+            $html .= '<img' .
+                ' src="' . FileUtils::fileToBase64($imagePath) . '"' .
+                ' style="width: 100%;"' .
+                '>';
+            $html .= '</div>';
         } else if ($machineName === 'H5P.Video') {
-            return '<div style="margin:1em;"><em>Video introduction</em></div>';
+            $imagePath = __DIR__ . '/../assets/placeholder-video.svg';
+
+            $html = '<div class="h5p-question-video h5p-video">';
+            $html .= '<video poster="' .
+                FileUtils::fileToBase64($imagePath) .
+                '"></video>';
+            $html .= '</div>';
         }
 
         return $html;

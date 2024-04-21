@@ -131,20 +131,39 @@ class PlainTextGeneratorMain
             return '';
         }
 
+        $title = '';
+        if (empty($title) && isset($params['metadata'])) {
+            $metadata = $params['metadata'];
+
+            if (!empty($metadata['a11yTitle'])) {
+                $title = $metadata['a11yTitle'];
+            } elseif (!empty($metadata['title'])) {
+                $title = $metadata['title'];
+            }
+        }
+
         $machineName = explode(' ', $params['library'])[0];
         if ($machineName === 'H5P.Image') {
             if (!isset($params['params']['file']['path'])) {
                 return '';
             }
 
-            if (isset($params['params']['alt'])) {
-                $text = '![' . $params['params']['alt'] . ']' . "\n";
+            // Prefer alt text over title
+            $title = (
+                isset($params['params']) &&
+                !empty($params['params']['alt'])
+            ) ?
+                $params['params']['alt'] :
+                $title;
+
+            if ($title !== '') {
+                $text = '![' . $title . ']' . "\n";
             }
             return $text . "\n";
         } else if ($machineName === 'H5P.Audio') {
-            return 'Audio introduction';
+            return 'Audio: ' . $title . "\n\n";
         } else if ($machineName === 'H5P.Video') {
-            return 'Video introduction';
+            return 'Video: ' . $title . "\n\n";
         }
 
         return $text;
