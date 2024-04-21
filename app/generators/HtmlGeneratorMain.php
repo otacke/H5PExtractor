@@ -146,7 +146,7 @@ class HtmlGeneratorMain
             return 'No HTML renderer for ' . $params['machineName'] . ' available.';
         }
 
-        include_once __DIR__ . '/' . $bestLibraryMatch . '/HTMLGenerator.php';
+        require_once __DIR__ . '/' . $bestLibraryMatch . '/HTMLGenerator.php';
 
         $className = H5PUtils::buildClassName(
             $params['machineName'],
