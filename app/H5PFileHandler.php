@@ -123,21 +123,26 @@ class H5PFileHandler
     /**
      * Get the icon of the main H5P content.
      *
+     * @param string $machineName The machine name of the content type to get icon for.
+     *
      * @return
      */
-    public function getIconPath()
+    public function getIconPath($machineName = null)
     {
         $extractDir = $this->baseDirectory . '/' . $this->filesDirectory;
         if (!is_dir($extractDir)) {
             return false;
         }
 
-        $h5pInfo = $this->extractH5PInformation();
-        if (empty($h5pInfo['mainLibrary'])) {
-            return false;
+        if (!isset($machineName)) {
+            $h5pInfo = $this->extractH5PInformation();
+            if (empty($h5pInfo['mainLibrary'])) {
+                return false;
+            }
+            $machineName = $h5pInfo['mainLibrary'];
         }
 
-        $pattern = $extractDir . '/' . $h5pInfo['mainLibrary'] . '-*';
+        $pattern = $extractDir . '/' . $machineName . '-*';
         $contentDirs = glob($pattern, GLOB_ONLYDIR);
         if (empty($contentDirs)) {
             return false;

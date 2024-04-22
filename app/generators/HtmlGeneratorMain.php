@@ -114,7 +114,9 @@ class HtmlGeneratorMain
         $html .= 'No HTML renderer for <em>' . $machineName . '</em> available.';
         $html .= '</p>';
 
-        $iconData = FileUtils::fileToBase64($this->h5pFileHandler->getIconPath());
+        $iconData = FileUtils::fileToBase64(
+            $this->h5pFileHandler->getIconPath($machineName)
+        );
 
         if ($iconData) {
             $html .= '<img src="' . $iconData .
