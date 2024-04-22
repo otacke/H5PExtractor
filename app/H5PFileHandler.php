@@ -117,7 +117,9 @@ class H5PFileHandler
             return null;
         }
 
-        return isset($property) ? $this->h5pInfo[$property] : $this->h5pInfo;
+        return isset($property) ?
+            $this->h5pInfo[$property] ?? null :
+            $this->h5pInfo;
     }
 
     /**
