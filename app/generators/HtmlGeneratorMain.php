@@ -231,27 +231,20 @@ class HtmlGeneratorMain
         }
 
         $machineName = explode(' ', $params['library'])[0];
+        $version = explode(' ', $params['library'])[1];
+
         if ($machineName === 'H5P.Image') {
-            if (!isset($params['params']['file']['path'])) {
-                return '';
-            }
-
-            $imagePath = $this->h5pFileHandler->getBaseDirectory() . '/' .
-                $this->h5pFileHandler->getFilesDirectory() . '/' .
-                'content' . '/' . $params['params']['file']['path'];
-
-            $alt = isset($params['params']['alt']) ?
-                $params['params']['alt'] :
-                $title;
-
             $html
                 = '<div class="h5p-question-image h5p-question-image-fill-width">';
             $html .= '<div class="h5p-question-image-wrap">';
-            $html .= '<img';
-            $html .= ' src="' . FileUtils::fileToBase64($imagePath). '"';
-            $html .= ' alt="' . ($params['params']['alt'] ?? '') .  '"';
-            $html .= ' style="max-height: none;"';
-            $html .= ' />';
+            $html .= $this->createContent([
+                'machineName' => $machineName,
+                'majorVersion' => explode('.', $version)[0],
+                'minorVersion' => explode('.', $version)[1],
+                'params' => $params['params'],
+                'metadata' => $params['metadata'],
+                'container' => '' // H5P.Question doesn't use a container
+            ]);
             $html .= '</div>';
             $html .= '</div>';
         } elseif ($machineName === 'H5P.Audio') {

@@ -168,23 +168,17 @@ class PlainTextGeneratorMain
         }
 
         $machineName = explode(' ', $params['library'])[0];
+        $version = explode(' ', $params['library'])[1];
+
         if ($machineName === 'H5P.Image') {
-            if (!isset($params['params']['file']['path'])) {
-                return '';
-            }
-
-            // Prefer alt text over title
-            $title = (
-                isset($params['params']) &&
-                !empty($params['params']['alt'])
-            ) ?
-                $params['params']['alt'] :
-                $title;
-
-            if ($title !== '') {
-                $text = '![' . $title . ']' . "\n";
-            }
-            return $text . "\n";
+            return $this->createContent([
+                'machineName' => $machineName,
+                'majorVersion' => explode('.', $version)[0],
+                'minorVersion' => explode('.', $version)[1],
+                'params' => $params['params'],
+                'metadata' => $params['metadata'],
+                'container' => ''
+            ]);
         } elseif ($machineName === 'H5P.Audio') {
             return 'Audio: ' . $title . "\n\n";
         } elseif ($machineName === 'H5P.Video') {
