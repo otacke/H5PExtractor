@@ -83,6 +83,13 @@ class PlainTextGeneratorMain
                 ' available.' . "\n\n";
         }
 
+        $bestLibraryMatchVersion
+            = explode('-', $bestLibraryMatch)[1];
+        $bestLibraryMatchMajorVersion
+            = explode('.', $bestLibraryMatchVersion)[0];
+        $bestLibraryMatchMinorVersion
+            = explode('.', $bestLibraryMatchVersion)[1];
+
         $contentParams = $params['params'];
 
         $html = $params['container'];
@@ -105,8 +112,8 @@ class PlainTextGeneratorMain
 
         $className = H5PUtils::buildClassName(
             $params['machineName'],
-            $params['majorVersion'],
-            $params['minorVersion'],
+            $bestLibraryMatchMajorVersion,
+            $bestLibraryMatchMinorVersion,
             'H5PExtractor\PlainTextGenerator'
         );
 
