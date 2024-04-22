@@ -180,7 +180,14 @@ class PlainTextGeneratorMain
                 'container' => ''
             ]);
         } elseif ($machineName === 'H5P.Audio') {
-            return 'Audio: ' . $title . "\n\n";
+            return $this->createContent([
+                'machineName' => $machineName,
+                'majorVersion' => explode('.', $version)[0],
+                'minorVersion' => explode('.', $version)[1],
+                'params' => $params['params'],
+                'metadata' => $params['metadata'],
+                'container' => ''
+            ]);
         } elseif ($machineName === 'H5P.Video') {
             return 'Video: ' . $title . "\n\n";
         }

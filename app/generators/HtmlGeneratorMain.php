@@ -248,16 +248,15 @@ class HtmlGeneratorMain
             $html .= '</div>';
             $html .= '</div>';
         } elseif ($machineName === 'H5P.Audio') {
-            $imagePath = __DIR__ . '/../assets/placeholder-audio.svg';
-
-            $html = '<div' .
-                ' class="h5p-question-audio h5p-audio-wrapper h5p-audio-controls"' .
-                '>';
-            $html .= '<img' .
-                ' src="' . FileUtils::fileToBase64($imagePath) . '"' .
-                ' style="width: 100%;"' .
-                '>';
-            $html .= '</div>';
+            $container = '<div class="h5p-question-audio h5pClassName">';
+            $html .= $this->createContent([
+                'machineName' => $machineName,
+                'majorVersion' => explode('.', $version)[0],
+                'minorVersion' => explode('.', $version)[1],
+                'params' => $params['params'],
+                'metadata' => $params['metadata'],
+                'container' => $container
+            ]);
         } elseif ($machineName === 'H5P.Video') {
             $imagePath = __DIR__ . '/../assets/placeholder-video.svg';
 

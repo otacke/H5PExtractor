@@ -48,6 +48,13 @@ class H5PFileHandler
             throw new \Exception($error->getMessage());
         }
 
+        $softDependencies =
+            $this->getLibrariesFromSemantics($this->getH5PContentParams());
+        $hardDependencies = $this->h5pInfo['preloadedDependencies'];
+
+        $this->h5pInfo['preloadedDependencies'] =
+            array_merge($softDependencies, $hardDependencies);
+
         for ($i = 0; $i < count($this->h5pInfo['preloadedDependencies']); $i++) {
             if (isset($this->h5pInfo['majorVersion'])) {
                 break;
@@ -72,6 +79,48 @@ class H5PFileHandler
 
         $this->collectGarbage();
         $this->deleteDirectory($this->filesDirectory);
+    }
+
+    /**
+     * Get the libraries from the semantics of the H5P content.
+     *
+     * @param array $semantics The semantics of the H5P content.
+     *
+     * @return array The libraries of the H5P content.
+     */
+    private function getLibrariesFromSemantics($semantics) {
+        $fullNames = [];
+
+        // Traverse the JSON data recursively
+        foreach ($semantics as $key => $value) {
+            if ($key === 'library' && preg_match('/H5P\..+ \d+\.\d+/', $value)) {
+                $fullNames[] = $value;
+            } elseif (is_array($value) || is_object($value)) {
+                $subMatches = $this->getLibrariesFromSemantics($value);
+                $fullNames = array_merge($fullNames, $subMatches);
+            }
+        }
+
+        $mappedValues = [];
+
+        foreach ($fullNames as $name) {
+            if (getType($name) === 'array') {
+                $mappedValues[] = $name;
+                continue;
+            }
+            $machineName = explode(' ', $name)[0];
+            $version = explode(' ', $name)[1];
+            $majorVersion = explode('.', $version)[0];
+            $minorVersion = explode('.', $version)[1];
+
+            $mappedValues[] = [
+                'machineName' => $machineName,
+                'majorVersion' => $majorVersion,
+                'minorVersion' => $minorVersion
+            ];
+        }
+
+        return $mappedValues;
     }
 
     /**
@@ -137,11 +186,10 @@ class H5PFileHandler
         }
 
         if (!isset($machineName)) {
-            $h5pInfo = $this->extractH5PInformation();
-            if (empty($h5pInfo['mainLibrary'])) {
+            if (empty($this->h5pInfo['mainLibrary'])) {
                 return false;
             }
-            $machineName = $h5pInfo['mainLibrary'];
+            $machineName = $this->h5pInfo['mainLibrary'];
         }
 
         $pattern = $extractDir . '/' . $machineName . '-*';
