@@ -76,7 +76,7 @@ class HtmlGeneratorAccordionMajor1Minor0 implements HtmlGeneratorInterface
                 $container .= ' id="h5p-panel-content-' . $randomId . '-' .
                     $panelIndex . '" style="display: block;"';
                 $container .=
-                    ' class="h5p-panel-content h5p-advanced-text h5pClassName"';
+                    ' class="h5p-panel-content h5pClassName"';
                 $container .=
                     ' role="region" aria-labelledby="h5p-panel-link-0-' .
                         $panelIndex . '" aria-hidden="false">';
