@@ -41,7 +41,11 @@ class HtmlGeneratorImageMajor1Minor1 implements HtmlGeneratorInterface
         preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $html, $matches);
         $tag_name = isset($matches[1]) ? $matches[1] : '';
 
-        $htmlClosing = ($tag_name) ? '</' . $tag_name . '>' : '</div>';
+        if ($params['container'] === '') {
+            $htmlClosing = '';
+        } else {
+            $htmlClosing = ($tag_name) ? '</' . $tag_name . '>' : '</div>';
+        }
 
         /* In theory, one could derive this automatically and do in the parent,
          * but content types may not follow the common schema to define the main
@@ -49,13 +53,11 @@ class HtmlGeneratorImageMajor1Minor1 implements HtmlGeneratorInterface
          */
         $html = str_replace('h5pClassName', 'h5p-image', $html);
 
-        if (!isset($params['params']['file']['path'])) {
-            return '';
+        if (isset($params['params']['file']['path'])) {
+            $imagePath = $main->h5pFileHandler->getBaseDirectory() . '/' .
+                $main->h5pFileHandler->getFilesDirectory() . '/' .
+                'content' . '/' . $params['params']['file']['path'];
         }
-
-        $imagePath = $main->h5pFileHandler->getBaseDirectory() . '/' .
-            $main->h5pFileHandler->getFilesDirectory() . '/' .
-            'content' . '/' . $params['params']['file']['path'];
 
         $alt = '';
         if (isset($contentParams) && !empty($contentParams['alt'])) {
@@ -67,9 +69,16 @@ class HtmlGeneratorImageMajor1Minor1 implements HtmlGeneratorInterface
         }
 
         $html .= '<img';
-        $html .= ' src="' . FileUtils::fileToBase64($imagePath) . '"';
+        $html .= ' width="100%"';
+        $html .= ' height="100%"';
+
+        if (isset($imagePath)) {
+            $html .= ' src="' . FileUtils::fileToBase64($imagePath) . '"';
+        } else {
+            $html .= ' class="h5p-placeholder"';
+        }
+
         $html .= ' alt="' . $alt .  '"';
-        $html .= ' style="max-height: none;"';
         $html .= ' />';
 
         $html .= $htmlClosing;
