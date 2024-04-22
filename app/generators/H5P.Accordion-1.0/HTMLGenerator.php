@@ -87,7 +87,8 @@ class HtmlGeneratorAccordionMajor1Minor0 implements HtmlGeneratorInterface
                         'majorVersion' => explode('.', $version)[0],
                         'minorVersion' => explode('.', $version)[1],
                         'params' => $content['params'],
-                        'container' => $container
+                        'metadata' => $content['metadata'],
+                        'container' => ''
                     )
                 );
             }

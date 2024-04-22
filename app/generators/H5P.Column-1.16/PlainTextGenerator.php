@@ -61,6 +61,7 @@ class PlainTextGeneratorColumnMajor1Minor16 implements PlainTextGeneratorInterfa
                         'majorVersion' => explode('.', $version)[0],
                         'minorVersion' => explode('.', $version)[1],
                         'params' => $libraryContent['params'],
+                        'metadata' => $libraryContent['metadata'],
                         'container' => ''
                     )
                 );

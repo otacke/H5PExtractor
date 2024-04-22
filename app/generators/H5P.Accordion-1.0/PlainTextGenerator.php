@@ -54,6 +54,7 @@ class PlainTextGeneratorAccordionMajor1Minor0 implements PlainTextGeneratorInter
                         'majorVersion' => explode('.', $version)[0],
                         'minorVersion' => explode('.', $version)[1],
                         'params' => $content['params'],
+                        'metadata' => $content['metadata'],
                         'container' => ''
                     )
                 );

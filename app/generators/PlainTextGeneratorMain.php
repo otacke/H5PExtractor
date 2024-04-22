@@ -41,6 +41,26 @@ class PlainTextGeneratorMain
      */
     public function create()
     {
+        $metadataFields = [
+            'title',
+            'a11yTitle',
+            'license',
+            'licenseVersion',
+            'yearFrom',
+            'yearTo',
+            'source',
+            'authors',
+            'licenseExtras',
+            'changes',
+            'authorComments'
+        ];
+
+        $metadata = [];
+        foreach ($metadataFields as $property) {
+            $metadata[$property] =
+                $this->h5pFileHandler->getH5PInformation($property);
+        };
+
         $contentText = $this->createContent(
             array(
                 'machineName' =>
@@ -51,6 +71,8 @@ class PlainTextGeneratorMain
                     $this->h5pFileHandler->getH5PInformation('minorVersion'),
                 'params' =>
                     $this->h5pFileHandler->getH5PContentParams(),
+                'metadata' =>
+                    $metadata,
                 'container' =>
                     '',
                 'fileHandler' =>
@@ -65,10 +87,11 @@ class PlainTextGeneratorMain
      * Create the outpur for the given H5P content type.
      *
      * @param array $params Parameters.
+     * @param array $metadata Metadata.
      *
      * @return string The output for the H5P content type.
      */
-    public function createContent($params)
+    public function createContent($params, $metadata = null)
     {
         // Parse and pick from available generators
         $bestLibraryMatch = H5PUtils::getBestLibraryMatch(

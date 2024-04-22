@@ -61,6 +61,26 @@ class HtmlGeneratorMain
         }
         $css = CSSUtils::removeClientHandlingCSS($css);
 
+        $metadataFields = [
+            'title',
+            'a11yTitle',
+            'license',
+            'licenseVersion',
+            'yearFrom',
+            'yearTo',
+            'source',
+            'authors',
+            'licenseExtras',
+            'changes',
+            'authorComments'
+        ];
+
+        $metadata = [];
+        foreach ($metadataFields as $property) {
+            $metadata[$property] =
+                $this->h5pFileHandler->getH5PInformation($property);
+        };
+
         $contentHtml = $this->createContent(
             array(
                 'machineName' =>
@@ -71,6 +91,8 @@ class HtmlGeneratorMain
                     $this->h5pFileHandler->getH5PInformation('minorVersion'),
                 'params' =>
                     $this->h5pFileHandler->getH5PContentParams(),
+                'metadata' =>
+                    $metadata,
                 'container' =>
                     '<div class="h5p-container h5pClassName">',
                 'fileHandler' =>
