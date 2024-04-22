@@ -53,8 +53,8 @@ class PlainTextGeneratorImageMajor1Minor1 implements PlainTextGeneratorInterface
         }
 
         if ($title !== '') {
-            $text = '![' . $title . ']' . "\n";
+            $text = '![' . $title . ']' . "\n\n";
         }
-        return trim($text . "\n");
+        return $text;
     }
 }
