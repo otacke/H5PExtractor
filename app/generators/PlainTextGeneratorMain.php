@@ -90,8 +90,6 @@ class PlainTextGeneratorMain
         $bestLibraryMatchMinorVersion
             = explode('.', $bestLibraryMatchVersion)[1];
 
-        $contentParams = $params['params'];
-
         $html = $params['container'];
 
         preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $html, $matches);
