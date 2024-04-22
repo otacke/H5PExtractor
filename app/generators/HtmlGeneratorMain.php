@@ -203,11 +203,6 @@ class HtmlGeneratorMain
     /**
      * Render the HTML for the given H5P question media.
      *
-     * // TODO: This can't use H5P.Image, H5P.Audio, H5P.Video directly, but
-     * //       can be tweaked to use the same logic as H5P.Question, so
-     * //       no custom render code is required here. Do when the former three
-     * //       are implemented.
-     *
      * @param array $params The parameters for the media.
      *
      * @return string The HTML for the H5P question media.
@@ -258,13 +253,15 @@ class HtmlGeneratorMain
                 'container' => $container
             ]);
         } elseif ($machineName === 'H5P.Video') {
-            $imagePath = __DIR__ . '/../assets/placeholder-video.svg';
-
-            $html = '<div class="h5p-question-video h5p-video">';
-            $html .= '<video poster="' .
-                FileUtils::fileToBase64($imagePath) .
-                '"></video>';
-            $html .= '</div>';
+            $container = '<div class="h5p-question-audio h5pClassName">';
+            $html .= $this->createContent([
+                'machineName' => $machineName,
+                'majorVersion' => explode('.', $version)[0],
+                'minorVersion' => explode('.', $version)[1],
+                'params' => $params['params'],
+                'metadata' => $params['metadata'],
+                'container' => $container
+            ]);
         }
 
         return $html;

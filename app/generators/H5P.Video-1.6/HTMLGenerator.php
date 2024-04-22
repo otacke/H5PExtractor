@@ -14,7 +14,7 @@
 namespace H5PExtractor;
 
 /**
- * Class for generating HTML for H5P.Audio-1.5.
+ * Class for generating HTML for H5P.Video-1.6.
  *
  * @category Tool
  * @package  H5PExtractor
@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class HtmlGeneratorAudioMajor1Minor5 implements HtmlGeneratorInterface
+class HtmlGeneratorVideoMajor1Minor6 implements HtmlGeneratorInterface
 {
     /**
      * Create the HTML for the given H5P content type.
@@ -51,27 +51,14 @@ class HtmlGeneratorAudioMajor1Minor5 implements HtmlGeneratorInterface
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $html = str_replace('h5pClassName', 'h5p-audio-wrapper', $html);
+        $html = str_replace('h5pClassName', 'h5p-video', $html);
 
-        if ($contentParams['playerMode'] === 'minimalistic') {
-            $html .= '<div class="h5p-audio-inner">';
-            $html .= '<button';
-            if ($contentParams['fitToWrapper'] !== false) {
-                $html .= ' style="width: 100%; height: 100%;"';
-            }
-            $html .= ' class="h5p-audio-minimal-button h5p-audio-minimal-play"';
-            $html .= '/>';
-            $html .= '</div>';
-        } elseif ($contentParams['playerMode'] === 'full') {
-            $imagePath = __DIR__ . '/../../assets/placeholder-audio.svg';
+        $imagePath = __DIR__ . '/../../assets/placeholder-video.svg';
 
-            $html .= '<img' .
-                ' src="' . FileUtils::fileToBase64($imagePath) . '"' .
-                ' style="width: 100%;"' .
-                '>';
-        } elseif ($contentParams['playerMode'] === 'transparent') {
-            // Intenionally left empty
-        }
+        $html .= '<img' .
+            ' src="' . FileUtils::fileToBase64($imagePath) . '"' .
+            ' style="width: 100%;"' .
+            '>';
 
         $html .= $htmlClosing;
 

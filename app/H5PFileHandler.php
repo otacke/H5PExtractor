@@ -88,7 +88,8 @@ class H5PFileHandler
      *
      * @return array The libraries of the H5P content.
      */
-    private function getLibrariesFromSemantics($semantics) {
+    private function getLibrariesFromSemantics($semantics)
+    {
         $fullNames = [];
 
         // Traverse the JSON data recursively
