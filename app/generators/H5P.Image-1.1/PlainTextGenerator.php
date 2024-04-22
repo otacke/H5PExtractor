@@ -46,9 +46,9 @@ class PlainTextGeneratorImageMajor1Minor1 implements PlainTextGeneratorInterface
         $title = '';
         if (isset($contentParams) && !empty($contentParams['alt'])) {
             $title = $contentParams['alt'];
-        } else if (!empty($metadata['a11yTitle'])){
+        } elseif (!empty($metadata['a11yTitle'])) {
             $title = $metadata['a11yTitle'];
-        } else if (!empty($metadata['title'])) {
+        } elseif (!empty($metadata['title'])) {
             $title = $metadata['title'];
         }
 

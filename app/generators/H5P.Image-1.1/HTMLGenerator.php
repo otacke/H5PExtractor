@@ -60,9 +60,9 @@ class HtmlGeneratorImageMajor1Minor1 implements HtmlGeneratorInterface
         $alt = '';
         if (isset($contentParams) && !empty($contentParams['alt'])) {
             $alt = $contentParams['alt'];
-        } else if (!empty($metadata['a11yTitle'])){
+        } elseif (!empty($metadata['a11yTitle'])) {
             $alt = $metadata['a11yTitle'];
-        } else if (!empty($metadata['title'])) {
+        } elseif (!empty($metadata['title'])) {
             $alt = $metadata['title'];
         }
 
