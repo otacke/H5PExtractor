@@ -77,7 +77,7 @@ class HtmlGeneratorColumnMajor1Minor16 implements HtmlGeneratorInterface
                         'minorVersion' => explode('.', $version)[1],
                         'params' => $libraryContent['params'],
                         'metadata' => $libraryContent['metadata'],
-                        'container' => ''
+                        'container' => $container
                     )
                 );
             }
