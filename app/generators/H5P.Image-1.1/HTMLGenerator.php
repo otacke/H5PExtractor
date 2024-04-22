@@ -77,7 +77,6 @@ class HtmlGeneratorImageMajor1Minor1 implements HtmlGeneratorInterface
             $html .= ' alt="' . $alt .  '"';
         } else {
             $html .= ' class="h5p-placeholder"';
-            $html .= ' style="aspect-ratio: 59/30;"';
         }
 
         $html .= ' />';
