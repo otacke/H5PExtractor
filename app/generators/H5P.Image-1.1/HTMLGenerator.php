@@ -74,11 +74,12 @@ class HtmlGeneratorImageMajor1Minor1 implements HtmlGeneratorInterface
 
         if (isset($imagePath)) {
             $html .= ' src="' . FileUtils::fileToBase64($imagePath) . '"';
+            $html .= ' alt="' . $alt .  '"';
         } else {
             $html .= ' class="h5p-placeholder"';
+            $html .= ' style="aspect-ratio: 59/30;"';
         }
 
-        $html .= ' alt="' . $alt .  '"';
         $html .= ' />';
 
         $html .= $htmlClosing;
