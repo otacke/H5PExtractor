@@ -81,16 +81,18 @@ class HtmlGeneratorAccordionMajor1Minor0 implements HtmlGeneratorInterface
                     ' role="region" aria-labelledby="h5p-panel-link-0-' .
                         $panelIndex . '" aria-hidden="false">';
 
-                $html .= $main->createContent(
-                    array(
-                        'machineName' => explode(' ', $content['library'])[0],
-                        'majorVersion' => explode('.', $version)[0],
-                        'minorVersion' => explode('.', $version)[1],
+                $html .= $main->newRunnable(
+                    [
+                        'library' => $content['library'],
                         'params' => $content['params'],
+                    ],
+                    1,
+                    $container,
+                    false,
+                    [
                         'metadata' => $content['metadata'],
-                        'container' => $container
-                    )
-                );
+                    ]
+                    );
             }
         }
 

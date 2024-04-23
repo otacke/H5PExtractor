@@ -250,53 +250,6 @@ class HtmlGeneratorMain
     }
 
     /**
-     * Create the output for the given H5P content type.
-     *
-     * @param array $params Parameters.
-     *
-     * @return string The output for the H5P content type.
-     */
-    public function createContent($params)
-    {
-        // Parse and pick from available generators
-        $bestLibraryMatch = H5PUtils::getBestLibraryMatch(
-            scandir(__DIR__),
-            $params['machineName'],
-            $params['majorVersion'],
-            $params['minorVersion']
-        );
-
-        if (!$bestLibraryMatch) {
-            return $this->buildPlaceholder($params['machineName']);
-        }
-
-        $bestLibraryMatchVersion
-            = explode('-', $bestLibraryMatch)[1];
-        $bestLibraryMatchMajorVersion
-            = explode('.', $bestLibraryMatchVersion)[0];
-        $bestLibraryMatchMinorVersion
-            = explode('.', $bestLibraryMatchVersion)[1];
-
-        $html = $params['container'];
-
-        if (!file_exists(__DIR__ . '/' . $bestLibraryMatch . '/HTMLGenerator.php')) {
-            return $this->buildPlaceholder($params['machineName']);
-        }
-
-        include_once __DIR__ . '/' . $bestLibraryMatch . '/HTMLGenerator.php';
-
-        $className = H5PUtils::buildClassName(
-            $params['machineName'],
-            $bestLibraryMatchMajorVersion,
-            $bestLibraryMatchMinorVersion,
-            'H5PExtractor\HtmlGenerator'
-        );
-
-        $generator = new $className();
-        return $generator->get($params, $this);
-    }
-
-    /**
      * Render the HTML for the given H5P question media.
      *
      * @param array $params The parameters for the media.
@@ -328,36 +281,46 @@ class HtmlGeneratorMain
             $html
                 = '<div class="h5p-question-image h5p-question-image-fill-width">';
             $html .= '<div class="h5p-question-image-wrap">';
-            $html .= $this->createContent([
-                'machineName' => $machineName,
-                'majorVersion' => explode('.', $version)[0],
-                'minorVersion' => explode('.', $version)[1],
-                'params' => $params['params'],
-                'metadata' => $params['metadata'],
-                'container' => '' // H5P.Question doesn't use a container
-            ]);
+            $html .= $this->newRunnable(
+                [
+                    'library' => $params['library'],
+                    'params' => $params['params'],
+                ],
+                1,
+                '', // H5P.Question doesn't use a container
+                false,
+                [
+                    'metadata' => $params['metadata'],
+                ]
+            );
             $html .= '</div>';
             $html .= '</div>';
         } elseif ($machineName === 'H5P.Audio') {
-            $container = '<div class="h5p-question-audio h5pClassName">';
-            $html .= $this->createContent([
-                'machineName' => $machineName,
-                'majorVersion' => explode('.', $version)[0],
-                'minorVersion' => explode('.', $version)[1],
-                'params' => $params['params'],
-                'metadata' => $params['metadata'],
-                'container' => $container
-            ]);
+            $html .= $this->newRunnable(
+                [
+                    'library' => $params['library'],
+                    'params' => $params['params'],
+                ],
+                1,
+                '<div class="h5p-question-audio h5pClassName">',
+                false,
+                [
+                    'metadata' => $params['metadata'],
+                ]
+            );
         } elseif ($machineName === 'H5P.Video') {
-            $container = '<div class="h5p-question-audio h5pClassName">';
-            $html .= $this->createContent([
-                'machineName' => $machineName,
-                'majorVersion' => explode('.', $version)[0],
-                'minorVersion' => explode('.', $version)[1],
-                'params' => $params['params'],
-                'metadata' => $params['metadata'],
-                'container' => $container
-            ]);
+            $html .= $this->newRunnable(
+                [
+                    'library' => $params['library'],
+                    'params' => $params['params'],
+                ],
+                1,
+                '<div class="h5p-question-video h5pClassName">',
+                false,
+                [
+                    'metadata' => $params['metadata'],
+                ]
+            );
         }
 
         return $html;

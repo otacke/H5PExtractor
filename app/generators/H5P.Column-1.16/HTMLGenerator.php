@@ -70,15 +70,17 @@ class HtmlGeneratorColumnMajor1Minor16 implements HtmlGeneratorInterface
                 $this->previousHasMargin = $separatorResults['previousHasMargin'];
                 $html .= $separatorResults['separator'];
 
-                $html .= $main->createContent(
-                    array(
-                        'machineName' => explode(' ', $libraryContent['library'])[0],
-                        'majorVersion' => explode('.', $version)[0],
-                        'minorVersion' => explode('.', $version)[1],
+                $html .= $main->newRunnable(
+                    [
+                        'library' => $libraryContent['library'],
                         'params' => $libraryContent['params'],
+                    ],
+                    1,
+                    $container,
+                    false,
+                    [
                         'metadata' => $libraryContent['metadata'],
-                        'container' => $container
-                    )
+                    ]
                 );
             }
         }
