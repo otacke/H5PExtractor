@@ -43,7 +43,7 @@ class PlainTextGeneratorEssayMajor1Minor5 extends Generator implements Generator
      *
      * @return string The HTML for the H5P content type.
      */
-    public function attach($container)
+    public function attach(&$container)
     {
         if (isset($this->params['media']['type'])) {
             $container .= $this->main->renderH5PQuestionMedia(
@@ -67,7 +67,5 @@ class PlainTextGeneratorEssayMajor1Minor5 extends Generator implements Generator
         }
 
         $container = trim($container);
-
-        return $container;
     }
 }

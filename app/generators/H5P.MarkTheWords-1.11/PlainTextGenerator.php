@@ -106,7 +106,7 @@ class PlainTextGeneratorMarkTheWordsMajor1Minor11 extends Generator implements G
      *
      * @return string The HTML for the H5P content type.
      */
-    public function attach($container)
+    public function attach(&$container)
     {
         if (isset($this->params['media']['type'])) {
             $container .= $this->main->renderH5PQuestionMedia(
@@ -127,7 +127,5 @@ class PlainTextGeneratorMarkTheWordsMajor1Minor11 extends Generator implements G
         }
 
         $container = trim($container);
-
-        return $container;
     }
 }

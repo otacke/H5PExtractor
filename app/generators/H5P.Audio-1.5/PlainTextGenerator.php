@@ -43,7 +43,7 @@ class PlainTextGeneratorAudioMajor1Minor5 extends Generator implements Generator
      *
      * @return string The plain text for the H5P content type.
      */
-    public function attach($container)
+    public function attach(&$container)
     {
         $metadata = $this->extras['metadata'];
 
@@ -57,7 +57,5 @@ class PlainTextGeneratorAudioMajor1Minor5 extends Generator implements Generator
         }
 
         $container .= 'Audio' . $title . "\n\n";
-
-        return $container;
     }
 }

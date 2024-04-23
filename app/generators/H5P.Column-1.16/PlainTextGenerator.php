@@ -43,7 +43,7 @@ class PlainTextGeneratorColumnMajor1Minor16 extends Generator implements Generat
      *
      * @return string The HTML for the H5P content type.
      */
-    public function attach($container)
+    public function attach(&$container)
     {
         include_once __DIR__ . '/Utils.php';
 
@@ -62,23 +62,24 @@ class PlainTextGeneratorColumnMajor1Minor16 extends Generator implements Generat
                     '---' . "\n\n" :
                     '';
 
-                    $container .= $this->main->newRunnable(
+                $innerContainer = '';
+                $this->main->newRunnable(
                     [
                         'library' => $libraryContent['library'],
                         'params' => $libraryContent['params'],
                     ],
                     1,
-                    '',
+                    $innerContainer,
                     false,
                     [
                         'metadata' => $libraryContent['metadata'],
                     ]
                 );
+
+                $container .= $innerContainer;
             }
         }
 
         $container = trim($container);
-
-        return $container;
     }
 }

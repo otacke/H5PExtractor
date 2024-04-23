@@ -43,7 +43,7 @@ class PlainTextGeneratorTrueFalseMajor1Minor8 extends Generator implements Gener
      *
      * @return string The plain text for the H5P content type.
      */
-    public function attach($container)
+    public function attach(&$container)
     {
         if (isset($this->params['media']['type'])) {
             $container .= $this->main->renderH5PQuestionMedia(
@@ -57,7 +57,5 @@ class PlainTextGeneratorTrueFalseMajor1Minor8 extends Generator implements Gener
         $container .= '( ) ' . $this->params['l10n']['falseText'];
 
         $container = trim($container);
-
-        return $container;
     }
 }

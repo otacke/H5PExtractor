@@ -43,7 +43,7 @@ class PlainTextGeneratorAccordionMajor1Minor0 extends Generator implements Gener
      *
      * @return string The HTML for the H5P content type.
      */
-    public function attach($container)
+    public function attach(&$container)
     {
         if (isset($this->params['panels'])) {
             $panelCount = count($this->params['panels']);
@@ -54,21 +54,22 @@ class PlainTextGeneratorAccordionMajor1Minor0 extends Generator implements Gener
                 $content = $panelData['content'];
                 $version = explode(' ', $content['library'])[1];
 
-                $container .= $this->main->newRunnable(
+                $innerContainer = '';
+                $this->main->newRunnable(
                     [
                         'library' => $content['library'],
                         'params' => $content['params'],
                     ],
                     1,
-                    '',
+                    $innerContainer,
                     false,
                     [
                         'metadata' => $content['metadata'],
                     ]
                 );
+
+                $container .= $innerContainer;
             }
         }
-
-        return $container;
     }
 }

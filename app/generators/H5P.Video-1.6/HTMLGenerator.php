@@ -43,7 +43,7 @@ class HtmlGeneratorVideoMajor1Minor6 extends Generator implements GeneratorInter
      *
      * @return string The HTML for the H5P content type.
      */
-    public function attach($container)
+    public function attach(&$container)
     {
         preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $container, $matches);
         $tag_name = isset($matches[1]) ? $matches[1] : '';
@@ -68,7 +68,5 @@ class HtmlGeneratorVideoMajor1Minor6 extends Generator implements GeneratorInter
             '>';
 
         $container .= $htmlClosing;
-
-        return $container;
     }
 }

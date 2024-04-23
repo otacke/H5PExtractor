@@ -43,7 +43,7 @@ class PlainTextGeneratorImageMajor1Minor1 extends Generator implements Generator
      *
      * @return string The plain text for the H5P content type.
      */
-    public function attach($container)
+    public function attach(&$container)
     {
         if (!isset($this->params['file']['path'])) {
             return '';
@@ -61,6 +61,5 @@ class PlainTextGeneratorImageMajor1Minor1 extends Generator implements Generator
         if ($title !== '') {
             $container .= '![' . $title . ']' . "\n\n";
         }
-        return $container;
     }
 }

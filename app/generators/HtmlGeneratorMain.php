@@ -89,15 +89,17 @@ class HtmlGeneratorMain
                 $this->h5pFileHandler->getH5PInformation('minorVersion')
         ];
 
-        $contentHtml = $this->newRunnable(
+        $container = '<div class="h5p-container h5pClassName">';
+
+        $this->newRunnable(
             $library,
             1,
-            '<div class="h5p-container h5pClassName">',
+            $container,
             false,
             $metadata
         );
 
-        return $this->createMain($css, $contentHtml);
+        return $this->createMain($css, $container);
     }
 
     /**
@@ -148,8 +150,6 @@ class HtmlGeneratorMain
     /**
      * Create a new runnable instance. (analogous to H5P.newRunnable).
      *
-     * TOOD: Should only return instance, not result of get (to be attach).
-     *
      * @param array  $library    The library to create a new runnable for.
      * @param int    $contentId  The content ID (not used for now).
      * @param string $attachTo   The container to attach the content to.
@@ -158,7 +158,7 @@ class HtmlGeneratorMain
      *
      * @return string The HTML for the H5P content type.
      */
-    public function newRunnable($library, $contentId, $attachTo, $skipResize, $extras)
+    public function newRunnable($library, $contentId, &$attachTo, $skipResize, $extras)
     {
         try {
             $nameSplit = explode(' ', $library['library'] ?? '', 2);
@@ -185,7 +185,10 @@ class HtmlGeneratorMain
 
         $generatorClassName = $this->loadBestGenerator($library['library']);
         if (!$generatorClassName) {
-            return $this->buildPlaceholder($library['library']);
+            if (isset($attachTo)) {
+                $attachTo = $this->buildPlaceholder($library['library']);
+            }
+            return;
         }
         $generator = new $generatorClassName($library['params'], $contentId, $extras);
 
@@ -198,7 +201,11 @@ class HtmlGeneratorMain
             'minorVersion' => $versionSplit[1]
         ]);
 
-        return $generator->attach($attachTo);
+        if (isset($attachTo)) {
+            $generator->attach($attachTo);
+        }
+
+        return $generator;
     }
 
     /**
@@ -282,46 +289,59 @@ class HtmlGeneratorMain
             $html
                 = '<div class="h5p-question-image h5p-question-image-fill-width">';
             $html .= '<div class="h5p-question-image-wrap">';
-            $html .= $this->newRunnable(
+
+            $container = '';  // H5P.Question doesn't use a container
+
+            $this->newRunnable(
                 [
                     'library' => $params['library'],
                     'params' => $params['params'],
                 ],
                 1,
-                '', // H5P.Question doesn't use a container
+                $container,
                 false,
                 [
                     'metadata' => $params['metadata'],
                 ]
             );
+
+            $html .= $container;
             $html .= '</div>';
             $html .= '</div>';
         } elseif ($machineName === 'H5P.Audio') {
-            $html .= $this->newRunnable(
+            $container = '<div class="h5p-question-audio h5pClassName">';
+
+            $this->newRunnable(
                 [
                     'library' => $params['library'],
                     'params' => $params['params'],
                 ],
                 1,
-                '<div class="h5p-question-audio h5pClassName">',
+                $container,
                 false,
                 [
                     'metadata' => $params['metadata'],
                 ]
             );
+
+            $html = $container;
         } elseif ($machineName === 'H5P.Video') {
-            $html .= $this->newRunnable(
+            $container = '<div class="h5p-question-video h5pClassName">';
+
+            $this->newRunnable(
                 [
                     'library' => $params['library'],
                     'params' => $params['params'],
                 ],
                 1,
-                '<div class="h5p-question-video h5pClassName">',
+                $container,
                 false,
                 [
                     'metadata' => $params['metadata'],
                 ]
             );
+
+            $html = $container;
         }
 
         return $html;

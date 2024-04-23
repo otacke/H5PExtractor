@@ -43,7 +43,7 @@ class HtmlGeneratorColumnMajor1Minor16 extends Generator implements GeneratorInt
      *
      * @return string The HTML for the H5P content type.
      */
-    public function attach($container)
+    public function attach(&$container)
     {
         include_once __DIR__ . '/Utils.php';
 
@@ -67,8 +67,6 @@ class HtmlGeneratorColumnMajor1Minor16 extends Generator implements GeneratorInt
                 $libraryContent = $content['content'];
                 $version = explode(' ', $libraryContent['library'])[1];
 
-                $innerContainer = '<div class="h5p-column-content h5pClassName">';
-
                 $separatorResults = UtilsColumnMajor1Minor16::addSeparator(
                     explode(' ', $libraryContent['library'])[0],
                     $content['useSeparator'],
@@ -77,7 +75,8 @@ class HtmlGeneratorColumnMajor1Minor16 extends Generator implements GeneratorInt
                 $this->previousHasMargin = $separatorResults['previousHasMargin'];
                 $container .= $separatorResults['separator'];
 
-                $container .= $this->main->newRunnable(
+                $innerContainer = '<div class="h5p-column-content h5pClassName">';
+                $this->main->newRunnable(
                     [
                         'library' => $libraryContent['library'],
                         'params' => $libraryContent['params'],
@@ -89,13 +88,12 @@ class HtmlGeneratorColumnMajor1Minor16 extends Generator implements GeneratorInt
                         'metadata' => $libraryContent['metadata'],
                     ]
                 );
+                $container .= $innerContainer;
             }
         }
 
         $container .= '</div>';
 
         $container .= $htmlClosing;
-
-        return $container;
     }
 }

@@ -43,7 +43,7 @@ class PlainTextGeneratorVideoMajor1Minor6 extends Generator implements Generator
      *
      * @return string The plain text for the H5P content type.
      */
-    public function attach($container)
+    public function attach(&$container)
     {
         $title = '';
         if (!empty($this->extras['metadata']['a11yTitle'])) {
@@ -53,7 +53,5 @@ class PlainTextGeneratorVideoMajor1Minor6 extends Generator implements Generator
         }
 
         $container .= 'Video' . $title . "\n\n";
-
-        return $container;
     }
 }

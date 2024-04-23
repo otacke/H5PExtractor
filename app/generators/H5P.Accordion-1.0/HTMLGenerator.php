@@ -41,7 +41,7 @@ class HtmlGeneratorAccordionMajor1Minor0 extends Generator implements GeneratorI
      *
      * @return string The HTML for the H5P content type.
      */
-    public function attach($container)
+    public function attach(&$container)
     {
         preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $container, $matches);
         $tag_name = isset($matches[1]) ? $matches[1] : '';
@@ -86,7 +86,7 @@ class HtmlGeneratorAccordionMajor1Minor0 extends Generator implements GeneratorI
                     ' role="region" aria-labelledby="h5p-panel-link-0-' .
                         $panelIndex . '" aria-hidden="false">';
 
-                $container .= $this->main->newRunnable(
+                $this->main->newRunnable(
                     [
                         'library' => $content['library'],
                         'params' => $content['params'],
@@ -98,11 +98,11 @@ class HtmlGeneratorAccordionMajor1Minor0 extends Generator implements GeneratorI
                         'metadata' => $content['metadata'],
                     ]
                 );
+
+                $container .= $innerContainer;
             }
         }
 
         $container .= $htmlClosing;
-
-        return $container;
     }
 }

@@ -43,7 +43,7 @@ class PlainTextGeneratorDragTextMajor1Minor10 extends Generator implements Gener
      *
      * @return string The plain text for the H5P content type.
      */
-    public function attach($container)
+    public function attach(&$container)
     {
         include_once __DIR__ . '/Utils.php';
 
@@ -113,7 +113,5 @@ class PlainTextGeneratorDragTextMajor1Minor10 extends Generator implements Gener
         $container .= "\n\n" . implode(", ", $draggables);
 
         $container = trim($container);
-
-        return $container;
     }
 }

@@ -43,7 +43,7 @@ class PlainTextGeneratorMultiChoiceMajor1Minor16 extends Generator implements Ge
      *
      * @return string The HTML for the H5P content type.
      */
-    public function attach($container)
+    public function attach(&$container)
     {
         if ($this->params['behaviour']['randomAnswers']) {
             shuffle($this->params['answers']);
@@ -86,7 +86,5 @@ class PlainTextGeneratorMultiChoiceMajor1Minor16 extends Generator implements Ge
         }
 
         $container = trim($container);
-
-        return $container;
     }
 }

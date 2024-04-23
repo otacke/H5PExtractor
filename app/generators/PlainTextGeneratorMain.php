@@ -69,13 +69,17 @@ class PlainTextGeneratorMain
                 $this->h5pFileHandler->getH5PInformation('minorVersion')
         ];
 
-        return $this->newRunnable(
+        $container = '';
+
+        $instance = $this->newRunnable(
             $library,
             1,
-            '',
+            $container,
             false,
             $metadata
         );
+
+        return $container;
     }
 
     /**
@@ -91,7 +95,7 @@ class PlainTextGeneratorMain
      *
      * @return string The HTML for the H5P content type.
      */
-    public function newRunnable($library, $contentId, $attachTo, $skipResize, $extras)
+    public function newRunnable($library, $contentId, &$attachTo, $skipResize, $extras)
     {
         try {
             $nameSplit = explode(' ', $library['library'] ?? '', 2);
@@ -118,7 +122,10 @@ class PlainTextGeneratorMain
 
         $generatorClassName = $this->loadBestGenerator($library['library']);
         if (!$generatorClassName) {
-            return('No plain text renderer for ' . $machineName . ' available.');
+            if (isset($attachTo)) {
+                $attachTo = 'No plain text renderer for ' . $machineName . ' available.';
+            }
+            return;
         }
         $generator = new $generatorClassName($library['params'], $contentId, $extras);
         $generator->setMain($this);
@@ -130,7 +137,11 @@ class PlainTextGeneratorMain
             'minorVersion' => $versionSplit[1]
         ]);
 
-        return $generator->attach($attachTo);
+        if (isset($attachTo)) {
+            $generator->attach($attachTo);
+        }
+
+        return $generator;
     }
 
     /**
@@ -210,18 +221,20 @@ class PlainTextGeneratorMain
         $machineName = explode(' ', $params['library'])[0];
 
         if (in_array($machineName, ['H5P.Image', 'H5P.Audio', 'H5P.Video'])) {
-            return $this->newRunnable(
+            $container = '';
+            $this->newRunnable(
                 [
                     'library' => $params['library'],
                     'params' => $params['params'],
                 ],
                 1,
-                '',
+                $container,
                 false,
                 [
                     'metadata' => $params['metadata']
                 ]
             );
+            $text .= $container;
         }
         return $text;
     }

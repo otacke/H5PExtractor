@@ -43,7 +43,7 @@ class HtmlGeneratorDragTextMajor1Minor10 extends Generator implements GeneratorI
      *
      * @return string The HTML for the H5P content type.
      */
-    public function attach($container)
+    public function attach(&$container)
     {
         include_once __DIR__ . '/Utils.php';
 
@@ -145,7 +145,5 @@ class HtmlGeneratorDragTextMajor1Minor10 extends Generator implements GeneratorI
         $container .= '</div>';
 
         $container .= $htmlClosing;
-
-        return $container;
     }
 }
