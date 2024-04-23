@@ -52,7 +52,6 @@ class PlainTextGeneratorAccordionMajor1Minor0 extends Generator implements Gener
 
                 $container .= '**' . $panelData['title'] . "**\n\n";
                 $content = $panelData['content'];
-                $version = explode(' ', $content['library'])[1];
 
                 $innerContainer = '';
                 $this->main->newRunnable(

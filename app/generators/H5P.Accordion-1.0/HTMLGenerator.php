@@ -75,7 +75,6 @@ class HtmlGeneratorAccordionMajor1Minor0 extends Generator implements GeneratorI
                 $container .= '</h2>';
 
                 $content = $panelData['content'];
-                $version = explode(' ', $content['library'])[1];
 
                 $innerContainer  = '<div';
                 $innerContainer .= ' id="h5p-panel-content-' . $randomId . '-' .

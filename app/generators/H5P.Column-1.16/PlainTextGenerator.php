@@ -50,7 +50,6 @@ class PlainTextGeneratorColumnMajor1Minor16 extends Generator implements Generat
         if (isset($this->params['content'])) {
             foreach ($this->params['content'] as $content) {
                 $libraryContent = $content['content'];
-                $version = explode(' ', $libraryContent['library'])[1];
 
                 $separatorResults = UtilsColumnMajor1Minor16::addSeparator(
                     explode(' ', $libraryContent['library'])[0],

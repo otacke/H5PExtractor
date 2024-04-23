@@ -283,7 +283,6 @@ class HtmlGeneratorMain
         }
 
         $machineName = explode(' ', $params['library'])[0];
-        $version = explode(' ', $params['library'])[1];
 
         if ($machineName === 'H5P.Image') {
             $html

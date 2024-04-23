@@ -109,16 +109,8 @@ class H5PFileHandler
                 $mappedValues[] = $name;
                 continue;
             }
-            $machineName = explode(' ', $name)[0];
-            $version = explode(' ', $name)[1];
-            $majorVersion = explode('.', $version)[0];
-            $minorVersion = explode('.', $version)[1];
 
-            $mappedValues[] = [
-                'machineName' => $machineName,
-                'majorVersion' => $majorVersion,
-                'minorVersion' => $minorVersion
-            ];
+            $mappedValues[] = H5PUtils::getLibraryFromString($name);
         }
 
         return $mappedValues;

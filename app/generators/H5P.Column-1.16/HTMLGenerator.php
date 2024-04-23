@@ -65,7 +65,6 @@ class HtmlGeneratorColumnMajor1Minor16 extends Generator implements GeneratorInt
         if (isset($this->params['content'])) {
             foreach ($this->params['content'] as $content) {
                 $libraryContent = $content['content'];
-                $version = explode(' ', $libraryContent['library'])[1];
 
                 $separatorResults = UtilsColumnMajor1Minor16::addSeparator(
                     explode(' ', $libraryContent['library'])[0],
