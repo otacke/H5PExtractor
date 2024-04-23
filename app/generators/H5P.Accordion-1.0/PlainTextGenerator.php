@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorAccordionMajor1Minor0 extends Generator implements PlainTextGeneratorInterface
+class PlainTextGeneratorAccordionMajor1Minor0 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -39,27 +39,22 @@ class PlainTextGeneratorAccordionMajor1Minor0 extends Generator implements Plain
     /**
      * Create the output for the given H5P content type.
      *
-     * @param array                  $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
-        $contentParams = $params['params'];
-
-        $text = $params['container'];
-
-
-        if (isset($contentParams['panels'])) {
-            $panelCount = count($contentParams['panels']);
+        if (isset($this->params['panels'])) {
+            $panelCount = count($this->params['panels']);
             for ($panelIndex = 0; $panelIndex < $panelCount; $panelIndex++) {
-                $panelData = $contentParams['panels'][$panelIndex];
+                $panelData = $this->params['panels'][$panelIndex];
 
-                $text .= '**' . $panelData['title'] . "**\n\n";
+                $container .= '**' . $panelData['title'] . "**\n\n";
                 $content = $panelData['content'];
                 $version = explode(' ', $content['library'])[1];
 
-                $text .= $this->main->newRunnable(
+                $container .= $this->main->newRunnable(
                     [
                         'library' => $content['library'],
                         'params' => $content['params'],
@@ -74,6 +69,6 @@ class PlainTextGeneratorAccordionMajor1Minor0 extends Generator implements Plain
             }
         }
 
-        return $text;
+        return $container;
     }
 }

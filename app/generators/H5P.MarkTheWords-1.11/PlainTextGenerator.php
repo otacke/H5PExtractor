@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorMarkTheWordsMajor1Minor11 extends Generator implements PlainTextGeneratorInterface
+class PlainTextGeneratorMarkTheWordsMajor1Minor11 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -102,34 +102,32 @@ class PlainTextGeneratorMarkTheWordsMajor1Minor11 extends Generator implements P
     /**
      * Create the HTML for the given H5P content type.
      *
-     * @param array                  $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
-        $contentParams = $params['params'];
-
-        $text = $params['container'];
-
-        if (isset($contentParams['media']['type'])) {
-            $text .= $this->main->renderH5PQuestionMedia(
-                $contentParams['media']['type']
+        if (isset($this->params['media']['type'])) {
+            $container .= $this->main->renderH5PQuestionMedia(
+                $this->params['media']['type']
             );
         }
 
-        $text .= TextUtils::htmlToText(($contentParams['taskDescription'] ?? ''));
+        $container .= TextUtils::htmlToText(($this->params['taskDescription'] ?? ''));
 
-        $textField = $contentParams['textField'] ?? '';
+        $textField = $this->params['textField'] ?? '';
         $lines = $this->getLinesContent($textField);
 
         foreach ($lines as $line) {
             $line = str_replace('<br>', "\n", $line);
 
-            $text .= $this->interpretText($line);
-            $text .= "\n\n";
+            $container .= $this->interpretText($line);
+            $container .= "\n\n";
         }
 
-        return trim($text);
+        $container = trim($container);
+
+        return $container;
     }
 }

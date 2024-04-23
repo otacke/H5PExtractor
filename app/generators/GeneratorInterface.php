@@ -14,7 +14,7 @@
 namespace H5PExtractor;
 
 /**
- * Interface for plain text generators for H5P content types.
+ * Interface for HTML generators for H5P content types.
  *
  * @category Tool
  * @package  H5PExtractor
@@ -22,14 +22,14 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-interface PlainTextGeneratorInterface
+interface GeneratorInterface
 {
     /**
-     * Create the plain text for the given H5P content type in params
+     * Create the HTML for the given H5P content type in params
      *
-     * @param array             $params Parameters.
+     * @param string $container The container for the H5P content type.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params);
+    public function attach($container);
 }

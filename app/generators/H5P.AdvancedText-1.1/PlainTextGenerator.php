@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorAdvancedTextMajor1Minor1 extends Generator implements PlainTextGeneratorInterface
+class PlainTextGeneratorAdvancedTextMajor1Minor1 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -39,20 +39,16 @@ class PlainTextGeneratorAdvancedTextMajor1Minor1 extends Generator implements Pl
     /**
      * Create the HTML for the given H5P content type.
      *
-     * @param array                  $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
-        $contentParams = $params['params'];
-
-        $text = $params['container'];
-
-        if (isset($contentParams['text'])) {
-            $text .= TextUtils::htmlToText($contentParams['text']);
+        if (isset($this->params['text'])) {
+            $container .= TextUtils::htmlToText($this->params['text']);
         }
 
-        return $text;
+        return $container;
     }
 }

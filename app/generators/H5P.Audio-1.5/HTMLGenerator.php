@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class HtmlGeneratorAudioMajor1Minor5 extends Generator implements HtmlGeneratorInterface
+class HtmlGeneratorAudioMajor1Minor5 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -39,20 +39,16 @@ class HtmlGeneratorAudioMajor1Minor5 extends Generator implements HtmlGeneratorI
     /**
      * Create the HTML for the given H5P content type.
      *
-     * @param array             $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
-        $contentParams = $params['params'];
-
-        $html = $params['container'];
-
-        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $html, $matches);
+        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $container, $matches);
         $tag_name = isset($matches[1]) ? $matches[1] : '';
 
-        if ($params['container'] === '') {
+        if ($container === '') {
             $htmlClosing = '';
         } else {
             $htmlClosing = ($tag_name) ? '</' . $tag_name . '>' : '</div>';
@@ -62,30 +58,30 @@ class HtmlGeneratorAudioMajor1Minor5 extends Generator implements HtmlGeneratorI
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $html = str_replace('h5pClassName', 'h5p-audio-wrapper', $html);
+        $container = str_replace('h5pClassName', 'h5p-audio-wrapper', $container);
 
-        if ($contentParams['playerMode'] === 'minimalistic') {
-            $html .= '<div class="h5p-audio-inner">';
-            $html .= '<button';
-            if ($contentParams['fitToWrapper'] !== false) {
-                $html .= ' style="width: 100%; height: 100%;"';
+        if ($this->params['playerMode'] === 'minimalistic') {
+            $container .= '<div class="h5p-audio-inner">';
+            $container .= '<button';
+            if ($this->params['fitToWrapper'] !== false) {
+                $container .= ' style="width: 100%; height: 100%;"';
             }
-            $html .= ' class="h5p-audio-minimal-button h5p-audio-minimal-play"';
-            $html .= '/>';
-            $html .= '</div>';
-        } elseif ($contentParams['playerMode'] === 'full') {
+            $container .= ' class="h5p-audio-minimal-button h5p-audio-minimal-play"';
+            $container .= '/>';
+            $container .= '</div>';
+        } elseif ($this->params['playerMode'] === 'full') {
             $imagePath = __DIR__ . '/../../assets/placeholder-audio.svg';
 
-            $html .= '<img' .
+            $container .= '<img' .
                 ' src="' . FileUtils::fileToBase64($imagePath) . '"' .
                 ' style="width: 100%;"' .
                 '>';
-        } elseif ($contentParams['playerMode'] === 'transparent') {
+        } elseif ($this->params['playerMode'] === 'transparent') {
             // Intenionally left empty
         }
 
-        $html .= $htmlClosing;
+        $container .= $htmlClosing;
 
-        return $html;
+        return $container;
     }
 }

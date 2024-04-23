@@ -30,7 +30,7 @@ class Generator
     protected $main;
     public $libraryInfo;
 
-    public function __construct($params, $contentId, $extras) {
+    public function __construct($params = [], $contentId = 0, $extras = []) {
         $this->params = $params;
         $this->contentId = $contentId;
         $this->extras = $extras;

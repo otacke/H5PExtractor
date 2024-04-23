@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorAudioMajor1Minor5 extends Generator implements PlainTextGeneratorInterface
+class PlainTextGeneratorAudioMajor1Minor5 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -39,16 +39,15 @@ class PlainTextGeneratorAudioMajor1Minor5 extends Generator implements PlainText
     /**
      * Create the plain text for the given H5P content type.
      *
-     * @param array                  $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The plain text for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
-        $contentParams = $params['params'];
-        $metadata = $params['metadata'] ?? [];
+        $metadata = $this->extras['metadata'];
 
-        $text = $params['container'];
+        $container = $params['container'];
 
         $title = '';
         if (!empty($metadata['a11yTitle'])) {
@@ -57,8 +56,8 @@ class PlainTextGeneratorAudioMajor1Minor5 extends Generator implements PlainText
             $title .= ': ' . $metadata['title'];
         }
 
-        $text .= 'Audio' . $title . "\n\n";
+        $container .= 'Audio' . $title . "\n\n";
 
-        return $text;
+        return $container;
     }
 }

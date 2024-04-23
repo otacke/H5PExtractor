@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class HtmlGeneratorVideoMajor1Minor6 extends Generator implements HtmlGeneratorInterface
+class HtmlGeneratorVideoMajor1Minor6 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -39,20 +39,16 @@ class HtmlGeneratorVideoMajor1Minor6 extends Generator implements HtmlGeneratorI
     /**
      * Create the HTML for the given H5P content type.
      *
-     * @param array             $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
-        $contentParams = $params['params'];
-
-        $html = $params['container'];
-
-        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $html, $matches);
+        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $container, $matches);
         $tag_name = isset($matches[1]) ? $matches[1] : '';
 
-        if ($params['container'] === '') {
+        if ($container === '') {
             $htmlClosing = '';
         } else {
             $htmlClosing = ($tag_name) ? '</' . $tag_name . '>' : '</div>';
@@ -62,17 +58,17 @@ class HtmlGeneratorVideoMajor1Minor6 extends Generator implements HtmlGeneratorI
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $html = str_replace('h5pClassName', 'h5p-video', $html);
+        $container = str_replace('h5pClassName', 'h5p-video', $container);
 
         $imagePath = __DIR__ . '/../../assets/placeholder-video.svg';
 
-        $html .= '<img' .
+        $container .= '<img' .
             ' src="' . FileUtils::fileToBase64($imagePath) . '"' .
             ' style="width: 100%;"' .
             '>';
 
-        $html .= $htmlClosing;
+        $container .= $htmlClosing;
 
-        return $html;
+        return $container;
     }
 }

@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorImageMajor1Minor1 extends Generator implements PlainTextGeneratorInterface
+class PlainTextGeneratorImageMajor1Minor1 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -39,33 +39,28 @@ class PlainTextGeneratorImageMajor1Minor1 extends Generator implements PlainText
     /**
      * Create the plain text for the given H5P content type.
      *
-     * @param array                  $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The plain text for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
-        $contentParams = $params['params'];
-        $metadata = $params['metadata'] ?? [];
-
-        $text = $params['container'];
-
-        if (!isset($contentParams['file']['path'])) {
+        if (!isset($this->params['file']['path'])) {
             return '';
         }
 
         $title = '';
-        if (isset($contentParams) && !empty($contentParams['alt'])) {
-            $title = $contentParams['alt'];
-        } elseif (!empty($metadata['a11yTitle'])) {
-            $title = $metadata['a11yTitle'];
-        } elseif (!empty($metadata['title'])) {
-            $title = $metadata['title'];
+        if (isset($this->params) && !empty($this->params['alt'])) {
+            $title = $this->params['alt'];
+        } elseif (!empty($this->extras['metadata']['a11yTitle'])) {
+            $title = $this->extras['metadata']['a11yTitle'];
+        } elseif (!empty($this->extras['metadata']['title'])) {
+            $title = $this->extras['metadata']['title'];
         }
 
         if ($title !== '') {
-            $text = '![' . $title . ']' . "\n\n";
+            $container .= '![' . $title . ']' . "\n\n";
         }
-        return $text;
+        return $container;
     }
 }

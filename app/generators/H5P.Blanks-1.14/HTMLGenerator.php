@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class HtmlGeneratorBlanksMajor1Minor14 extends Generator implements HtmlGeneratorInterface
+class HtmlGeneratorBlanksMajor1Minor14 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -39,17 +39,13 @@ class HtmlGeneratorBlanksMajor1Minor14 extends Generator implements HtmlGenerato
     /**
      * Create the HTML for the given H5P content type.
      *
-     * @param array             $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
-        $contentParams = $params['params'];
-
-        $html = $params['container'];
-
-        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $html, $matches);
+        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $container, $matches);
         $tag_name = isset($matches[1]) ? $matches[1] : '';
 
         $htmlClosing = ($tag_name) ? '</' . $tag_name . '>' : '</div>';
@@ -58,29 +54,29 @@ class HtmlGeneratorBlanksMajor1Minor14 extends Generator implements HtmlGenerato
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $html = str_replace('h5pClassName', 'h5p-blanks', $html);
+        $container = str_replace('h5pClassName', 'h5p-blanks', $container);
 
-        if (isset($contentParams['media']['type'])) {
-            $html .= $this->main->renderH5PQuestionMedia(
-                $contentParams['media']['type']
+        if (isset($this->params['media']['type'])) {
+            $container .= $this->main->renderH5PQuestionMedia(
+                $this->params['media']['type']
             );
         }
 
-        $html .= '<div class="h5p-question-introduction">';
-        $html .= '<div>' . $contentParams['text'] . '</div>';
-        $html .= '</div>';
+        $container .= '<div class="h5p-question-introduction">';
+        $container .= '<div>' . $this->params['text'] . '</div>';
+        $container .= '</div>';
 
-        if ($contentParams['behaviour']['separateLines']) {
-            $html .= '<div class="h5p-question-content h5p-separate-lines">';
+        if ($this->params['behaviour']['separateLines']) {
+            $container .= '<div class="h5p-question-content h5p-separate-lines">';
         } else {
-            $html .= '<div class="h5p-question-content">';
+            $container .= '<div class="h5p-question-content">';
         }
 
-        // loop through $contentParams['questions']
-        $questionCount = count($contentParams['questions']);
+        // loop through $this->params['questions']
+        $questionCount = count($this->params['questions']);
         for ($index = 0; $index < $questionCount; $index++) {
-            $questionData = $contentParams['questions'][$index];
-            $blankWidth = $contentParams['behaviour']['separateLines'] ?
+            $questionData = $this->params['questions'][$index];
+            $blankWidth = $this->params['behaviour']['separateLines'] ?
                 '100%' : '56px';
 
             $questionData = preg_replace(
@@ -92,15 +88,15 @@ class HtmlGeneratorBlanksMajor1Minor14 extends Generator implements HtmlGenerato
                 $questionData
             );
 
-            $html .= '<div role="group">';
-            $html .= $questionData;
-            $html .= '</div>';
+            $container .= '<div role="group">';
+            $container .= $questionData;
+            $container .= '</div>';
         }
 
-        $html .= '</div>';
+        $container .= '</div>';
 
-        $html .= $htmlClosing;
+        $container .= $htmlClosing;
 
-        return $html;
+        return $container;
     }
 }

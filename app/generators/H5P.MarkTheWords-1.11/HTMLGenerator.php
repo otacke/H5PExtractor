@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class HtmlGeneratorMarkTheWordsMajor1Minor11 extends Generator implements HtmlGeneratorInterface
+class HtmlGeneratorMarkTheWordsMajor1Minor11 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -109,17 +109,13 @@ class HtmlGeneratorMarkTheWordsMajor1Minor11 extends Generator implements HtmlGe
     /**
      * Create the HTML for the given H5P content type.
      *
-     * @param array             $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
-        $contentParams = $params['params'];
-
-        $html = $params['container'];
-
-        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $html, $matches);
+        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $container, $matches);
         $tag_name = isset($matches[1]) ? $matches[1] : '';
 
         $htmlClosing = ($tag_name) ? '</' . $tag_name . '>' : '</div>';
@@ -128,38 +124,38 @@ class HtmlGeneratorMarkTheWordsMajor1Minor11 extends Generator implements HtmlGe
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $html = str_replace('h5pClassName', 'h5p-mark-the-words', $html);
+        $container = str_replace('h5pClassName', 'h5p-mark-the-words', $container);
 
-        if (isset($contentParams['media']['type'])) {
-            $html .= $this->main->renderH5PQuestionMedia(
-                $contentParams['media']['type']
+        if (isset($this->params['media']['type'])) {
+            $container .= $this->main->renderH5PQuestionMedia(
+                $this->params['media']['type']
             );
         }
 
-        $html .= '<div class="h5p-question-introduction">';
-        $html .= '<div>' . ($contentParams['taskDescription'] ?? ''). '</div>';
-        $html .= '</div>';
+        $container .= '<div class="h5p-question-introduction">';
+        $container .= '<div>' . ($this->params['taskDescription'] ?? ''). '</div>';
+        $container .= '</div>';
 
-        $html .= '<div class="h5p-question-content h5p-word">';
-        $html .= '<div class="h5p-word-inner">';
-        $html .= '<div class="h5p-word-selectable-words">';
+        $container .= '<div class="h5p-question-content h5p-word">';
+        $container .= '<div class="h5p-word-inner">';
+        $container .= '<div class="h5p-word-selectable-words">';
 
-        $textField = $contentParams['textField'] ?? '';
+        $textField = $this->params['textField'] ?? '';
 
         $lines = $this->getLinesContent($textField);
         foreach ($lines as $line) {
             $line = $this->interpretText($line);
             $line = '<p>' . $line . '</p>';
 
-            $html .= $line;
+            $container .= $line;
         }
 
-        $html .= '</div>';
-        $html .= '</div>';
-        $html .= '</div>';
+        $container .= '</div>';
+        $container .= '</div>';
+        $container .= '</div>';
 
-        $html .= $htmlClosing;
+        $container .= $htmlClosing;
 
-        return $html;
+        return $container;
     }
 }

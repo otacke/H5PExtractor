@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorDragTextMajor1Minor10 extends Generator implements PlainTextGeneratorInterface
+class PlainTextGeneratorDragTextMajor1Minor10 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -39,29 +39,25 @@ class PlainTextGeneratorDragTextMajor1Minor10 extends Generator implements Plain
     /**
      * Create the plain text for the given H5P content type.
      *
-     * @param array                  $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The plain text for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
         include_once __DIR__ . '/Utils.php';
 
-        $contentParams = $params['params'];
-
-        $text = $params['container'];
-
-        if (isset($contentParams['media']['type'])) {
-            $text .= $this->main->renderH5PQuestionMedia(
-                $contentParams['media']['type']
+        if (isset($this->params['media']['type'])) {
+            $container .= $this->main->renderH5PQuestionMedia(
+                $this->params['media']['type']
             );
         }
 
-        $taskDescription = $contentParams['taskDescription'] ?? '';
+        $taskDescription = $this->params['taskDescription'] ?? '';
 
-        $text .= TextUtils::htmlToText($taskDescription);
+        $container .= TextUtils::htmlToText($taskDescription);
         if (strpos($taskDescription, '<p>') !== 0) {
-            $text .= "\n\n";
+            $container .= "\n\n";
         }
 
         $draggables = [];
@@ -70,7 +66,7 @@ class PlainTextGeneratorDragTextMajor1Minor10 extends Generator implements Plain
         $textFieldHtml = preg_replace(
             '/(\r\n|\n|\r)/',
             '<br/>',
-            $contentParams['textField'] ?? ''
+            $this->params['textField'] ?? ''
         );
         $segments = UtilsDragTextMajor1Minor10::parseText($textFieldHtml);
         foreach ($segments as $segment) {
@@ -95,7 +91,7 @@ class PlainTextGeneratorDragTextMajor1Minor10 extends Generator implements Plain
         $distractorsHtml = preg_replace(
             '/(\r\n|\n|\r)/',
             '<br/>',
-            $contentParams['distractors'] ?? ''
+            $this->params['distractors'] ?? ''
         );
         $segments = UtilsDragTextMajor1Minor10::parseText($distractorsHtml);
         foreach ($segments as $segment) {
@@ -109,13 +105,15 @@ class PlainTextGeneratorDragTextMajor1Minor10 extends Generator implements Plain
             $draggables[] = $lexed['text'];
         }
 
-        $text .= implode(' ', $textParts);
+        $container .= implode(' ', $textParts);
 
-        $text = str_replace(['<br>', '<br/>'], "\n", $text);
+        $container = str_replace(['<br>', '<br/>'], "\n", $container);
 
         shuffle($draggables);
-        $text .= "\n\n" . implode(", ", $draggables);
+        $container .= "\n\n" . implode(", ", $draggables);
 
-        return trim($text);
+        $container = trim($container);
+
+        return $container;
     }
 }

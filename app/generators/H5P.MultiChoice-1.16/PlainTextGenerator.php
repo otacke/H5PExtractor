@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorMultiChoiceMajor1Minor16 extends Generator implements PlainTextGeneratorInterface
+class PlainTextGeneratorMultiChoiceMajor1Minor16 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -39,31 +39,27 @@ class PlainTextGeneratorMultiChoiceMajor1Minor16 extends Generator implements Pl
     /**
      * Create the HTML for the given H5P content type.
      *
-     * @param array                  $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
-        $contentParams = $params['params'];
-
-        $text = $params['container'];
-
-        if ($contentParams['behaviour']['randomAnswers']) {
-            shuffle($contentParams['answers']);
+        if ($this->params['behaviour']['randomAnswers']) {
+            shuffle($this->params['answers']);
         }
 
-        if (isset($contentParams['media']['type'])) {
-            $text .= $this->main->renderH5PQuestionMedia(
-                $contentParams['media']['type']
+        if (isset($this->params['media']['type'])) {
+            $container .= $this->main->renderH5PQuestionMedia(
+                $this->params['media']['type']
             );
         }
 
-        $text .= TextUtils::htmlToText(($contentParams['question'] ?? ''));
+        $container .= TextUtils::htmlToText(($this->params['question'] ?? ''));
 
         $numCorrect = count(
             array_filter(
-                $contentParams['answers'],
+                $this->params['answers'],
                 function ($answer) {
                     return $answer['correct'];
                 }
@@ -71,9 +67,9 @@ class PlainTextGeneratorMultiChoiceMajor1Minor16 extends Generator implements Pl
         );
 
         $mode = ($numCorrect === 1) ? 'h5p-radio' : 'h5p-check';
-        if ($contentParams['behaviour']['type'] === 'single') {
+        if ($this->params['behaviour']['type'] === 'single') {
             $mode = 'h5p-radio';
-        } elseif ($contentParams['behaviour']['type'] === 'multi') {
+        } elseif ($this->params['behaviour']['type'] === 'multi') {
             $mode = 'h5p-check';
         }
 
@@ -82,13 +78,15 @@ class PlainTextGeneratorMultiChoiceMajor1Minor16 extends Generator implements Pl
             $listItem = '[ ]';
         }
 
-        $answerCount = count($contentParams['answers']);
+        $answerCount = count($this->params['answers']);
         for ($answerIndex = 0; $answerIndex < $answerCount; $answerIndex++) {
-            $answerData = $contentParams['answers'][$answerIndex];
-            $text .= $listItem . ' ' .
+            $answerData = $this->params['answers'][$answerIndex];
+            $container .= $listItem . ' ' .
                 TextUtils::htmlToText(($answerData['text'] ?? "\n"));
         }
 
-        return trim($text);
+        $container = trim($container);
+
+        return $container;
     }
 }

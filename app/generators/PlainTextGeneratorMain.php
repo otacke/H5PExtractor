@@ -130,14 +130,7 @@ class PlainTextGeneratorMain
             'minorVersion' => $versionSplit[1]
         ]);
 
-        $params['machineName'] = $machineName;
-        $params['majorVersion'] = $versionSplit[0];
-        $params['minorVersion'] = $versionSplit[1];
-        $params['params'] = $library['params'];
-        $params['metadata'] = $extras;
-        $params['container'] = $attachTo;
-
-        return $generator->get($params);
+        return $generator->attach($attachTo);
     }
 
     /**

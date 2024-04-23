@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorBlanksMajor1Minor14 extends Generator implements PlainTextGeneratorInterface
+class PlainTextGeneratorBlanksMajor1Minor14 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -39,30 +39,26 @@ class PlainTextGeneratorBlanksMajor1Minor14 extends Generator implements PlainTe
     /**
      * Create the plain text for the given H5P content type.
      *
-     * @param array                  $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The plain text for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
-        $contentParams = $params['params'];
-
-        $text = $params['container'];
-
-        if (isset($contentParams['media']['type'])) {
-            $text .= $this->main->renderH5PQuestionMedia(
-                $contentParams['media']['type']
+        if (isset($this->params['media']['type'])) {
+            $container .= $this->main->renderH5PQuestionMedia(
+                $this->params['media']['type']
             );
         }
 
-        $text .= TextUtils::htmlToText($contentParams['text']);
+        $container .= TextUtils::htmlToText($this->params['text']);
 
-        // loop through $contentParams['questions']
-        $questionCount = count($contentParams['questions']);
+        // loop through $this->params['questions']
+        $questionCount = count($this->params['questions']);
         for ($index = 0; $index < $questionCount; $index++) {
-            $questionData = $contentParams['questions'][$index];
+            $questionData = $this->params['questions'][$index];
 
-            $blank = ($contentParams['behaviour']['separateLines']) ?
+            $blank = ($this->params['behaviour']['separateLines']) ?
                 "\n__________\n" : '__________';
 
             $questionData = preg_replace(
@@ -71,9 +67,11 @@ class PlainTextGeneratorBlanksMajor1Minor14 extends Generator implements PlainTe
                 $questionData
             );
 
-            $text .= TextUtils::htmlToText($questionData);
+            $container .= TextUtils::htmlToText($questionData);
         }
 
-        return trim($text);
+        $container = trim($container);
+
+        return $container;
     }
 }

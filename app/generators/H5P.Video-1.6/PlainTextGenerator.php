@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorVideoMajor1Minor6 extends Generator implements PlainTextGeneratorInterface
+class PlainTextGeneratorVideoMajor1Minor6 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -39,26 +39,21 @@ class PlainTextGeneratorVideoMajor1Minor6 extends Generator implements PlainText
     /**
      * Create the plain text for the given H5P content type.
      *
-     * @param array                  $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The plain text for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
-        $contentParams = $params['params'];
-        $metadata = $params['metadata'] ?? [];
-
-        $text = $params['container'];
-
         $title = '';
-        if (!empty($metadata['a11yTitle'])) {
-            $title .= ': ' . $metadata['a11yTitle'];
-        } elseif (!empty($metadata['title'])) {
-            $title .= ': ' . $metadata['title'];
+        if (!empty($this->extras['metadata']['a11yTitle'])) {
+            $title .= ': ' . $this->extras['metadata']['a11yTitle'];
+        } elseif (!empty($this->extras['metadata']['title'])) {
+            $title .= ': ' . $this->extras['metadata']['title'];
         }
 
-        $text .= 'Video' . $title . "\n\n";
+        $container .= 'Video' . $title . "\n\n";
 
-        return $text;
+        return $container;
     }
 }

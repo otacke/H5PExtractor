@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements HtmlGeneratorInterface
+class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -39,17 +39,13 @@ class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements HtmlGen
     /**
      * Create the HTML for the given H5P content type.
      *
-     * @param array             $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
-        $contentParams = $params['params'];
-
-        $html = $params['container'];
-
-        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $html, $matches);
+        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $container, $matches);
         $tag_name = isset($matches[1]) ? $matches[1] : '';
 
         $htmlClosing = ($tag_name) ? '</' . $tag_name . '>' : '</div>';
@@ -58,25 +54,25 @@ class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements HtmlGen
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $html = str_replace('h5pClassName', 'h5p-multichoice', $html);
+        $container = str_replace('h5pClassName', 'h5p-multichoice', $container);
 
-        if ($contentParams['behaviour']['randomAnswers']) {
-            shuffle($contentParams['answers']);
+        if ($this->params['behaviour']['randomAnswers']) {
+            shuffle($this->params['answers']);
         }
 
-        if (isset($contentParams['media']['type'])) {
-            $html .= $this->main->renderH5PQuestionMedia(
-                $contentParams['media']['type']
+        if (isset($this->params['media']['type'])) {
+            $container .= $this->main->renderH5PQuestionMedia(
+                $this->params['media']['type']
             );
         }
 
-        $html .= '<div class="h5p-question-introduction">';
-        $html .= '<div>' . ($contentParams['question'] ?? ''). '</div>';
-        $html .= '</div>';
+        $container .= '<div class="h5p-question-introduction">';
+        $container .= '<div>' . ($this->params['question'] ?? ''). '</div>';
+        $container .= '</div>';
 
         $numCorrect = count(
             array_filter(
-                $contentParams['answers'],
+                $this->params['answers'],
                 function ($answer) {
                     return $answer['correct'];
                 }
@@ -84,38 +80,38 @@ class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements HtmlGen
         );
 
         $mode = ($numCorrect === 1) ? 'h5p-radio' : 'h5p-check';
-        if ($contentParams['behaviour']['type'] === 'single') {
+        if ($this->params['behaviour']['type'] === 'single') {
             $mode = 'h5p-radio';
-        } elseif ($contentParams['behaviour']['type'] === 'multi') {
+        } elseif ($this->params['behaviour']['type'] === 'multi') {
             $mode = 'h5p-check';
         }
 
-        $html .= '<div class="h5p-question-content ' . $mode . '">';
+        $container .= '<div class="h5p-question-content ' . $mode . '">';
 
         $role = $mode === 'h5p-radio' ? 'radiogroup' : 'group';
-        $html .= '<ul class="h5p-answers" role="' . $role . '">';
+        $container .= '<ul class="h5p-answers" role="' . $role . '">';
 
         $role = $mode === 'h5p-radio' ? 'radio' : 'checkbox';
-        $answerCount = count($contentParams['answers']);
+        $answerCount = count($this->params['answers']);
         for ($answerIndex = 0; $answerIndex < $answerCount; $answerIndex++) {
-            $html .= '<li class="h5p-answer" role="' . $role . '">';
-            $html .= '<div class="h5p-alternative-container">';
-            $html .= '<span class="h5p-alternative-inner">';
-            $answerData = $contentParams['answers'][$answerIndex];
-            $html .= ($answerData['text'] ?? '');
-            $html .= '</span>';
+            $container .= '<li class="h5p-answer" role="' . $role . '">';
+            $container .= '<div class="h5p-alternative-container">';
+            $container .= '<span class="h5p-alternative-inner">';
+            $answerData = $this->params['answers'][$answerIndex];
+            $container .= ($answerData['text'] ?? '');
+            $container .= '</span>';
             // TODO: Tips
-            $html .= '</div>';
-            $html .= '</li>';
+            $container .= '</div>';
+            $container .= '</li>';
         }
 
-        $html .= '<ul>';
-        $html .= '</div>';
+        $container .= '<ul>';
+        $container .= '</div>';
 
-        $html .= '</div>';
+        $container .= '</div>';
 
-        $html .= $htmlClosing;
+        $container .= $htmlClosing;
 
-        return $html;
+        return $container;
     }
 }

@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class HtmlGeneratorDragTextMajor1Minor10 extends Generator implements HtmlGeneratorInterface
+class HtmlGeneratorDragTextMajor1Minor10 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -39,19 +39,15 @@ class HtmlGeneratorDragTextMajor1Minor10 extends Generator implements HtmlGenera
     /**
      * Create the HTML for the given H5P content type.
      *
-     * @param array             $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
         include_once __DIR__ . '/Utils.php';
 
-        $contentParams = $params['params'];
-
-        $html = $params['container'];
-
-        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $html, $matches);
+        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $container, $matches);
         $tag_name = isset($matches[1]) ? $matches[1] : '';
 
         $htmlClosing = ($tag_name) ? '</' . $tag_name . '>' : '</div>';
@@ -60,11 +56,11 @@ class HtmlGeneratorDragTextMajor1Minor10 extends Generator implements HtmlGenera
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $html = str_replace('h5pClassName', 'h5p-drag-text', $html);
+        $container = str_replace('h5pClassName', 'h5p-drag-text', $container);
 
-        if (isset($contentParams['media']['type'])) {
-            $html .= $this->main->renderH5PQuestionMedia(
-                $contentParams['media']['type']
+        if (isset($this->params['media']['type'])) {
+            $container .= $this->main->renderH5PQuestionMedia(
+                $this->params['media']['type']
             );
         }
 
@@ -74,7 +70,7 @@ class HtmlGeneratorDragTextMajor1Minor10 extends Generator implements HtmlGenera
         $textFieldHtml = preg_replace(
             '/(\r\n|\n|\r)/',
             '<br/>',
-            $contentParams['textField'] ?? ''
+            $this->params['textField'] ?? ''
         );
         $segments = UtilsDragTextMajor1Minor10::parseText($textFieldHtml);
         foreach ($segments as $segment) {
@@ -106,7 +102,7 @@ class HtmlGeneratorDragTextMajor1Minor10 extends Generator implements HtmlGenera
         $distractorsHtml = preg_replace(
             '/(\r\n|\n|\r)/',
             '<br/>',
-            $contentParams['distractors'] ?? ''
+            $this->params['distractors'] ?? ''
         );
         $segments = UtilsDragTextMajor1Minor10::parseText($distractorsHtml);
         foreach ($segments as $segment) {
@@ -127,29 +123,29 @@ class HtmlGeneratorDragTextMajor1Minor10 extends Generator implements HtmlGenera
               '</div>';
         }
 
-        $html .= '<div class="h5p-question-introduction">';
-        $html .= $contentParams['taskDescription'] ?? '';
-        $html .= '</div>';
+        $container .= '<div class="h5p-question-introduction">';
+        $container .= $this->params['taskDescription'] ?? '';
+        $container .= '</div>';
 
-        $html .= '<div class="h5p-question-content">';
-        $html .= '<div class="h5p-drag-inner">';
-        $html .= '<div class="h5p-drag-task">';
+        $container .= '<div class="h5p-question-content">';
+        $container .= '<div class="h5p-drag-inner">';
+        $container .= '<div class="h5p-drag-task">';
 
-        $html .= '<div class="h5p-drag-droppable-words" style="margin-right: 0;">';
-        $html .= implode('', $textParts);
-        $html .= '</div>';
+        $container .= '<div class="h5p-drag-droppable-words" style="margin-right: 0;">';
+        $container .= implode('', $textParts);
+        $container .= '</div>';
 
-        $html .= '<div class="h5p-drag-draggables-container">';
+        $container .= '<div class="h5p-drag-draggables-container">';
         shuffle($draggables);
-        $html .= implode('', $draggables);
-        $html .= '</div>';
+        $container .= implode('', $draggables);
+        $container .= '</div>';
 
-        $html .= '</div>';
-        $html .= '</div>';
-        $html .= '</div>';
+        $container .= '</div>';
+        $container .= '</div>';
+        $container .= '</div>';
 
-        $html .= $htmlClosing;
+        $container .= $htmlClosing;
 
-        return $html;
+        return $container;
     }
 }

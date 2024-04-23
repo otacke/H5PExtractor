@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorEssayMajor1Minor5 extends Generator implements PlainTextGeneratorInterface
+class PlainTextGeneratorEssayMajor1Minor5 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -39,37 +39,35 @@ class PlainTextGeneratorEssayMajor1Minor5 extends Generator implements PlainText
     /**
      * Create the HTML for the given H5P content type.
      *
-     * @param array                  $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
-        $contentParams = $params['params'];
-
-        $text = $params['container'];
-
-        if (isset($contentParams['media']['type'])) {
-            $text .= $this->main->renderH5PQuestionMedia(
-                $contentParams['media']['type']
+        if (isset($this->params['media']['type'])) {
+            $container .= $this->main->renderH5PQuestionMedia(
+                $this->params['media']['type']
             );
         }
 
-        $text .= TextUtils::htmlToText(($contentParams['taskDescription'] ?? ''));
+        $container .= TextUtils::htmlToText(($this->params['taskDescription'] ?? ''));
 
-        if (!empty($contentParams['placeholderText'])) {
-            $text .= $contentParams['placeholderText'] . "\n\n";
+        if (!empty($this->params['placeholderText'])) {
+            $container .= $this->params['placeholderText'] . "\n\n";
         }
 
         $line = '________________________________________' . "\n";
-        $numberLines = (isset($contentParams['behaviour']['inputFieldSize'])) ?
-            $contentParams['behaviour']['inputFieldSize'] :
+        $numberLines = (isset($this->params['behaviour']['inputFieldSize'])) ?
+            $this->params['behaviour']['inputFieldSize'] :
             10;
 
         for ($i = 0; $i < $numberLines / 2; $i++) {
-            $text .= $line . "\n";
+            $container .= $line . "\n";
         }
 
-        return trim($text);
+        $container = trim($container);
+
+        return $container;
     }
 }

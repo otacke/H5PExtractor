@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class HtmlGeneratorAdvancedTextMajor1Minor1 extends Generator implements HtmlGeneratorInterface
+class HtmlGeneratorAdvancedTextMajor1Minor1 extends Generator implements GeneratorInterface
 {
 
     /**
@@ -38,17 +38,13 @@ class HtmlGeneratorAdvancedTextMajor1Minor1 extends Generator implements HtmlGen
     /**
      * Create the HTML for the given H5P content type.
      *
-     * @param array             $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
-        $contentParams = $params['params'];
-
-        $html = $params['container'];
-
-        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $html, $matches);
+        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $container, $matches);
         $tag_name = isset($matches[1]) ? $matches[1] : '';
 
         $htmlClosing = ($tag_name) ? '</' . $tag_name . '>' : '</div>';
@@ -57,14 +53,14 @@ class HtmlGeneratorAdvancedTextMajor1Minor1 extends Generator implements HtmlGen
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $html = str_replace('h5pClassName', 'h5p-advanced-text', $html);
+        $container = str_replace('h5pClassName', 'h5p-advanced-text', $container);
 
-        if (isset($contentParams['text'])) {
-            $html .= $contentParams['text'];
+        if (isset($this->params['text'])) {
+            $container .= $this->params['text'];
         }
 
-        $html .= $htmlClosing;
+        $container .= $htmlClosing;
 
-        return $html;
+        return $container;
     }
 }

@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class HtmlGeneratorEssayMajor1Minor5 extends Generator implements HtmlGeneratorInterface
+class HtmlGeneratorEssayMajor1Minor5 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -39,17 +39,13 @@ class HtmlGeneratorEssayMajor1Minor5 extends Generator implements HtmlGeneratorI
     /**
      * Create the HTML for the given H5P content type.
      *
-     * @param array             $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
-        $contentParams = $params['params'];
-
-        $html = $params['container'];
-
-        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $html, $matches);
+        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $container, $matches);
         $tag_name = isset($matches[1]) ? $matches[1] : '';
 
         $htmlClosing = ($tag_name) ? '</' . $tag_name . '>' : '</div>';
@@ -58,35 +54,35 @@ class HtmlGeneratorEssayMajor1Minor5 extends Generator implements HtmlGeneratorI
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $html = str_replace('h5pClassName', 'h5p-essay', $html);
+        $container = str_replace('h5pClassName', 'h5p-essay', $container);
 
-        if (isset($contentParams['media']['type'])) {
-            $html .= $this->main->renderH5PQuestionMedia(
-                $contentParams['media']['type']
+        if (isset($this->params['media']['type'])) {
+            $container .= $this->main->renderH5PQuestionMedia(
+                $this->params['media']['type']
             );
         }
 
-        $numberLines = (isset($contentParams['behaviour']['inputFieldSize'])) ?
-            $contentParams['behaviour']['inputFieldSize'] :
+        $numberLines = (isset($this->params['behaviour']['inputFieldSize'])) ?
+            $this->params['behaviour']['inputFieldSize'] :
             10;
 
-        $html .= '<div class="h5p-question-introduction">';
-        $html .= '<div>' . ($contentParams['taskDescription'] ?? ''). '</div>';
-        $html .= '</div>';
+        $container .= '<div class="h5p-question-introduction">';
+        $container .= '<div>' . ($this->params['taskDescription'] ?? ''). '</div>';
+        $container .= '</div>';
 
-        $html .= '<div class="h5p-question-content">';
-        $html .= '<div>';
-        $html .= '<textarea disabled' .
+        $container .= '<div class="h5p-question-content">';
+        $container .= '<div>';
+        $container .= '<textarea disabled' .
             ' class="h5p-essay-input-field-textfield"' .
             ' rows="' . $numberLines . '" ' .
-            ' placeholder="' . $contentParams['placeholderText'] . '"' .
+            ' placeholder="' . $this->params['placeholderText'] . '"' .
             '>';
-        $html .= '</textarea>';
-        $html .= '</div>';
-        $html .= '</div>';
+        $container .= '</textarea>';
+        $container .= '</div>';
+        $container .= '</div>';
 
-        $html .= $htmlClosing;
+        $container .= $htmlClosing;
 
-        return $html;
+        return $container;
     }
 }

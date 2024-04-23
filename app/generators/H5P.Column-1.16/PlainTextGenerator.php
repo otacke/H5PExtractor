@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorColumnMajor1Minor16 extends Generator implements PlainTextGeneratorInterface
+class PlainTextGeneratorColumnMajor1Minor16 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -39,20 +39,16 @@ class PlainTextGeneratorColumnMajor1Minor16 extends Generator implements PlainTe
     /**
      * Create the HTML for the given H5P content type.
      *
-     * @param array                  $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
         include_once __DIR__ . '/Utils.php';
 
-        $contentParams = $params['params'];
-
-        $text = $params['container'];
-
-        if (isset($contentParams['content'])) {
-            foreach ($contentParams['content'] as $content) {
+        if (isset($this->params['content'])) {
+            foreach ($this->params['content'] as $content) {
                 $libraryContent = $content['content'];
                 $version = explode(' ', $libraryContent['library'])[1];
 
@@ -62,11 +58,11 @@ class PlainTextGeneratorColumnMajor1Minor16 extends Generator implements PlainTe
                     $this->previousHasMargin ?? null
                 );
                 $this->previousHasMargin = $separatorResults['previousHasMargin'];
-                $text .= ($separatorResults['separator'] !== '') ?
+                $container .= ($separatorResults['separator'] !== '') ?
                     '---' . "\n\n" :
                     '';
 
-                $text .= $this->main->newRunnable(
+                    $container .= $this->main->newRunnable(
                     [
                         'library' => $libraryContent['library'],
                         'params' => $libraryContent['params'],
@@ -81,6 +77,8 @@ class PlainTextGeneratorColumnMajor1Minor16 extends Generator implements PlainTe
             }
         }
 
-        return trim($text);
+        $container = trim($container);
+
+        return $container;
     }
 }

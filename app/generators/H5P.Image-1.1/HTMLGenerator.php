@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class HtmlGeneratorImageMajor1Minor1 extends Generator implements HtmlGeneratorInterface
+class HtmlGeneratorImageMajor1Minor1 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -39,20 +39,16 @@ class HtmlGeneratorImageMajor1Minor1 extends Generator implements HtmlGeneratorI
     /**
      * Create the HTML for the given H5P content type.
      *
-     * @param array             $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
-        $contentParams = $params['params'];
-
-        $html = $params['container'];
-
-        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $html, $matches);
+        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $container, $matches);
         $tag_name = isset($matches[1]) ? $matches[1] : '';
 
-        if ($params['container'] === '') {
+        if ($container === '') {
             $htmlClosing = '';
         } else {
             $htmlClosing = ($tag_name) ? '</' . $tag_name . '>' : '</div>';
@@ -62,38 +58,38 @@ class HtmlGeneratorImageMajor1Minor1 extends Generator implements HtmlGeneratorI
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $html = str_replace('h5pClassName', 'h5p-image', $html);
+        $container = str_replace('h5pClassName', 'h5p-image', $container);
 
-        if (isset($params['params']['file']['path'])) {
+        if (isset($this->params['file']['path'])) {
             $imagePath = $this->main->h5pFileHandler->getBaseDirectory() . '/' .
                 $this->main->h5pFileHandler->getFilesDirectory() . '/' .
-                'content' . '/' . $params['params']['file']['path'];
+                'content' . '/' . $this->params['file']['path'];
         }
 
         $alt = '';
-        if (isset($contentParams) && !empty($contentParams['alt'])) {
-            $alt = $contentParams['alt'];
-        } elseif (!empty($metadata['a11yTitle'])) {
-            $alt = $metadata['a11yTitle'];
-        } elseif (!empty($metadata['title'])) {
-            $alt = $metadata['title'];
+        if (!empty($this->params['alt'])) {
+            $alt = $this->params['alt'];
+        } elseif (!empty($this->extras['metadata']['a11yTitle'])) {
+            $alt = $this->extras['metadata']['a11yTitle'];
+        } elseif (!empty($this->extras['metadata']['title'])) {
+            $alt = $this->extras['metadata']['title'];
         }
 
-        $html .= '<img';
-        $html .= ' width="100%"';
-        $html .= ' height="100%"';
+        $container .= '<img';
+        $container .= ' width="100%"';
+        $container .= ' height="100%"';
 
         if (isset($imagePath)) {
-            $html .= ' src="' . FileUtils::fileToBase64($imagePath) . '"';
-            $html .= ' alt="' . $alt .  '"';
+            $container .= ' src="' . FileUtils::fileToBase64($imagePath) . '"';
+            $container .= ' alt="' . $alt .  '"';
         } else {
-            $html .= ' class="h5p-placeholder"';
+            $container .= ' class="h5p-placeholder"';
         }
 
-        $html .= ' />';
+        $container .= ' />';
 
-        $html .= $htmlClosing;
+        $container .= $htmlClosing;
 
-        return $html;
+        return $container;
     }
 }

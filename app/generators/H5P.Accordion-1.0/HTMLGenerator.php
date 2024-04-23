@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class HtmlGeneratorAccordionMajor1Minor0 extends Generator implements HtmlGeneratorInterface
+class HtmlGeneratorAccordionMajor1Minor0 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -37,17 +37,13 @@ class HtmlGeneratorAccordionMajor1Minor0 extends Generator implements HtmlGenera
     /**
      * Create the HTML for the given H5P content type.
      *
-     * @param array             $params Parameters.
+     * @param string $container Container for H5P content.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
-        $contentParams = $params['params'];
-
-        $html = $params['container'];
-
-        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $html, $matches);
+        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $container, $matches);
         $tag_name = isset($matches[1]) ? $matches[1] : '';
 
         $htmlClosing = ($tag_name) ? '</' . $tag_name . '>' : '</div>';
@@ -56,47 +52,47 @@ class HtmlGeneratorAccordionMajor1Minor0 extends Generator implements HtmlGenera
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $html = str_replace('h5pClassName', 'h5p-accordion', $html);
+        $container = str_replace('h5pClassName', 'h5p-accordion', $container);
 
         // Actual content
         $randomId = uniqid();
 
-        if (isset($contentParams['panels'])) {
-            $panelCount = count($contentParams['panels']);
+        if (isset($this->params['panels'])) {
+            $panelCount = count($this->params['panels']);
             for ($panelIndex = 0; $panelIndex < $panelCount; $panelIndex++) {
-                $panelData = $contentParams['panels'][$panelIndex];
+                $panelData = $this->params['panels'][$panelIndex];
 
-                $html .= '<h2';
-                $html .= ' id="h5p-panel-link-' .$randomId . '-' . $panelIndex .
+                $container .= '<h2';
+                $container .= ' id="h5p-panel-link-' .$randomId . '-' . $panelIndex .
                     '" class="h5p-panel-title h5p-panel-expanded">';
-                $html .= '<button';
-                $html .= ' class="h5p-panel-button" tabindex="0"';
-                $html .= ' aria-expanded="true"';
-                $html .= ' aria-controls="h5p-panel-content-0-' .
+                $container .= '<button';
+                $container .= ' class="h5p-panel-button" tabindex="0"';
+                $container .= ' aria-expanded="true"';
+                $container .= ' aria-controls="h5p-panel-content-0-' .
                     $panelIndex . '">';
-                $html .= $panelData['title'];
-                $html .= '</button>';
-                $html .= '</h2>';
+                $container .= $panelData['title'];
+                $container .= '</button>';
+                $container .= '</h2>';
 
                 $content = $panelData['content'];
                 $version = explode(' ', $content['library'])[1];
 
-                $container  = '<div';
-                $container .= ' id="h5p-panel-content-' . $randomId . '-' .
+                $innerContainer  = '<div';
+                $innerContainer .= ' id="h5p-panel-content-' . $randomId . '-' .
                     $panelIndex . '" style="display: block;"';
-                $container .=
+                $innerContainer .=
                     ' class="h5p-panel-content h5pClassName"';
-                $container .=
+                $innerContainer .=
                     ' role="region" aria-labelledby="h5p-panel-link-0-' .
                         $panelIndex . '" aria-hidden="false">';
 
-                $html .= $this->main->newRunnable(
+                $container .= $this->main->newRunnable(
                     [
                         'library' => $content['library'],
                         'params' => $content['params'],
                     ],
                     1,
-                    $container,
+                    $innerContainer,
                     false,
                     [
                         'metadata' => $content['metadata'],
@@ -105,8 +101,8 @@ class HtmlGeneratorAccordionMajor1Minor0 extends Generator implements HtmlGenera
             }
         }
 
-        $html .= $htmlClosing;
+        $container .= $htmlClosing;
 
-        return $html;
+        return $container;
     }
 }

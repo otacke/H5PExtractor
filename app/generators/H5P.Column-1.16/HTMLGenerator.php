@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class HtmlGeneratorColumnMajor1Minor16 extends Generator implements HtmlGeneratorInterface
+class HtmlGeneratorColumnMajor1Minor16 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -43,15 +43,11 @@ class HtmlGeneratorColumnMajor1Minor16 extends Generator implements HtmlGenerato
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params)
+    public function attach($container)
     {
         include_once __DIR__ . '/Utils.php';
 
-        $contentParams = $params['params'];
-
-        $html = $params['container'];
-
-        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $html, $matches);
+        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $container, $matches);
         $tag_name = isset($matches[1]) ? $matches[1] : '';
 
         $htmlClosing = ($tag_name) ? '</' . $tag_name . '>' : '</div>';
@@ -60,18 +56,18 @@ class HtmlGeneratorColumnMajor1Minor16 extends Generator implements HtmlGenerato
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $html = str_replace('h5pClassName', 'h5p-column', $html);
+        $container = str_replace('h5pClassName', 'h5p-column', $container);
 
-        $html .= '<div>';
+        $container .= '<div>';
 
         $this->previousHasMargin = null;
 
-        if (isset($contentParams['content'])) {
-            foreach ($contentParams['content'] as $content) {
+        if (isset($this->params['content'])) {
+            foreach ($this->params['content'] as $content) {
                 $libraryContent = $content['content'];
                 $version = explode(' ', $libraryContent['library'])[1];
 
-                $container = '<div class="h5p-column-content h5pClassName">';
+                $innerContainer = '<div class="h5p-column-content h5pClassName">';
 
                 $separatorResults = UtilsColumnMajor1Minor16::addSeparator(
                     explode(' ', $libraryContent['library'])[0],
@@ -79,15 +75,15 @@ class HtmlGeneratorColumnMajor1Minor16 extends Generator implements HtmlGenerato
                     $this->previousHasMargin
                 );
                 $this->previousHasMargin = $separatorResults['previousHasMargin'];
-                $html .= $separatorResults['separator'];
+                $container .= $separatorResults['separator'];
 
-                $html .= $this->main->newRunnable(
+                $container .= $this->main->newRunnable(
                     [
                         'library' => $libraryContent['library'],
                         'params' => $libraryContent['params'],
                     ],
                     1,
-                    $container,
+                    $innerContainer,
                     false,
                     [
                         'metadata' => $libraryContent['metadata'],
@@ -96,10 +92,10 @@ class HtmlGeneratorColumnMajor1Minor16 extends Generator implements HtmlGenerato
             }
         }
 
-        $html .= '</div>';
+        $container .= '</div>';
 
-        $html .= $htmlClosing;
+        $container .= $htmlClosing;
 
-        return $html;
+        return $container;
     }
 }
