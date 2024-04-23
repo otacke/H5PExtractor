@@ -45,6 +45,29 @@ class H5PUtils
     }
 
     /**
+     * Get the library info from the given string.
+     *
+     * @param string $fullName  The full name of the library.
+     * @param string $delimiter The delimiter between name and version.
+     *
+     * @return array|false The library info or false if invalid name.
+     */
+    public static function getLibraryFromString($fullName, $delimiter = ' ')
+    {
+        $pattern = '/(H5P\..+)' . preg_quote($delimiter) . '(\d+)\.(\d+)/';
+
+        if (!preg_match($pattern, $fullName, $matches)) {
+            return false; // Invalid library name
+        }
+
+        return [
+            'machineName' => $matches[1],
+            'majorVersion' => $matches[2],
+            'minorVersion' => $matches[3]
+        ];
+    }
+
+    /**
      * Get the best matching library from the given list.
      * Will pick exact match if available, otherwise the closest lower version,
      * otherwise the closest higher version, otherwise null.
