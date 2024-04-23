@@ -4,7 +4,9 @@ Tool that is supposed to be be usable for rendering H5P content server-side.
 ## Quick start (to be done properly (!))
 
 1. Use `require_once <path_to_h5p-extractor> . '/app/H5PExtractor.php';` to
-load code.
+load code. It does autload everything it needs, but it is not instantiated by
+any autoload itself, because it it seems appropriate to only load H5PExtractor
+once actually needed.
 
 2. Use `$h5pExtractor = new H5PExtractor\H5PExtractor($config);` to create an
    instance, where `$config` is supposed to be an optional an associative array
@@ -41,3 +43,20 @@ load code.
    The return value is an associative array with the key `result` or `error`.
    - `result` contains the requested output format
    - `error` contains an error message if something went wrong.
+
+## Creating/changing generators
+A generator is what creates a distinct output format from an H5P content. It
+will commonly be HTML or some plain text variant, but could be something
+different, too.
+
+The generation process resembles how the H5P core composes H5P content from
+different content types, and methods such as `newRunnable` or `attach` were 
+called that way because they have direct counterparts in H5P core/a content
+type. They also use the same arguments, even though they're not all required
+here. If you know `newRunnable` or `attach`, then you already know what they
+do here. And if you don't and learn what they do here, you learn something
+about H5P core and H5P content types as a side product :-)
+
+### TODO: Explain Structure
+### TODO: Explain Generator
+### TODO: Explain GeneratorInterface
