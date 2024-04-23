@@ -92,7 +92,7 @@ class HtmlGeneratorAccordionMajor1Minor0 implements HtmlGeneratorInterface
                     [
                         'metadata' => $content['metadata'],
                     ]
-                    );
+                );
             }
         }
 

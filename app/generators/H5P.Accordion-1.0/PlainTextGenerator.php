@@ -59,7 +59,6 @@ class PlainTextGeneratorAccordionMajor1Minor0 implements PlainTextGeneratorInter
                     [
                         'metadata' => $content['metadata'],
                     ]
-
                 );
             }
         }

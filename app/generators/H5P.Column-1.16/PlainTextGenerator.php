@@ -66,7 +66,6 @@ class PlainTextGeneratorColumnMajor1Minor16 implements PlainTextGeneratorInterfa
                     [
                         'metadata' => $libraryContent['metadata'],
                     ]
-
                 );
             }
         }

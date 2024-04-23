@@ -168,8 +168,7 @@ class HtmlGeneratorMain
             throw new \Exception('Invalid library string: ' . $library['library']);
         }
 
-        if (
-            getType($library['params']) !== 'object' &&
+        if (getType($library['params']) !== 'object' &&
             getType($library['params']) !== 'array'
         ) {
             throw new \Exception('Invalid library params for ' . $library['library']);
