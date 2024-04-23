@@ -81,23 +81,20 @@ class HtmlGeneratorMain
                 $this->h5pFileHandler->getH5PInformation($property);
         };
 
-        $contentHtml = $this->createContent(
-            array(
-                'machineName' =>
-                    $this->h5pFileHandler->getH5PInformation('mainLibrary'),
-                'majorVersion' =>
-                    $this->h5pFileHandler->getH5PInformation('majorVersion'),
-                'minorVersion' =>
-                    $this->h5pFileHandler->getH5PInformation('minorVersion'),
-                'params' =>
-                    $this->h5pFileHandler->getH5PContentParams(),
-                'metadata' =>
-                    $metadata,
-                'container' =>
-                    '<div class="h5p-container h5pClassName">',
-                'fileHandler' =>
-                    $this->h5pFileHandler
-            )
+        $library = [
+            'params' => $this->h5pFileHandler->getH5PContentParams(),
+            'library' =>
+                $this->h5pFileHandler->getH5PInformation('mainLibrary') . ' ' .
+                $this->h5pFileHandler->getH5PInformation('majorVersion') . '.' .
+                $this->h5pFileHandler->getH5PInformation('minorVersion')
+        ];
+
+        $contentHtml = $this->newRunnable(
+            $library,
+            1,
+            '<div class="h5p-container h5pClassName">',
+            false,
+            $metadata
         );
 
         return $this->createMain($css, $contentHtml);
@@ -149,6 +146,110 @@ class HtmlGeneratorMain
     }
 
     /**
+     * Create a new runnable instance. (analogous to H5P.newRunnable).
+     *
+     * TOOD: Should only return instance, not result of get (to be attach).
+     *
+     * @param array  $library    The library to create a new runnable for.
+     * @param int    $contentId  The content ID (not used for now).
+     * @param string $attachTo   The container to attach the content to.
+     * @param bool   $skipResize Whether to skip resizing the content (not used).
+     * @param array  $extras     Additional data such as metadata.
+     *
+     * @return string The HTML for the H5P content type.
+     */
+    public function newRunnable($library, $contentId, $attachTo, $skipResize, $extras)
+    {
+        try {
+            $nameSplit = explode(' ', $library['library'] ?? '', 2);
+            $machineName = $nameSplit[0];
+            $versionSplit = explode('.', $nameSplit[1], 2);
+        } catch (\Exception $e) {
+            throw new \Exception('Invalid library string: ' . $library['library']);
+        }
+
+        if (
+            getType($library['params']) !== 'object' &&
+            getType($library['params']) !== 'array'
+        ) {
+            throw new \Exception('Invalid library params for ' . $library['library']);
+        }
+
+        $extras = $extras ?? [];
+        if (isset($library['subContentId'])) {
+            $extras['subContentId'] = $library['subContentId'];
+        }
+
+        if (isset($library['metadata'])) {
+            $extras['metadata'] = $library['metadata'];
+        }
+
+        $generatorClassName = $this->loadBestGenerator($library['library']);
+        if (!$generatorClassName) {
+            return $this->buildPlaceholder($library['library']);
+        }
+        $generator = new $generatorClassName();
+
+        $params['machineName'] = $machineName;
+        $params['majorVersion'] = $versionSplit[0];
+        $params['minorVersion'] = $versionSplit[1];
+        $params['params'] = $library['params'];
+        $params['metadata'] = $extras;
+        $params['container'] = $attachTo;
+
+        return $generator->get($params, $this);
+    }
+
+    /**
+     * Get the best matching library for the given machine name and version.
+     *
+     * @param string $fullName The full name of the library.
+     */
+    private function loadBestGenerator($fullName)
+    {
+        $library = H5PUtils::getLibraryFromString($fullName);
+        if (!$library) {
+            return false; // Invalid full name
+        }
+
+        list($machineName, $majorVersion, $minorVersion) = array_values($library);
+
+        $bestGeneratorFullName = H5PUtils::getBestLibraryMatch(
+            scandir(__DIR__),
+            $machineName,
+            $majorVersion,
+            $minorVersion
+        );
+
+        if (!$bestGeneratorFullName) {
+            return false;
+        }
+
+        $library = H5PUtils::getLibraryFromString($bestGeneratorFullName, '-');
+        if (!$library) {
+            return false; // Invalid full name
+        }
+
+        list($machineName, $majorVersion, $minorVersion) = array_values($library);
+
+        $generatorPath
+            = __DIR__ . '/' . $bestGeneratorFullName . '/HTMLGenerator.php';
+
+        if (!file_exists($generatorPath)) {
+            return false; // No generator found
+        }
+
+        include_once $generatorPath;
+
+        return H5PUtils::buildClassName(
+            $machineName,
+            $majorVersion,
+            $minorVersion,
+            'H5PExtractor\HTMLGenerator'
+        );
+    }
+
+    /**
      * Create the output for the given H5P content type.
      *
      * @param array $params Parameters.
@@ -177,11 +278,6 @@ class HtmlGeneratorMain
             = explode('.', $bestLibraryMatchVersion)[1];
 
         $html = $params['container'];
-
-        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $html, $matches);
-        $tag_name = isset($matches[1]) ? $matches[1] : '';
-
-        $htmlClosing = ($tag_name) ? '</' . $tag_name . '>' : '</div>';
 
         if (!file_exists(__DIR__ . '/' . $bestLibraryMatch . '/HTMLGenerator.php')) {
             return $this->buildPlaceholder($params['machineName']);

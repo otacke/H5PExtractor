@@ -48,15 +48,18 @@ class PlainTextGeneratorAccordionMajor1Minor0 implements PlainTextGeneratorInter
                 $content = $panelData['content'];
                 $version = explode(' ', $content['library'])[1];
 
-                $text .= $main->createContent(
-                    array(
-                        'machineName' => explode(' ', $content['library'])[0],
-                        'majorVersion' => explode('.', $version)[0],
-                        'minorVersion' => explode('.', $version)[1],
+                $text .= $main->newRunnable(
+                    [
+                        'library' => $content['library'],
                         'params' => $content['params'],
+                    ],
+                    1,
+                    '',
+                    false,
+                    [
                         'metadata' => $content['metadata'],
-                        'container' => ''
-                    )
+                    ]
+
                 );
             }
         }

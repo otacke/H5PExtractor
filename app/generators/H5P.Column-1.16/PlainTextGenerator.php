@@ -55,15 +55,18 @@ class PlainTextGeneratorColumnMajor1Minor16 implements PlainTextGeneratorInterfa
                     '---' . "\n\n" :
                     '';
 
-                $text .= $main->createContent(
-                    array(
-                        'machineName' => explode(' ', $libraryContent['library'])[0],
-                        'majorVersion' => explode('.', $version)[0],
-                        'minorVersion' => explode('.', $version)[1],
+                $text .= $main->newRunnable(
+                    [
+                        'library' => $libraryContent['library'],
                         'params' => $libraryContent['params'],
+                    ],
+                    1,
+                    '',
+                    false,
+                    [
                         'metadata' => $libraryContent['metadata'],
-                        'container' => ''
-                    )
+                    ]
+
                 );
             }
         }
