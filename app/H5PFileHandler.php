@@ -193,7 +193,11 @@ class H5PFileHandler
             $machineName = $this->h5pInfo['mainLibrary'];
         }
 
-        $pattern = $extractDir . '/' . $machineName . '-*';
+        // We're operating on the file system, so we cannot use spaces
+        $machineName = str_replace(' ', '-', $machineName);
+
+        $pattern = $extractDir . '/' . $machineName . '*';
+
         $contentDirs = glob($pattern, GLOB_ONLYDIR);
         if (empty($contentDirs)) {
             return false;
