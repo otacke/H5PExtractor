@@ -187,7 +187,7 @@ class HtmlGeneratorMain
         if (!$generatorClassName) {
             return $this->buildPlaceholder($library['library']);
         }
-        $generator = new $generatorClassName();
+        $generator = new $generatorClassName($this);
 
         $params['machineName'] = $machineName;
         $params['majorVersion'] = $versionSplit[0];
@@ -196,7 +196,7 @@ class HtmlGeneratorMain
         $params['metadata'] = $extras;
         $params['container'] = $attachTo;
 
-        return $generator->get($params, $this);
+        return $generator->get($params);
     }
 
     /**

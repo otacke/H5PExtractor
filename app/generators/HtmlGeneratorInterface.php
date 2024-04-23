@@ -32,5 +32,5 @@ interface HtmlGeneratorInterface
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params, $main);
+    public function get($params);
 }

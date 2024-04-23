@@ -25,14 +25,23 @@ namespace H5PExtractor;
 class PlainTextGeneratorVideoMajor1Minor6 implements PlainTextGeneratorInterface
 {
     /**
+     * Constructor.
+     *
+     * @param PlainTextGeneratorMain $main The main plain text generator.
+     */
+    public function __construct(PlainTextGeneratorMain $main)
+    {
+        $this->main = $main;
+    }
+
+    /**
      * Create the plain text for the given H5P content type.
      *
      * @param array                  $params Parameters.
-     * @param PlainTextGeneratorMain $main   The main plain text generator.
      *
      * @return string The plain text for the H5P content type.
      */
-    public function get($params, $main)
+    public function get($params)
     {
         $contentParams = $params['params'];
         $metadata = $params['metadata'] ?? [];

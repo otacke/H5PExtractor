@@ -24,15 +24,26 @@ namespace H5PExtractor;
  */
 class PlainTextGeneratorAccordionMajor1Minor0 implements PlainTextGeneratorInterface
 {
+    private $main;
+
+    /**
+     * Constructor.
+     *
+     * @param PlainTextGeneratorMain $main The main plain text generator.
+     */
+    public function __construct(PlainTextGeneratorMain $main)
+    {
+        $this->main = $main;
+    }
+
     /**
      * Create the output for the given H5P content type.
      *
      * @param array                  $params Parameters.
-     * @param PlainTextGeneratorMain $main   The main HTML generator.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params, $main)
+    public function get($params)
     {
         $contentParams = $params['params'];
 
@@ -48,7 +59,7 @@ class PlainTextGeneratorAccordionMajor1Minor0 implements PlainTextGeneratorInter
                 $content = $panelData['content'];
                 $version = explode(' ', $content['library'])[1];
 
-                $text .= $main->newRunnable(
+                $text .= $this->main->newRunnable(
                     [
                         'library' => $content['library'],
                         'params' => $content['params'],

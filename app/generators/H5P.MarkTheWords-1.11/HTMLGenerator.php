@@ -24,6 +24,17 @@ namespace H5PExtractor;
  */
 class HtmlGeneratorMarkTheWordsMajor1Minor11 implements HtmlGeneratorInterface
 {
+    private $main;
+
+    /**
+     * Constructor.
+     *
+     * @param HTMLGeneratorMain $main The main HTML generator.
+     */
+    public function __construct(HTMLGeneratorMain $main)
+    {
+        $this->main = $main;
+    }
 
     /**
      * Get the content of the lines in the given input.
@@ -99,11 +110,10 @@ class HtmlGeneratorMarkTheWordsMajor1Minor11 implements HtmlGeneratorInterface
      * Create the HTML for the given H5P content type.
      *
      * @param array             $params Parameters.
-     * @param HtmlGeneratorMain $main   The main HTML generator.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params, $main)
+    public function get($params)
     {
         $contentParams = $params['params'];
 
@@ -121,7 +131,7 @@ class HtmlGeneratorMarkTheWordsMajor1Minor11 implements HtmlGeneratorInterface
         $html = str_replace('h5pClassName', 'h5p-mark-the-words', $html);
 
         if (isset($contentParams['media']['type'])) {
-            $html .= $main->renderH5PQuestionMedia(
+            $html .= $this->main->renderH5PQuestionMedia(
                 $contentParams['media']['type']
             );
         }

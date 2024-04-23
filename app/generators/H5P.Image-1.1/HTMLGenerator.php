@@ -24,15 +24,26 @@ namespace H5PExtractor;
  */
 class HtmlGeneratorImageMajor1Minor1 implements HtmlGeneratorInterface
 {
+    private $main;
+
+    /**
+     * Constructor.
+     *
+     * @param HTMLGeneratorMain $main The main HTML generator.
+     */
+    public function __construct(HTMLGeneratorMain $main)
+    {
+        $this->main = $main;
+    }
+
     /**
      * Create the HTML for the given H5P content type.
      *
      * @param array             $params Parameters.
-     * @param HtmlGeneratorMain $main   The main HTML generator.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params, $main)
+    public function get($params)
     {
         $contentParams = $params['params'];
 
@@ -54,8 +65,8 @@ class HtmlGeneratorImageMajor1Minor1 implements HtmlGeneratorInterface
         $html = str_replace('h5pClassName', 'h5p-image', $html);
 
         if (isset($params['params']['file']['path'])) {
-            $imagePath = $main->h5pFileHandler->getBaseDirectory() . '/' .
-                $main->h5pFileHandler->getFilesDirectory() . '/' .
+            $imagePath = $this->main->h5pFileHandler->getBaseDirectory() . '/' .
+                $this->main->h5pFileHandler->getFilesDirectory() . '/' .
                 'content' . '/' . $params['params']['file']['path'];
         }
 

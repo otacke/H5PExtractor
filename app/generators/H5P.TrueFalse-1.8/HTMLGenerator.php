@@ -24,15 +24,26 @@ namespace H5PExtractor;
  */
 class HtmlGeneratorTrueFalseMajor1Minor8 implements HtmlGeneratorInterface
 {
+    private $main;
+
+    /**
+     * Constructor.
+     *
+     * @param HTMLGeneratorMain $main The main HTML generator.
+     */
+    public function __construct(HTMLGeneratorMain $main)
+    {
+        $this->main = $main;
+    }
+
     /**
      * Create the HTML for the given H5P content type.
      *
      * @param array             $params Parameters.
-     * @param HtmlGeneratorMain $main   The main HTML generator.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params, $main)
+    public function get($params)
     {
         $contentParams = $params['params'];
 
@@ -50,7 +61,7 @@ class HtmlGeneratorTrueFalseMajor1Minor8 implements HtmlGeneratorInterface
         $html = str_replace('h5pClassName', 'h5p-true-false', $html);
 
         if (isset($contentParams['media']['type'])) {
-            $html .= $main->renderH5PQuestionMedia(
+            $html .= $this->main->renderH5PQuestionMedia(
                 $contentParams['media']['type']
             );
         }

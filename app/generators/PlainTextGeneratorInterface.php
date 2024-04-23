@@ -28,9 +28,8 @@ interface PlainTextGeneratorInterface
      * Create the plain text for the given H5P content type in params
      *
      * @param array             $params Parameters.
-     * @param HtmlGeneratorMain $main   The main HTML generator.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params, $main);
+    public function get($params);
 }

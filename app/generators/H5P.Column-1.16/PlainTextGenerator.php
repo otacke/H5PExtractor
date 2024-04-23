@@ -25,14 +25,23 @@ namespace H5PExtractor;
 class PlainTextGeneratorColumnMajor1Minor16 implements PlainTextGeneratorInterface
 {
     /**
+     * Constructor.
+     *
+     * @param PlainTextGeneratorMain $main The main plain text generator.
+     */
+    public function __construct(PlainTextGeneratorMain $main)
+    {
+        $this->main = $main;
+    }
+
+    /**
      * Create the HTML for the given H5P content type.
      *
      * @param array                  $params Parameters.
-     * @param PlainTextGeneratorMain $main   The main HTML generator.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params, $main)
+    public function get($params)
     {
         include_once __DIR__ . '/Utils.php';
 
@@ -55,7 +64,7 @@ class PlainTextGeneratorColumnMajor1Minor16 implements PlainTextGeneratorInterfa
                     '---' . "\n\n" :
                     '';
 
-                $text .= $main->newRunnable(
+                $text .= $this->main->newRunnable(
                     [
                         'library' => $libraryContent['library'],
                         'params' => $libraryContent['params'],

@@ -25,21 +25,30 @@ namespace H5PExtractor;
 class PlainTextGeneratorEssayMajor1Minor5 implements PlainTextGeneratorInterface
 {
     /**
+     * Constructor.
+     *
+     * @param PlainTextGeneratorMain $main The main plain text generator.
+     */
+    public function __construct(PlainTextGeneratorMain $main)
+    {
+        $this->main = $main;
+    }
+
+    /**
      * Create the HTML for the given H5P content type.
      *
      * @param array                  $params Parameters.
-     * @param PlainTextGeneratorMain $main   The main HTML generator.
      *
      * @return string The HTML for the H5P content type.
      */
-    public function get($params, $main)
+    public function get($params)
     {
         $contentParams = $params['params'];
 
         $text = $params['container'];
 
         if (isset($contentParams['media']['type'])) {
-            $text .= $main->renderH5PQuestionMedia(
+            $text .= $this->main->renderH5PQuestionMedia(
                 $contentParams['media']['type']
             );
         }
