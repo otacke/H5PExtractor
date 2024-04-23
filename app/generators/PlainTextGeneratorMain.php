@@ -120,7 +120,15 @@ class PlainTextGeneratorMain
         if (!$generatorClassName) {
             return('No plain text renderer for ' . $machineName . ' available.');
         }
-        $generator = new $generatorClassName($this);
+        $generator = new $generatorClassName($library['params'], $contentId, $extras);
+        $generator->setMain($this);
+        $generator->setLibraryInfo([
+            'versionedName' => $library['library'],
+            'versionedNameNoSpaces' => $machineName . '-' . $versionSplit[0] . '.' . $versionSplit[1],
+            'machineName' => $machineName,
+            'majorVersion' => $versionSplit[0],
+            'minorVersion' => $versionSplit[1]
+        ]);
 
         $params['machineName'] = $machineName;
         $params['majorVersion'] = $versionSplit[0];

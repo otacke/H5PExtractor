@@ -22,18 +22,18 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorAccordionMajor1Minor0 implements PlainTextGeneratorInterface
+class PlainTextGeneratorAccordionMajor1Minor0 extends Generator implements PlainTextGeneratorInterface
 {
-    private $main;
-
     /**
      * Constructor.
      *
-     * @param PlainTextGeneratorMain $main The main plain text generator.
+     * @param array $params     Parameters.
+     * @param int   $contentId  Content ID.
+     * @param array $extras     Extras.
      */
-    public function __construct(PlainTextGeneratorMain $main)
+    public function __construct($params, $contentId, $extras)
     {
-        $this->main = $main;
+        parent::__construct($params, $contentId, $extras);
     }
 
     /**

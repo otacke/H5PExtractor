@@ -22,18 +22,16 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class HtmlGeneratorAccordionMajor1Minor0 implements HtmlGeneratorInterface
+class HtmlGeneratorAccordionMajor1Minor0 extends Generator implements HtmlGeneratorInterface
 {
-    private $main;
-
     /**
      * Constructor.
      *
      * @param HTMLGeneratorMain $main The main HTML generator.
      */
-    public function __construct(HTMLGeneratorMain $main)
+    public function __construct($params, $contentId, $extras)
     {
-        $this->main = $main;
+        parent::__construct($params, $contentId, $extras);
     }
 
     /**

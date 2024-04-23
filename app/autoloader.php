@@ -8,6 +8,7 @@ spl_autoload_register(function ($class) {
         'H5PExtractor\H5PFileHandler' => 'H5PFileHandler.php',
         'H5PExtractor\HtmlGeneratorInterface' => 'generators/HtmlGeneratorInterface.php',
         'H5PExtractor\PlainTextGeneratorInterface' => 'generators/PlainTextGeneratorInterface.php',
+        'H5PExtractor\Generator' => 'generators/Generator.php',
         'H5PExtractor\HtmlGeneratorMain' => 'generators/HtmlGeneratorMain.php',
         'H5PExtractor\PlainTextGeneratorMain' => 'generators/PlainTextGeneratorMain.php',
         'H5PExtractor\CSSUtils' => 'utils/CSSUtils.php',
