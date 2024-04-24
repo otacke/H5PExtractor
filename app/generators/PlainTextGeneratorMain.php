@@ -76,7 +76,9 @@ class PlainTextGeneratorMain
             1,
             $container,
             false,
-            $metadata
+            [
+                'metadata' => $metadata
+            ]
         );
 
         return $container;
