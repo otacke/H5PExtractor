@@ -155,9 +155,5 @@ class HtmlGeneratorMarkTheWordsMajor1Minor11 extends Generator implements Genera
         $container .= '</div>';
 
         $container .= $htmlClosing;
-
-        error_log($container);
-
-        // return $container;
     }
 }
