@@ -122,6 +122,9 @@ class PlainTextGeneratorMain
             $extras['metadata'] = $library['metadata'];
         }
 
+        $extras['metadata']['defaultLanguage'] =
+            $this->h5pFileHandler->getH5PInformation('defaultLanguage') ?? 'en';
+
         $generatorClassName = $this->loadBestGenerator($library['library']);
         if (!$generatorClassName) {
             if (isset($attachTo)) {
