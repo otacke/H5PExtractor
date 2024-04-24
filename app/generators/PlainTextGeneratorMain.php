@@ -87,8 +87,6 @@ class PlainTextGeneratorMain
     /**
      * Create a new runnable instance. (analogous to H5P.newRunnable).
      *
-     * TOOD: Should only return instance, not result of get (to be attach).
-     *
      * @param array  $library    The library to create a new runnable for.
      * @param int    $contentId  The content ID (not used for now).
      * @param string $attachTo   The container to attach the content to.
