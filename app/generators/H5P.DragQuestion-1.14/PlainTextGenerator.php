@@ -52,7 +52,7 @@ class PlainTextGeneratorDragQuestionMajor1Minor14 extends Generator implements G
 
         $task = $this->params['question']['task'] ?? [];
 
-        $container .= 'Dropzones' . "\n"; // TODO i18n
+        $container .= '**Dropzones**' . "\n"; // TODO i18n
 
         foreach($task['dropZones'] ?? [] as $dropZone) {
             $container .= '__________';
@@ -66,7 +66,7 @@ class PlainTextGeneratorDragQuestionMajor1Minor14 extends Generator implements G
 
         $container .= "\n";
 
-        $container .= 'Draggables' . "\n"; // TODO i18n
+        $container .= '**Draggables**' . "\n"; // TODO i18n
 
         foreach($task['elements'] ?? [] as $draggable) {
             if (count($draggable['dropZones'] ?? []) === 0) {
