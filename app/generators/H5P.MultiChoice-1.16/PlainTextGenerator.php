@@ -82,7 +82,7 @@ class PlainTextGeneratorMultiChoiceMajor1Minor16 extends Generator implements Ge
         for ($answerIndex = 0; $answerIndex < $answerCount; $answerIndex++) {
             $answerData = $this->params['answers'][$answerIndex];
             $container .= $listItem . ' ' .
-                TextUtils::htmlToText(($answerData['text'] ?? "\n"));
+                TextUtils::htmlToText(($answerData['text'] ?? "\n")) . "\n";
         }
 
         $container = trim($container);

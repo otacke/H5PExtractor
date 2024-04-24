@@ -95,7 +95,7 @@ class PlainTextGeneratorMain
      *
      * @return string The HTML for the H5P content type.
      */
-    public function newRunnable($library, $contentId, &$attachTo, $skipResize, $extras)
+    public function newRunnable($library, $contentId, &$attachTo = '', $skipResize = false, $extras = [])
     {
         try {
             $nameSplit = explode(' ', $library['library'] ?? '', 2);

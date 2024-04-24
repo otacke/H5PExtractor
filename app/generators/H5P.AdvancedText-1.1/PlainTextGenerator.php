@@ -48,5 +48,7 @@ class PlainTextGeneratorAdvancedTextMajor1Minor1 extends Generator implements Ge
         if (isset($this->params['text'])) {
             $container .= TextUtils::htmlToText($this->params['text']);
         }
+
+        $container = trim($container);
     }
 }

@@ -58,7 +58,7 @@ class PlainTextGeneratorColumnMajor1Minor16 extends Generator implements Generat
                 );
                 $this->previousHasMargin = $separatorResults['previousHasMargin'];
                 $container .= ($separatorResults['separator'] !== '') ?
-                    '---' . "\n\n" :
+                    "\n\n" . '---' . "\n\n" :
                     '';
 
                 $innerContainer = '';
