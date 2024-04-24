@@ -78,8 +78,6 @@ class TextUtils
         // Limit consecutive line breaks to 2
         $string = preg_replace('/(\n{3,})/', "\n\n", $string);
 
-        error_log($string);
-
         return $string;
     }
 }
