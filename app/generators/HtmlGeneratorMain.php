@@ -96,7 +96,9 @@ class HtmlGeneratorMain
             1,
             $container,
             false,
-            $metadata
+            [
+                'metadata' => $metadata
+            ]
         );
 
         return $this->createMain($css, $container);
