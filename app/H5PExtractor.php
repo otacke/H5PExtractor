@@ -29,14 +29,16 @@ class H5PExtractor
      *
      * @param array $config The configuration.
      */
-    public function __construct($config)
+    public function __construct($config = [])
     {
         require_once __DIR__ . '/autoloader.php';
 
-        if (!isset($config)) {
-            $config = [
-                'uploadsPath' => __DIR__ . '/../uploads'
-            ];
+        if (!isset($config['uploadsPath'])) {
+            $config['uploadsPath'] = __DIR__ . '/../uploads';
+        }
+
+        if (!isset($config['renderWidth'])) {
+            $config['renderWidth'] = 1024;
         }
 
         $this->config = $config;
@@ -127,11 +129,17 @@ class H5PExtractor
 
         switch ($params['format']) {
             case 'html':
-                $generator = new HtmlGeneratorMain($h5pFileHandler);
+                $generator = new HtmlGeneratorMain(
+                    $h5pFileHandler,
+                    $this->config['renderWidth']
+                );
                 break;
 
             case 'text':
-                $generator = new PlainTextGeneratorMain($h5pFileHandler);
+                $generator = new PlainTextGeneratorMain(
+                    $h5pFileHandler,
+                    $this->config['renderWidth']
+                );
                 break;
 
             default:

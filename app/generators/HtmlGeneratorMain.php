@@ -28,10 +28,12 @@ class HtmlGeneratorMain
      * The H5P file handler.
      *
      * @param H5PFileHandler $h5pFileHandler The H5P file handler.
+     * @param int            $renderWidth    The render width.
      */
-    public function __construct($h5pFileHandler)
+    public function __construct($h5pFileHandler, $renderWidth = 1024)
     {
         $this->h5pFileHandler = $h5pFileHandler;
+        $this->renderWidth = $renderWidth;
     }
 
     /**
@@ -160,7 +162,7 @@ class HtmlGeneratorMain
      *
      * @return string The HTML for the H5P content type.
      */
-    public function newRunnable($library, $contentId, &$attachTo, $skipResize, $extras)
+    public function newRunnable($library, $contentId, &$attachTo = '<div>', $skipResize = false, $extras = [])
     {
         try {
             $nameSplit = explode(' ', $library['library'] ?? '', 2);

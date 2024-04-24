@@ -28,10 +28,12 @@ class PlainTextGeneratorMain
      * The H5P file handler.
      *
      * @param H5PFileHandler $h5pFileHandler The H5P file handler.
+     * @param int            $renderWidth    The render width.
      */
-    public function __construct($h5pFileHandler)
+    public function __construct($h5pFileHandler, $renderWidth)
     {
         $this->h5pFileHandler = $h5pFileHandler;
+        $this->renderWidth = $renderWidth;
     }
 
     /**
