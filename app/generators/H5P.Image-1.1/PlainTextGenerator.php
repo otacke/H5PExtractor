@@ -61,5 +61,7 @@ class PlainTextGeneratorImageMajor1Minor1 extends Generator implements Generator
         if ($title !== '') {
             $container .= '![' . $title . ']' . "\n\n";
         }
+
+        $container = trim($container);
     }
 }
