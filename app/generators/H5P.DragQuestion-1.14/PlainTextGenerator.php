@@ -65,7 +65,7 @@ class PlainTextGeneratorDragQuestionMajor1Minor14 extends Generator implements G
             $container .= ", ";
         }
 
-        $container .= "\n";
+        $container .= "\n\n";
 
         $container .= '**Draggables**' . "\n\n"; // TODO i18n
 
