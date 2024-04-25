@@ -80,4 +80,23 @@ class TextUtils
 
         return $string;
     }
+
+    /**
+     * Get the closing tag for the given container.
+     *
+     * @param string $container The container to get the closing tag for.
+     *
+     * @return string The closing tag.
+     */
+    public static function getClosingTag($container)
+    {
+        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $container, $matches);
+        $tag_name = isset($matches[1]) ? $matches[1] : '';
+
+        if ($tag_name) {
+            return '</' . $tag_name . '>';
+        }
+
+        else return '';
+    }
 }
