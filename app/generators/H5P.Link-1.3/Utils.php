@@ -31,11 +31,11 @@ class UtilsLinkMajor1Minor3
      */
     public static function sanitizeParams(&$params = [])
     {
-      $params['linkWidget'] = $params['linkWidget'] ?? [];
+        $params['linkWidget'] = $params['linkWidget'] ?? [];
 
-      $params['title'] = $params['title'] ?? 'New link'; // TODO: i18n
-      $params['linkWidget']['protocol'] = $params['linkWidget']['protocol'] ?? '';
-      $params['linkWidget']['url'] = $params['linkWidget']['url'] ?? '';
+        $params['title'] = $params['title'] ?? 'New link'; // TODO: i18n
+        $params['linkWidget']['protocol'] = $params['linkWidget']['protocol'] ?? '';
+        $params['linkWidget']['url'] = $params['linkWidget']['url'] ?? '';
     }
 
     /**
@@ -45,14 +45,15 @@ class UtilsLinkMajor1Minor3
      *
      * @return string URL.
      */
-    public static function getUrl($linkWidget = []) {
-      $url = '';
-      if ($linkWidget['protocol'] !== 'other') {
-        $url .= $linkWidget['protocol'];
-      }
-      $url .= $linkWidget['url'] ?? '';
+    public static function getUrl($linkWidget = [])
+    {
+        $url = '';
+        if ($linkWidget['protocol'] !== 'other') {
+            $url .= $linkWidget['protocol'];
+        }
+        $url .= $linkWidget['url'] ?? '';
 
-      return $url;
+        return $url;
     }
 
     /**

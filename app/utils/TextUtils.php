@@ -58,14 +58,14 @@ class TextUtils
         $string = preg_replace('/<em>(.*?)<\/em>/', '*$1*', $string);
 
         // Replace <ul><li> tags with Markdown unordered list syntax
-        $string = preg_replace_callback('/<ul>(.*?)<\/ul>/', function($matches) {
+        $string = preg_replace_callback('/<ul>(.*?)<\/ul>/', function ($matches) {
             $listItems = preg_replace('/<li>(.*?)<\/li>/', "- $1\n", $matches[1]);
             return $listItems;
         }, $string);
 
         // Replace <ol><li> tags with Markdown ordered list syntax
-        $string = preg_replace_callback('/<ol>(.*?)<\/ol>/', function($matches) {
-            $listItems = preg_replace_callback('/<li>(.*?)<\/li>/', function($matches) {
+        $string = preg_replace_callback('/<ol>(.*?)<\/ol>/', function ($matches) {
+            $listItems = preg_replace_callback('/<li>(.*?)<\/li>/', function ($matches) {
                 static $counter = 1;
                 return "{$counter}. {$matches[1]}\n";
             }, $matches[1]);

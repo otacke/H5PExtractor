@@ -94,16 +94,14 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
 
             list($width, $height) = getimagesize($imagePath);
             $styleProps[] = 'aspect-ratio: ' . $width . '/' . $height;
-        }
-        else {
+        } else {
             $styleProps[] = 'aspect-ratio: 2';
         }
 
         $container .= '<div class="h5p-inner" style="' . implode('; ', $styleProps)  . '">';
 
         // Draggables
-        foreach($task['elements'] ?? [] as $draggable) {
-
+        foreach ($task['elements'] ?? [] as $draggable) {
             $innerContainer = '<div';
 
             $innerContainerStyleProps = [
@@ -118,8 +116,7 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
                 $innerContainer .= ' class="h5p-static h5pClassName"';
                 $innerContainerStyleProps[] =
                     'background-color: rgb(255, 255, 255)';
-            }
-            else {
+            } else {
                 $innerContainer .=
                     ' class="h5p-draggable ui-draggable' .
                     ' ui-draggable-handle h5pClassName"';
@@ -144,7 +141,7 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
         }
 
         // Dropzones
-        foreach($task['dropZones'] ?? [] as $dropzone) {
+        foreach ($task['dropZones'] ?? [] as $dropzone) {
             if ($dropzone['showLabel']) {
                 $labelDivStyleProps = [
                     'background-color: rgba(221, 221, 221, ' .
@@ -157,8 +154,7 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
                     ' class="h5p-label"' .
                     ' style="' . implode('; ', $labelDivStyleProps) . '"' .
                     '>' . $dropzone['label'] . '</div>';
-            }
-            else {
+            } else {
                 $labelDiv = null;
             }
 
