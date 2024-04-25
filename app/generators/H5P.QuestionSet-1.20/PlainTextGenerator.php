@@ -45,22 +45,25 @@ class PlainTextGeneratorQuestionSetMajor1Minor20 extends Generator implements Ge
      */
     public function attach(&$container)
     {
+        $output = '';
+
         if ($this->params['introPage']['showIntroPage']) {
-            $container .= $this->buildIntro($container);
-            $container .= "\n\n";
+            $output .= $this->buildIntro($container);
+            $output .= "\n\n";
         }
 
         // This diverges from the original view of H5P.Question, because we
         // want to display all questions at once.
+        $index = 0;
         foreach($this->params['questions'] as $question) {
-            $container .= $this->buildSlide($originalContainer, $question, $index);
+            $output .= $this->buildSlide($container, $question, $index);
             if ($index < count($this->params['questions']) - 1) {
-                $container .= "\n\n" . '---' . "\n\n";
+                $output .= "\n\n" . '---' . "\n\n";
             }
             $index++;
         }
 
-        $container = trim($container);
+        $container = trim($output);
     }
 
     /**

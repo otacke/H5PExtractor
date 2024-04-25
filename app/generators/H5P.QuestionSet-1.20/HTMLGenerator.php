@@ -117,6 +117,7 @@ class HtmlGeneratorQuestionSetMajor1Minor20 extends Generator implements Generat
         $intro = preg_replace('/\s*style="[^"]*"/i', '', $intro);
         $introClosing = TextUtils::getClosingTag($intro);
 
+        $styleProps = [];
         if (isset($this->params['introPage']['backgroundImage']['path'])) {
             $imagePath = $this->main->h5pFileHandler->getBaseDirectory() . '/' .
             $this->main->h5pFileHandler->getFilesDirectory() . '/' .
