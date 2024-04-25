@@ -67,7 +67,7 @@ class PlainTextGeneratorAccordionMajor1Minor0 extends Generator implements Gener
                     ]
                 );
 
-                $container .= $innerContainer;
+                $container .= $innerContainer . "\n";
             }
         }
 

@@ -54,6 +54,22 @@ class HtmlGeneratorAccordionMajor1Minor0 extends Generator implements GeneratorI
          */
         $container = str_replace('h5pClassName', 'h5p-accordion', $container);
 
+        /*
+         * This is a workaround. There seem to be old versions of Accordion
+         * around (1.0.24) that uses a different DOM arrangement. However, the
+         * latest is 1.0.34 and we cannot distinguish down to the patch version.
+         * This style doesn' hurt the latest version, but it's not needed. It's
+         * only to also make older versions look like the latest - but should
+         * not be here. TODO: Find a better way.
+         */
+        $container .= '<style>';
+        $container .= '.h5p-accordion .h5p-panel-button {width: 100%;height: 100%;display: inline-flex;padding: 0.8em 0.8em 0.8em 2.25em;background: none;color: inherit;border: none;font: inherit;cursor: pointer;outline: none;text-align: left;}';
+        $container .= '.h5p-accordion .h5p-panel-title:before {content: "";}';
+        $container .= '.h5p-accordion .h5p-panel-title {padding: 0;}';
+        $container .= '.h5p-accordion .h5p-panel-expanded .h5p-panel-button:before {-webkit-transform: rotate(90deg);transform: rotate(90deg);}';
+        $container .= '.h5p-accordion .h5p-panel-button:before {font-family: h5pfontawesome4;content: "\f105";position: absolute;left: 0.95em;-webkit-transition: all 200ms ease 0s;-moz-transition: all 200ms ease 0s;transition: all 200ms ease 0s;}';
+        $container .= '</style>';
+
         // Actual content
         $randomId = uniqid();
 
