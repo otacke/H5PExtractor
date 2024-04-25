@@ -54,7 +54,7 @@ class HtmlGeneratorTrueFalseMajor1Minor8 extends Generator implements GeneratorI
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $container = str_replace('h5pClassName', 'h5p-true-false', $container);
+        $container = str_replace('h5pClassName', 'h5p-question h5p-true-false', $container);
 
         if (isset($this->params['media']['type'])) {
             $container .= $this->main->renderH5PQuestionMedia(

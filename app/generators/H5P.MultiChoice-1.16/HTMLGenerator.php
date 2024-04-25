@@ -54,7 +54,7 @@ class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements Generat
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $container = str_replace('h5pClassName', 'h5p-multichoice', $container);
+        $container = str_replace('h5pClassName', 'h5p-question h5p-multichoice', $container);
 
         if ($this->params['behaviour']['randomAnswers']) {
             shuffle($this->params['answers']);
@@ -105,11 +105,9 @@ class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements Generat
             $container .= '</li>';
         }
 
-        $container .= '<ul>';
-        $container .= '</div>';
+        $container .= '</ul>';
+        $container .= '</div>'; // h5p-question-content
 
-        $container .= '</div>';
-
-        $container .= $htmlClosing;
+        $container .= $htmlClosing; // container
     }
 }

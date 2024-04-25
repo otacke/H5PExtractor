@@ -98,7 +98,8 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
             $styleProps[] = 'aspect-ratio: 2';
         }
 
-        $container .= '<div class="h5p-inner" style="' . implode('; ', $styleProps)  . '">';
+        $container .=
+            '<div class="h5p-inner" style="' . implode('; ', $styleProps)  . '">';
 
         // Draggables
         foreach ($task['elements'] ?? [] as $draggable) {

@@ -124,7 +124,7 @@ class HtmlGeneratorMarkTheWordsMajor1Minor11 extends Generator implements Genera
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $container = str_replace('h5pClassName', 'h5p-mark-the-words', $container);
+        $container = str_replace('h5pClassName', 'h5p-question h5p-mark-the-words', $container);
 
         if (isset($this->params['media']['type'])) {
             $container .= $this->main->renderH5PQuestionMedia(

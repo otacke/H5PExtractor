@@ -54,7 +54,7 @@ class HtmlGeneratorEssayMajor1Minor5 extends Generator implements GeneratorInter
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $container = str_replace('h5pClassName', 'h5p-essay', $container);
+        $container = str_replace('h5pClassName', 'h5p-question h5p-essay', $container);
 
         if (isset($this->params['media']['type'])) {
             $container .= $this->main->renderH5PQuestionMedia(
