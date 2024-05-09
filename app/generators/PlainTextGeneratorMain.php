@@ -241,6 +241,8 @@ class PlainTextGeneratorMain
             );
             $text .= $container;
         }
+
+        $text .= "\n";
         return $text;
     }
 }
