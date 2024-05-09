@@ -65,36 +65,30 @@ class PlainTextGeneratorMarkTheWordsMajor1Minor11 extends Generator implements G
      */
     private function interpretText($input)
     {
-        // Remove asterisks as required
-        $pattern = '/\*(\w+\**)\*/';
-        $callback = function ($matches) {
-            return str_replace('**', '*', $matches[1]);
+        $input = strip_tags($input);
+
+        // Define the regular expression pattern for matching content between asterisks
+        $pattern = '/\*+(.*?)\*+/';
+
+        // Define a callback function to process matches
+        $callback = function($matches) {
+            $content = $matches[1]; // Get the content between asterisks
+            $content = str_replace('***', '*', $content); // Replace consecutive asterisks with a single asterisk
+
+            // Check if the content is empty or contains only whitespace
+            if (trim($content) === '') {
+                // Content is empty or whitespace, wrap asterisks in <span role="option">
+                return $matches[0];
+            } else {
+                // Content is not empty, wrap it in <span role="option">
+                return $content;
+            }
         };
+
+        // Use preg_replace_callback to apply the callback function to each match
         $output = preg_replace_callback($pattern, $callback, $input);
 
-        $output = htmlspecialchars_decode($output);
-
-        $nbsp_before = uniqid();
-        $nbsp_after = uniqid();
-
-        // Sandwich each word with non-breaking spaces, keep HTML tags together
-        $pattern = '/(?:<[^>]+>)|(\b(?:\w+|-|–)+\**\b)/';
-        $callback = function ($matches) use ($nbsp_before, $nbsp_after) {
-            $match = $matches[1] ?? $matches[0];
-            return $nbsp_before . $match . $nbsp_after;
-        };
-        $output = preg_replace_callback($pattern, $callback, $output);
-
-        // Asterisks that were inside asterisks may belong to the word
-        $output = str_replace('*' . $nbsp_before, $nbsp_before . '*', $output);
-        $output = str_replace($nbsp_after . '*', '*' .$nbsp_after, $output);
-
-        // Remove gaps in between tags
-        $output = str_replace('>' . $nbsp_after . $nbsp_before, '>', $output);
-        $output = str_replace($nbsp_after . $nbsp_before . '<', '<', $output);
-
-        $output = str_replace($nbsp_before, "\u{00A0}", $output);
-        $output = str_replace($nbsp_after, "\u{00A0}", $output);
+        $output = html_entity_decode($output);
 
         return $output;
     }
@@ -115,6 +109,7 @@ class PlainTextGeneratorMarkTheWordsMajor1Minor11 extends Generator implements G
         }
 
         $container .= TextUtils::htmlToText(($this->params['taskDescription'] ?? ''));
+        $container .= "\n";
 
         $textField = $this->params['textField'] ?? '';
         $lines = $this->getLinesContent($textField);

@@ -67,41 +67,30 @@ class HtmlGeneratorMarkTheWordsMajor1Minor11 extends Generator implements Genera
     {
         $output = str_replace('<br>', "\n\n", $input);
 
-        // Remove asterisks as required
-        $pattern = '/\*(\w+\**)\*/';
-        $callback = function ($matches) {
-            return str_replace('**', '*', $matches[1]);
+        // Define the regular expression pattern for matching content between asterisks
+        $pattern = '/\*+(.*?)\*+/';
+
+        // Define a callback function to process matches
+        $callback = function($matches) {
+            $content = $matches[1]; // Get the content between asterisks
+            $content = str_replace('***', '*', $content); // Replace consecutive asterisks with a single asterisk
+
+            // Check if the content is empty or contains only whitespace
+            if (trim($content) === '') {
+                // Content is empty or whitespace, wrap asterisks in <span role="option">
+                return '<span role="option">' . $matches[0] . '</span>';
+            } else {
+                // Content is not empty, wrap it in <span role="option">
+                return '<span role="option">' . $content . '</span>';
+            }
         };
-        $output = preg_replace_callback($pattern, $callback, $output);
 
-        $output = htmlspecialchars_decode($output);
-
-        // Sandwich each word with span, but keep HTML tags
-        $pattern = '/(?:<[^>]+>)|(\b(?:\w+|-|–)+\b)/';
-        $callback = function ($matches) {
-            $match = $matches[1] ?? htmlspecialchars($matches[0]);
-            return '<span role="option">' . $match . "</span>";
-        };
-
-        $output = preg_replace_callback($pattern, $callback, $output);
-
-        // Asterisks that were inside asterisks may belong to the word
-        $output = str_replace(
-            '</span>*',
-            '*</span>',
-            $output
-        );
-        $output = str_replace(
-            '*<span role="option">',
-            '<span role="option">*',
-            $output
-        );
-
-        // Remove gaps in between tags
-        $output = str_replace('&gt;</span><span role="option">', '&gt;', $output);
-        $output = str_replace('</span><span role="option">&lt;', '&lt;', $output);
+        // Use preg_replace_callback to apply the callback function to each match
+        $output = preg_replace_callback($pattern, $callback, $input);
 
         $output = str_replace("\n\n", '<br>', $output);
+
+        error_log('After: ' . $output);
 
         return $output;
     }
