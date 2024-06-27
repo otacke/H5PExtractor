@@ -103,6 +103,8 @@ class HtmlGeneratorQuestionSetMajor1Minor20 extends Generator implements Generat
             }
             $index++;
         }
+
+        $container .= $htmlClosing;
     }
 
     /**

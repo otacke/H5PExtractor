@@ -47,10 +47,7 @@ class HtmlGeneratorDragTextMajor1Minor10 extends Generator implements GeneratorI
     {
         include_once __DIR__ . '/Utils.php';
 
-        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $container, $matches);
-        $tag_name = isset($matches[1]) ? $matches[1] : '';
-
-        $htmlClosing = ($tag_name) ? '</' . $tag_name . '>' : '</div>';
+        $htmlClosing = TextUtils::getClosingTag($container);
 
         /* In theory, one could derive this automatically and do in the parent,
          * but content types may not follow the common schema to define the main

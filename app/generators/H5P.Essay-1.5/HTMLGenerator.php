@@ -45,10 +45,7 @@ class HtmlGeneratorEssayMajor1Minor5 extends Generator implements GeneratorInter
      */
     public function attach(&$container)
     {
-        preg_match('/<([a-zA-Z]+)(?:\s+[^>]*)?>/', $container, $matches);
-        $tag_name = isset($matches[1]) ? $matches[1] : '';
-
-        $htmlClosing = ($tag_name) ? '</' . $tag_name . '>' : '</div>';
+        $htmlClosing = TextUtils::getClosingTag($container);
 
         /* In theory, one could derive this automatically and do in the parent,
          * but content types may not follow the common schema to define the main
