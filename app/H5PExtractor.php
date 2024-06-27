@@ -24,6 +24,8 @@ namespace H5PExtractor;
  */
 class H5PExtractor
 {
+    private $config;
+
     /**
      * Constructor.
      *

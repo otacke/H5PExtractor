@@ -24,6 +24,8 @@ namespace H5PExtractor;
  */
 class PlainTextGeneratorColumnMajor1Minor16 extends Generator implements GeneratorInterface
 {
+    private $previousHasMargin = false;
+
     /**
      * Constructor.
      *

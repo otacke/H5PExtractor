@@ -24,6 +24,9 @@ namespace H5PExtractor;
  */
 class HtmlGeneratorMain
 {
+    private $h5pFileHandler;
+    private $renderWidth;
+
     /**
      * The H5P file handler.
      *

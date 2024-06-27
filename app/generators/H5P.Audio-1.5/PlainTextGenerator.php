@@ -47,8 +47,6 @@ class PlainTextGeneratorAudioMajor1Minor5 extends Generator implements Generator
     {
         $metadata = $this->extras['metadata'];
 
-        $container = $params['container'];
-
         $title = '';
         if (!empty($metadata['a11yTitle'])) {
             $title .= ': ' . $metadata['a11yTitle'];

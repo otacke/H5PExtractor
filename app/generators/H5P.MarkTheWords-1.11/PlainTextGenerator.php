@@ -71,7 +71,7 @@ class PlainTextGeneratorMarkTheWordsMajor1Minor11 extends Generator implements G
         $pattern = '/\*+(.*?)\*+/';
 
         // Define a callback function to process matches
-        $callback = function($matches) {
+        $callback = function ($matches) {
             $content = $matches[1]; // Get the content between asterisks
             $content = str_replace('***', '*', $content); // Replace consecutive asterisks with a single asterisk
 

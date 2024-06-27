@@ -24,6 +24,10 @@ namespace H5PExtractor;
  */
 class H5PFileHandler
 {
+    private $baseDirectory;
+    private $filesDirectory;
+    private $h5pInfo;
+
     /**
      * Constructor.
      *

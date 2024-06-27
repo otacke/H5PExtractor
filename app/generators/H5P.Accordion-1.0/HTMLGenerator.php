@@ -60,11 +60,20 @@ class HtmlGeneratorAccordionMajor1Minor0 extends Generator implements GeneratorI
          * not be here. TODO: Find a better way.
          */
         $container .= '<style>';
-        $container .= '.h5p-accordion .h5p-panel-button {width: 100%;height: 100%;display: inline-flex;padding: 0.8em 0.8em 0.8em 2.25em;background: none;color: inherit;border: none;font: inherit;cursor: pointer;outline: none;text-align: left;}';
+        $container .= '.h5p-accordion .h5p-panel-button {' .
+            'width: 100%; height: 100%; display: inline-flex;' .
+            ' padding: 0.8em 0.8em 0.8em 2.25em; background: none;' .
+            ' color: inherit; border: none; font: inherit;' .
+            ' cursor: pointer;outline: none;text-align: left;}';
         $container .= '.h5p-accordion .h5p-panel-title:before {content: "";}';
         $container .= '.h5p-accordion .h5p-panel-title {padding: 0;}';
-        $container .= '.h5p-accordion .h5p-panel-expanded .h5p-panel-button:before {-webkit-transform: rotate(90deg);transform: rotate(90deg);}';
-        $container .= '.h5p-accordion .h5p-panel-button:before {font-family: h5pfontawesome4;content: "\f105";position: absolute;left: 0.95em;-webkit-transition: all 200ms ease 0s;-moz-transition: all 200ms ease 0s;transition: all 200ms ease 0s;}';
+        $container .= '.h5p-accordion .h5p-panel-expanded .h5p-panel-button:before ' .
+            '{-webkit-transform: rotate(90deg);transform: rotate(90deg);}';
+        $container .= '.h5p-accordion .h5p-panel-button:before' .
+            '{font-family: h5pfontawesome4; content: "\f105";' .
+            'position: absolute; left: 0.95em;' .
+            ' -webkit-transition: all 200ms ease 0s;' .
+            ' -moz-transition: all 200ms ease 0s;transition: all 200ms ease 0s;}';
         $container .= '</style>';
 
         // Actual content

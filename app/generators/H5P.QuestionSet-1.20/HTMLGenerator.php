@@ -96,7 +96,7 @@ class HtmlGeneratorQuestionSetMajor1Minor20 extends Generator implements Generat
 
         // This diverges from the original view of H5P.Question, because we
         // want to display all questions at once.
-        foreach($this->params['questions'] as $question) {
+        foreach ($this->params['questions'] as $question) {
             $container .= $this->buildSlide($originalContainer, $question, $index);
             if ($index < count($this->params['questions']) - 1) {
                 $container .= '<div style="height: 1rem;"></div>';
@@ -166,7 +166,8 @@ class HtmlGeneratorQuestionSetMajor1Minor20 extends Generator implements Generat
      *
      * @return string The slide with the question.
      */
-    private function buildSlide($slide, $question, $index) {
+    private function buildSlide($slide, $question, $index)
+    {
         $slideClosing = TextUtils::getClosingTag($slide);
 
         $questionContainer = '<div class="h5p-question-container h5pClassName">';
@@ -197,7 +198,8 @@ class HtmlGeneratorQuestionSetMajor1Minor20 extends Generator implements Generat
      *
      * @return string The footer.
      */
-    private function buildFooter($index) {
+    private function buildFooter($index)
+    {
         $footer = '<div class ="qs-footer">';
         $footer .= '<div class="qs-progress">';
 
@@ -212,8 +214,7 @@ class HtmlGeneratorQuestionSetMajor1Minor20 extends Generator implements Generat
                 $footer .= '</li>';
             }
             $footer .= '</ul>';
-        }
-        else if ($this->params['progressType'] === 'textual'){
+        } elseif ($this->params['progressType'] === 'textual') {
             $progressText = $this->params['texts']['textualProgress'];
             $progressText = str_replace(
                 '@current',

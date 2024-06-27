@@ -55,7 +55,7 @@ class PlainTextGeneratorQuestionSetMajor1Minor20 extends Generator implements Ge
         // This diverges from the original view of H5P.Question, because we
         // want to display all questions at once.
         $index = 0;
-        foreach($this->params['questions'] as $question) {
+        foreach ($this->params['questions'] as $question) {
             $output .= $this->buildSlide($container, $question, $index);
             if ($index < count($this->params['questions']) - 1) {
                 $output .= "\n\n" . '---' . "\n\n";
@@ -95,7 +95,8 @@ class PlainTextGeneratorQuestionSetMajor1Minor20 extends Generator implements Ge
      *
      * @return string The slide with the question.
      */
-    private function buildSlide($slide, $question, $index) {
+    private function buildSlide($slide, $question, $index)
+    {
         $slide .= $this->buildFooter($index);
 
         $slide .= "\n\n";
@@ -126,7 +127,8 @@ class PlainTextGeneratorQuestionSetMajor1Minor20 extends Generator implements Ge
      *
      * @return string The footer.
      */
-    private function buildFooter($index) {
+    private function buildFooter($index)
+    {
         $progressText = $this->params['texts']['textualProgress'];
         $progressText = str_replace(
             '@current',

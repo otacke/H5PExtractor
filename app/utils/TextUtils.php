@@ -95,8 +95,8 @@ class TextUtils
 
         if ($tag_name) {
             return '</' . $tag_name . '>';
+        } else {
+            return '';
         }
-
-        else return '';
     }
 }
