@@ -40,8 +40,13 @@ class CSSUtils
         $css = preg_replace_callback(
             $pattern,
             function ($matches) use ($basePath) {
+                $trimmed = trim($matches[0], '\'"');
+                if (strpos($trimmed, 'data:') === 0) {
+                    return $trimmed; // Already base64 encoded
+                }
+
                 return FileUtils::fileToBase64(
-                    $basePath . '/' . trim($matches[0], '\'"')
+                    $basePath . '/' . $trimmed
                 );
             },
             $css
