@@ -52,12 +52,10 @@ class H5PFileHandler
             throw new \Exception($error->getMessage());
         }
 
-        $softDependencies =
-            $this->getLibrariesFromSemantics($this->getH5PContentParams());
-        $hardDependencies = $this->h5pInfo['preloadedDependencies'];
-
-        $this->h5pInfo['preloadedDependencies'] =
-            array_merge($softDependencies, $hardDependencies);
+        $this->h5pInfo['preloadedDependencies'] = array_merge(
+            $this->getLibrariesFromSemantics($this->getH5PContentParams()), // soft dependencies
+            $this->h5pInfo['preloadedDependencies'], // hard dependencies
+        );
 
         for ($i = 0; $i < count($this->h5pInfo['preloadedDependencies']); $i++) {
             if (isset($this->h5pInfo['majorVersion'])) {
@@ -399,6 +397,24 @@ class H5PFileHandler
         if ($jsonData === null) {
             throw new \Exception('Error decoding h5p.json file.');
         }
+
+        // Ensure that the content types stylesheet is loaded last
+        $mainLibrary = $jsonData['mainLibrary'];
+        $preloadedDependencies = $jsonData['preloadedDependencies'];
+        foreach ($preloadedDependencies as $key => $dependency) {
+            if ($dependency['machineName'] === $mainLibrary) {
+                // Remove the item from the current position
+                $item = $preloadedDependencies[$key];
+                unset($preloadedDependencies[$key]);
+
+                $preloadedDependencies[] = $item;
+
+                break;
+            }
+        }
+
+        // Reindex the array to fix any gaps in the keys
+        $jsonData['preloadedDependencies'] = array_values($preloadedDependencies);
 
         return $jsonData;
     }
