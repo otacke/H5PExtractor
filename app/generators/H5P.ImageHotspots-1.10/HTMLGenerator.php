@@ -99,6 +99,9 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
 
         $defaultFontSize = 24;
 
+        $this->params['iconType'] = $this->params['iconType'] ?? 'icon';
+        $this->params['icon'] = $this->params['icon'] ?? 'plus';
+
         $color = $this->params['color'] ?? '#981d99';
         $iconClass = $this->params['iconType'] === 'icon' ?
             ' h5p-image-hotspot-' . $this->params['icon'] :
@@ -170,7 +173,6 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
                 '';
 
             $focusStyle = $index === $i ? ' transform: scale(1.5);' : '';
-
             if ($this->params['iconType'] === 'icon') {
                 $container .=
                 '<button class="h5p-image-hotspot' . $params['iconClass'] . $positioning . '" ' .
@@ -270,7 +272,7 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
                     $subcontentContainer,
                     false,
                     [
-                        'metadata' => $content['metadata'],
+                        'metadata' => $content['metadata'] ?? [],
                     ]
                 );
                 $container .= $subcontentContainer;
