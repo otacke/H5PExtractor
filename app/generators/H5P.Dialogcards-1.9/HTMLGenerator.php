@@ -74,7 +74,8 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
                 $this->params['dialogs'][$index]
             );
             $container .= self::buildFooter(
-                $index + 1, count($this->params['dialogs'])
+                $index + 1,
+                count($this->params['dialogs'])
             );
             if ($index + 1 !== $cardsCount) {
                 $container .= '<span>&nbsp;</span>';
@@ -87,10 +88,15 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
         $container .= $htmlClosing;
     }
 
-    private function buildCardWrapSet($dialog) {
+    private function buildCardWrapSet($dialog)
+    {
         // Cardwrap-Set
         $set  = '<div class="h5p-dialogcards-cardwrap-set" style="height: 29em;">'; // TODO: Compute height dynamically
-        $set .= '<div class="h5p-dialogcards-cardwrap h5p-dialogcards-mode-normal h5p-dialogcards-current" style="height: inherit">';
+        $set .=
+            '<div ' .
+                'class="h5p-dialogcards-cardwrap h5p-dialogcards-mode-normal h5p-dialogcards-current" ' .
+                'style="height: inherit"' .
+                '>';
 
         // Custom wrapper to display to cards side by side
         $set .= '<div style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1rem;">';
@@ -132,7 +138,8 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
      *
      * @return string The HTML for the footer.
      */
-    private function buildFooter($current, $total) {
+    private function buildFooter($current, $total)
+    {
         $footer =  '<nav class="h5p-dialogcards-footer">';
         $footer .= '<div class="h5p-dialogcards-progress">';
 
@@ -160,7 +167,7 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
         $cardholder .= '<div class="h5p-dialogcards-card-content">';
 
         // Image
-        $cardholder .= '<div class="h5p-dialogcards-image-wrapper" style="height: 15em;">'; // TODO: Compute height dynamically
+        $cardholder .= '<div class="h5p-dialogcards-image-wrapper" style="height: 15em;">';
         if (isset($params['image'])) {
             $cardholder .= '<img class="h5p-dialogcards-image" src="' . $params['image'] . '"/>';
         }

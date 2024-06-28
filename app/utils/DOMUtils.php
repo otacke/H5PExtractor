@@ -35,28 +35,27 @@ class DOMUtils
    * @param float $averageCharWidthEm The average width of a character in em units.
    * @param float $lineHeight The line height in em units.
    */
-  public static function estimateFittingFontSize(
-    $text,
-    $textAreaWidth,
-    $textAreaHeight,
-    $minFontSize = 0,
-    $maxFontSize = 16,
-    $averageCharWidthEm = 0.5,
-    $lineHeight = 1.5
-  )
-  {
-    /*
-     * Just solving an equation:
-     * absolute width of text = charCount of text * fontSize * averageCharWidthEm
-     * number of lines required = absolute height of text / $textAreaWidth * $lineHeight
-     * height in pixels required = number of lines required * fontSize
-     * Solve for fontSize
-     */
-    $estimatedFontSizeThreshold = sqrt(
-      $textAreaHeight * $textAreaWidth /
-      (strlen($text) * $averageCharWidthEm * $lineHeight)
-    );
+    public static function estimateFittingFontSize(
+        $text,
+        $textAreaWidth,
+        $textAreaHeight,
+        $minFontSize = 0,
+        $maxFontSize = 16,
+        $averageCharWidthEm = 0.5,
+        $lineHeight = 1.5
+    ) {
+      /*
+       * Just solving an equation:
+       * absolute width of text = charCount of text * fontSize * averageCharWidthEm
+       * number of lines required = absolute height of text / $textAreaWidth * $lineHeight
+       * height in pixels required = number of lines required * fontSize
+       * Solve for fontSize
+       */
+        $estimatedFontSizeThreshold = sqrt(
+            $textAreaHeight * $textAreaWidth /
+            (strlen($text) * $averageCharWidthEm * $lineHeight)
+        );
 
-    return max($minFontSize, min($estimatedFontSizeThreshold, $maxFontSize));
-  }
+        return max($minFontSize, min($estimatedFontSizeThreshold, $maxFontSize));
+    }
 }
