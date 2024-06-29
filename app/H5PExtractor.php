@@ -137,14 +137,16 @@ class H5PExtractor
             case 'html':
                 $generator = new HtmlGeneratorMain(
                     $h5pFileHandler,
-                    $this->config['renderWidth']
+                    $this->config['renderWidth'],
+                    $this->config['renderMode']
                 );
                 break;
 
             case 'text':
                 $generator = new PlainTextGeneratorMain(
                     $h5pFileHandler,
-                    $this->config['renderWidth']
+                    $this->config['renderWidth'],
+                    $this->config['renderMode']
                 );
                 break;
 
