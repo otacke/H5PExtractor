@@ -43,6 +43,10 @@ class H5PExtractor
             $config['renderWidth'] = 1024;
         }
 
+        if (!isset($config['renderMode'])) {
+            $config['renderMode'] = 'all';
+        }
+
         $this->config = $config;
     }
 

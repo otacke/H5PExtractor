@@ -26,6 +26,7 @@ class HtmlGeneratorMain
 {
     public $h5pFileHandler;
     public $renderWidth;
+    public $renderMode;
 
     /**
      * The H5P file handler.
@@ -33,10 +34,14 @@ class HtmlGeneratorMain
      * @param H5PFileHandler $h5pFileHandler The H5P file handler.
      * @param int            $renderWidth    The render width.
      */
-    public function __construct($h5pFileHandler, $renderWidth = 1024)
-    {
+    public function __construct(
+        $h5pFileHandler,
+        $renderWidth = 1024,
+        $renderMode = 'all'
+    ) {
         $this->h5pFileHandler = $h5pFileHandler;
         $this->renderWidth = $renderWidth;
+        $this->renderMode = $renderMode;
     }
 
     /**

@@ -13,7 +13,9 @@ once actually needed.
    containing configuration items, e.g.:
    ```
    $config = [
-     'uploadsPath' => <path to be used for uploads relative to h5p-extractor>
+     'uploadsPath' => <path to be used for uploads relative to h5p-extractor : string>
+     'renderWidth' => <the assumed viewport width : number, default: 1024>
+     'renderMode' => <specific target as option : ['all'|'preview'], default: 'all'>
    ]
    ```
 
