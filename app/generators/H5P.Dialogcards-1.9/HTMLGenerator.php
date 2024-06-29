@@ -90,8 +90,16 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
 
     private function buildCardWrapSet($dialog)
     {
+        $imagePath = '';
+        if (isset($dialog['image']['path'])) {
+            $imagePath = $this->main->h5pFileHandler->getBaseDirectory() . '/' .
+                $this->main->h5pFileHandler->getFilesDirectory() . '/' .
+                'content' . '/' . $dialog['image']['path'];
+        }
+
         // Cardwrap-Set
-        $set  = '<div class="h5p-dialogcards-cardwrap-set" style="height: 29em;">'; // TODO: Compute height dynamically
+        $setHeight = $imagePath !== '' ? '29em' : '16em';
+        $set  = '<div class="h5p-dialogcards-cardwrap-set" style="height: ' . $setHeight . ';">';
         $set .=
             '<div ' .
                 'class="h5p-dialogcards-cardwrap h5p-dialogcards-mode-normal h5p-dialogcards-current" ' .
@@ -101,21 +109,18 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
         // Custom wrapper to display to cards side by side
         $set .= '<div style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1rem;">';
 
-        if (isset($dialog['image']['path'])) {
-            $imagePath = $this->main->h5pFileHandler->getBaseDirectory() . '/' .
-                $this->main->h5pFileHandler->getFilesDirectory() . '/' .
-                'content' . '/' . $dialog['image']['path'];
-        }
-
         $set .= self::buildCardholder([
             'image' => FileUtils::fileToBase64($imagePath),
-            'audio' => $dialog['audio'] ?? '',
-            'text' => $dialog['text'] ?? ''
+            'audio' => count($dialog['audio'] ?? []) > 0,
+            'text' => $dialog['text'] ?? '',
+            'side' => 'front'
         ]);
 
         $set .= self::buildCardholder([
             'image' => FileUtils::fileToBase64($imagePath),
-            'text' => $dialog['answer'] ?? ''
+            'audio' => count($dialog['audio'] ?? []) > 0,
+            'text' => $dialog['answer'] ?? '',
+            'side' => 'back'
         ]);
 
         // Closing custom wrapper
@@ -167,23 +172,30 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
         $cardholder .= '<div class="h5p-dialogcards-card-content">';
 
         // Image
-        $cardholder .= '<div class="h5p-dialogcards-image-wrapper" style="height: 15em;">';
-        if (isset($params['image'])) {
+        $wrapperHeight = ($params['image'] !== '') ? ' 15em' : 'auto';
+        $cardholder .= '<div class="h5p-dialogcards-image-wrapper" style="height: ' . $wrapperHeight . ';">';
+        if ($params['image'] !== '') {
             $cardholder .= '<img class="h5p-dialogcards-image" src="' . $params['image'] . '"/>';
         }
         $cardholder .= '</div>';
 
         // Text
         $cardholder .= '<div class="h5p-dialogcards-card-text-wrapper">';
-        $cardholder .= '<div class="h5p-dialogcards-card-text-inner">';
+        $textInnerHeightStyle = ($params['image'] !== '') ? '' : 'height: 12em;';
+        $cardholder .= '<div class="h5p-dialogcards-card-text-inner" style="' . $textInnerHeightStyle .'">';
 
         $cardholder .= '<div class="h5p-dialogcards-card-text-inner-content">';
-        $cardholder .= '<div class="h5p-dialogcards-audio-wrapper h5p-audio-wrapper">';
 
-        $hideAudioClass = ($params['audio'] ?? '') ? '' : ' hide';
-        $cardholder .= '<div class="h5p-audio-inner' . $hideAudioClass . '">';
+        // Audio
+        $hideAudioWrapperClass = $params['audio'] ? ''  : ' hide';
+        $cardholder .= '<div class="h5p-dialogcards-audio-wrapper h5p-audio-wrapper' . $hideAudioWrapperClass . '">';
+
+        $hideAudioInnerClass = $params['side'] === 'back' ? ' hide' : '';
+
+        $cardholder .= '<div class="h5p-audio-inner' . $hideAudioInnerClass . '">';
         $cardholder .= '<button class="h5p-audio-minimal-button h5p-audio-minimal-play"></button>';
         $cardholder .= '</div>';
+
         $cardholder .= '</div>';
         $cardholder .= '<div class="h5p-dialogcards-card-text">';
 
