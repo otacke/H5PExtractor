@@ -169,7 +169,7 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
             'font-size: ' . $params['defaultFontSize'] . 'px;' .
             '">';
 
-        if ($this->main->renderMode !== 'all' || $index === 0) {
+        if ($this->main->renderMode !== 'all' || $index === -1) {
             $container .= '<img ' .
             'src="' . $params['imageSrc'] . '" ' .
             'class="h5p-image-hotspots-image" ' .
@@ -281,12 +281,25 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
 
                 // Popup
                 $left = ($toTheLeft === true) ? '0%' : (100 - $popupWidth) . '%';
-                $container .= '<div class="h5p-image-hotspot-popup'
-                    . $classnamePopup . '" style="' .
-                    'left: ' . $left . '; ' .
-                    'width: ' . $popupWidth . '%; ' .
-                    'pointer-events: none;' .
-                    '">';
+                $top = $popupWidth === 100 ?
+                    0 :
+                    max(0, $overlayHotspot['position']['y']);
+                $transform = $popupWidth === 100 ?
+                    '' :
+                    'translateY(-50%)';
+
+                $container .=
+                    '<div ' .
+                        'class="h5p-image-hotspot-popup' . $classnamePopup . '" ' .
+                        'style="' .
+                            'height: auto; ' .
+                            'left: ' . $left . '; ' .
+                            'pointer-events: none; ' .
+                            'top: ' . $top . '%; ' .
+                            'transform: ' . $transform . '; ' .
+                            'width: ' . $popupWidth . '%;' .
+                        '"' .
+                    '>';
 
                 $classnameContent = !$hasHeader ?
                     'h5p-image-hotspot-popup-content-no-header' :
