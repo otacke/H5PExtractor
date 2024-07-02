@@ -44,7 +44,7 @@ class H5PExtractor
         }
 
         if (!isset($config['renderMode'])) {
-            $config['renderMode'] = 'all';
+            $config['renderMode'] = 'all'; // TODO: The meaning of this will change, probably 'all' vs. 'initial' and 'exact' vs. pragmatic', now "all pragmatic"
         }
 
         $this->config = $config;
