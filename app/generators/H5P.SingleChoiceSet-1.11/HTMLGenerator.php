@@ -14,7 +14,7 @@
 namespace H5PExtractor;
 
 /**
- * Class for generating HTML for H5P.MultipleChoice-1.16.
+ * Class for generating HTML for H5P.SingleChoiceSet-1.11.
  *
  * @category Tool
  * @package  H5PExtractor
