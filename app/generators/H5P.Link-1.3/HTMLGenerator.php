@@ -56,9 +56,7 @@ class HtmlGeneratorLinkMajor1Minor3 extends Generator implements GeneratorInterf
         $container = str_replace('h5pClassName', 'h5p-link', $container);
 
         $url = UtilsLinkMajor1Minor3::getUrl($this->params['linkWidget']);
-        error_log($url);
         $sanitizedUrl = UtilsLinkMajor1Minor3::sanitizeUrlProtocol($url);
-        error_log($sanitizedUrl);
 
         $container .= '<a href="' . $sanitizedUrl . '" target="_blank">' .
             $this->params['title'] .

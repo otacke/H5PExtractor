@@ -90,8 +90,6 @@ class HtmlGeneratorMarkTheWordsMajor1Minor11 extends Generator implements Genera
 
         $output = str_replace("\n\n", '<br>', $output);
 
-        error_log('After: ' . $output);
-
         return $output;
     }
 
