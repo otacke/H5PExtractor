@@ -46,4 +46,25 @@ class Generator
     {
         $this->libraryInfo = $libraryInfo;
     }
+
+    /**
+     * Get base64 encoded file content.
+     *
+     * @param string $contentPath Path to the file.
+     *
+     * @return string Base64 encoded file content.
+     */
+    public function fileToBase64($contentPath)
+    {
+        if (getType($contentPath) !== 'string') {
+            return '';
+        }
+
+        $fullPath =
+            $this->main->h5pFileHandler->getBaseDirectory() . '/' .
+            $this->main->h5pFileHandler->getFilesDirectory() . '/' .
+            'content' . '/' . $contentPath;
+
+        return FileUtils::fileToBase64($fullPath);
+    }
 }
