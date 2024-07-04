@@ -45,6 +45,16 @@ class HtmlGeneratorAgamottoMajor1Minor5 extends Generator implements GeneratorIn
      */
     public function attach(&$container)
     {
+        $this->params['items'] = $this->params['items'] ?? [];
+
+        $this->params['items'] = array_filter(
+            $this->params['items'],
+            function ($item) {
+                $path = $item['image']['params']['file']['path'] ?? null;
+                return !empty($path);
+            }
+        );
+
         $htmlClosing = TextUtils::getClosingTag($container);
 
         /* In theory, one could derive this automatically and do in the parent,
@@ -53,17 +63,21 @@ class HtmlGeneratorAgamottoMajor1Minor5 extends Generator implements GeneratorIn
          */
         $container = str_replace('h5pClassName', 'h5p-agamotto', $container);
 
-        $this->params['items'] = $this->params['items'] ?? [];
+        $container .= '<div class="h5p-question-content">';
+        $container .= '<div class="h5p-agamotto">';
 
         for ($i = 0; $i < count($this->params['items']); $i++) {
             $container .= $this->renderSlide([
-                'image' => $this->params['items'][$i]['params']['image'],
-                'labelText' => $this->params['items'][$i]['params']['itemText'],
-                'description' => $this->params['items'][$i]['params']['description'],
+                'image' => $this->params['items'][$i]['image'],
+                'labelText' => $this->params['items'][$i]['itemText'] ?? '',
+                'description' => $this->params['items'][$i]['description'] ?? '',
                 'index' => $i,
-                'total' => count($this->params['imageSlides']),
+                'total' => count($this->params['items']),
             ]);
         }
+
+        $container .= '</div>'; // Closing h5p-agamotto
+        $container .= '</div>'; // Closing h5p-question-content
 
         $container .= $htmlClosing;
     }
@@ -77,7 +91,35 @@ class HtmlGeneratorAgamottoMajor1Minor5 extends Generator implements GeneratorIn
      */
     private function renderSlide($params)
     {
-        $slide = '';
+        $imagePath = $this->main->h5pFileHandler->getBaseDirectory() . '/' .
+            $this->main->h5pFileHandler->getFilesDirectory() . '/' .
+            'content' . '/' . $params['image']['params']['file']['path'];
+
+        $bottomMarginStyle = ($params['index'] === $params['total'] - 1) ?
+            '' :
+            'margin-bottom: 2rem;';
+
+        $slide =
+            '<div ' .
+                'class="h5p-agamotto-wrapper"' .
+                'style="' . $bottomMarginStyle . '"' .
+            '>';
+
+        $slide .= '<div class="h5p-agamotto-images-container" style="line-height: 0;">';
+        $slide .=
+            '<img ' .
+                'src="' . FileUtils::fileToBase64($imagePath) . '"' .
+                'style="width: 100%;"' .
+            '/>';
+        $slide .= '</div>'; // Closing h5p-agamotto-images-container
+
+        $slide .= '<div class="h5p-agamotto-descriptions-container">';
+        $slide .= '<div>';
+        $slide .= $params['description'];
+        $slide .= '</div>';
+        $slide .= '</div>';
+        $slide .= '</div>'; // Closing h5p-agamotto-wrapper
+
         return $slide;
     }
 }
