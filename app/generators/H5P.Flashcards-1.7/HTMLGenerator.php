@@ -76,7 +76,7 @@ class HtmlGeneratorFlashcardsMajor1Minor7 extends Generator implements Generator
                 'style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1rem;"' .
             '>';
 
-        foreach($this->params['cards'] as $card) {
+        foreach ($this->params['cards'] as $card) {
             $container .= $this->renderCard($card);
         }
 
