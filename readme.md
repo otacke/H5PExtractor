@@ -15,7 +15,8 @@ once actually needed.
    $config = [
      'uploadsPath' => <path to be used for uploads relative to h5p-extractor : string>
      'renderWidth' => <the assumed viewport width : number, default: 1024>
-     'renderMode' => <specific target as option : ['all'|'preview'], default: 'all'>
+     'target' => <specific target as option : ['print|screen'], default: 'print'>
+     'scope' => <specific scope as option : ['all|initial'], default: 'all'>
    ]
    ```
 

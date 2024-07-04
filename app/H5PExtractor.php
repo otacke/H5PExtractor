@@ -30,6 +30,10 @@ class H5PExtractor
      * Constructor.
      *
      * @param array $config The configuration.
+     *                     uploadsPath (string): The path to the uploads directory.
+     *                     renderWidth (int): The width to render the content at in px.
+     *                     target (string): [print|screen]
+     *                     scope (string): [all|initial]
      */
     public function __construct($config = [])
     {
@@ -43,8 +47,12 @@ class H5PExtractor
             $config['renderWidth'] = 1024;
         }
 
-        if (!isset($config['renderMode'])) {
-            $config['renderMode'] = 'all'; // TODO: The meaning of this will change, probably 'all' vs. 'initial' and 'exact' vs. pragmatic', now "all pragmatic"
+        if (!isset($config['target'])) {
+            $config['target'] = 'print';
+        }
+
+        if (!isset($config['scope'])) {
+            $config['target'] = 'all';
         }
 
         $this->config = $config;
@@ -138,7 +146,8 @@ class H5PExtractor
                 $generator = new HtmlGeneratorMain(
                     $h5pFileHandler,
                     $this->config['renderWidth'],
-                    $this->config['renderMode']
+                    $this->config['target'],
+                    $this->config['scope']
                 );
                 break;
 
@@ -146,7 +155,8 @@ class H5PExtractor
                 $generator = new PlainTextGeneratorMain(
                     $h5pFileHandler,
                     $this->config['renderWidth'],
-                    $this->config['renderMode']
+                    $this->config['target'],
+                    $this->config['scope']
                 );
                 break;
 

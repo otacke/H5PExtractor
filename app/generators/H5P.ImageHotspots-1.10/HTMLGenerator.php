@@ -99,7 +99,7 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
 
         $defaultFontSize = 24;
 
-        if ($this->main->renderMode === 'all') {
+        if ($this->main->scope === 'all') {
             $this->params['iconType'] = 'numbers';
         }
         $this->params['iconType'] = $this->params['iconType'] ?? 'icon';
@@ -169,7 +169,7 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
             'font-size: ' . $params['defaultFontSize'] . 'px;' .
             '">';
 
-        if ($this->main->renderMode !== 'all' || $index === -1) {
+        if ($this->main->scope !== 'all' || $index === -1) {
             $container .= '<img ' .
             'src="' . $params['imageSrc'] . '" ' .
             'class="h5p-image-hotspots-image" ' .
@@ -233,7 +233,7 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
             }
         }
 
-        if ($this->main->renderMode !== 'all') {
+        if ($this->main->scope !== 'all') {
             $overlayHotspot = $index >= 0 ? $this->params['hotspots'][$index] : null;
             if (isset($overlayHotspot)) {
                 $width = $this->main->renderWidth;
@@ -430,7 +430,7 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
             }
         }
 
-        if ($this->main->renderMode !== 'all') {
+        if ($this->main->scope !== 'all') {
             // Closing h5p-image-hotspots-container
             $container .= '</div>';
         }

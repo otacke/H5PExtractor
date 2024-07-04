@@ -26,7 +26,8 @@ class HtmlGeneratorMain
 {
     public $h5pFileHandler;
     public $renderWidth;
-    public $renderMode;
+    public $target;
+    public $scope;
 
     /**
      * The H5P file handler.
@@ -37,11 +38,13 @@ class HtmlGeneratorMain
     public function __construct(
         $h5pFileHandler,
         $renderWidth = 1024,
-        $renderMode = 'all'
+        $target = 'print',
+        $scope = 'all'
     ) {
         $this->h5pFileHandler = $h5pFileHandler;
         $this->renderWidth = $renderWidth;
-        $this->renderMode = $renderMode;
+        $this->target = $target;
+        $this->scope = $scope;
     }
 
     /**
