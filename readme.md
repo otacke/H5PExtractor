@@ -63,3 +63,7 @@ about H5P core and H5P content types as a side product :-)
 ### TODO: Explain Structure
 ### TODO: Explain Generator
 ### TODO: Explain GeneratorInterface
+
+### Open issues:
+- Implement handling of target and scope where needed
+- Add option to display answers for questions
