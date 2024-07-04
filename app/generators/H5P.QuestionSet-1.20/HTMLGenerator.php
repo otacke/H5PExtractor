@@ -48,12 +48,8 @@ class HtmlGeneratorQuestionSetMajor1Minor20 extends Generator implements Generat
         $styleProps = ['overflow: hidden'];
 
         if (($this->params['backgroundImage']['path'] ?? '') !== '') {
-            $imagePath = $this->main->h5pFileHandler->getBaseDirectory() . '/' .
-            $this->main->h5pFileHandler->getFilesDirectory() . '/' .
-                'content' . '/' . $this->params['backgroundImage']['path'];
-
             $styleProps[] = 'background-image: url(' .
-                FileUtils::fileToBase64($imagePath) .
+                $this->fileToBase64($this->params['backgroundImage']['path']) .
             ')';
         }
 

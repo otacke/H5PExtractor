@@ -90,15 +90,8 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
 
     private function buildCardWrapSet($dialog)
     {
-        $imagePath = '';
-        if (isset($dialog['image']['path'])) {
-            $imagePath = $this->main->h5pFileHandler->getBaseDirectory() . '/' .
-                $this->main->h5pFileHandler->getFilesDirectory() . '/' .
-                'content' . '/' . $dialog['image']['path'];
-        }
-
         // Cardwrap-Set
-        $setHeight = $imagePath !== '' ? '29em' : '16em';
+        $setHeight = isset($dialog['image']['path']) ? '29em' : '16em';
         $set  = '<div class="h5p-dialogcards-cardwrap-set" style="height: ' . $setHeight . ';">';
         $set .=
             '<div ' .
@@ -110,14 +103,14 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
         $set .= '<div style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1rem;">';
 
         $set .= self::buildCardholder([
-            'image' => FileUtils::fileToBase64($imagePath),
+            'image' => $this->fileToBase64($dialog['image']['path']),
             'audio' => count($dialog['audio'] ?? []) > 0,
             'text' => $dialog['text'] ?? '',
             'side' => 'front'
         ]);
 
         $set .= self::buildCardholder([
-            'image' => FileUtils::fileToBase64($imagePath),
+            'image' => $this->fileToBase64($dialog['image']['path']),
             'audio' => count($dialog['audio'] ?? []) > 0,
             'text' => $dialog['answer'] ?? '',
             'side' => 'back'

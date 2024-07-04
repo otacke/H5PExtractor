@@ -87,15 +87,7 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
             }
         );
 
-        if (($this->params['image']['path'] ?? '') !== '') {
-            $imagePath = $this->main->h5pFileHandler->getBaseDirectory() . '/' .
-            $this->main->h5pFileHandler->getFilesDirectory() . '/' .
-                'content' . '/' . $this->params['image']['path'];
-
-            $imageSrc = FileUtils::fileToBase64($imagePath);
-        } else {
-            $imageSrc = '';
-        }
+        $imageSrc = $this->fileToBase64($this->params['image']['path']);
 
         $defaultFontSize = 24;
 
@@ -125,16 +117,8 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
         $containerTemplate = $container;
         $container = '';
 
-        if ($this->params['iconType'] === 'image' && isset($this->params['iconImage']['path'])) {
-            $imagePath = $this->main->h5pFileHandler->getBaseDirectory() . '/' .
-                $this->main->h5pFileHandler->getFilesDirectory() . '/' .
-                'content' . '/' . $this->params['iconImage']['path'];
-
-            $iconImage = FileUtils::fileToBase64(
-                $this->main->h5pFileHandler->getBaseDirectory() . '/' .
-                $this->main->h5pFileHandler->getFilesDirectory() . '/' .
-                'content' . '/' . $this->params['iconImage']['path']
-            );
+        if ($this->params['iconType'] === 'image') {
+            $iconImage = $this->fileToBase64($this->params['iconImage']['path'] ?? '');
         }
 
         for ($i = -1; $i < count($this->params['hotspots'] ?? []); $i++) {

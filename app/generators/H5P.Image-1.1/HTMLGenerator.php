@@ -53,13 +53,9 @@ class HtmlGeneratorImageMajor1Minor1 extends Generator implements GeneratorInter
          */
         $container = str_replace('h5pClassName', 'h5p-image', $container);
 
-        if (isset($this->params['file']['path'])) {
-            $imagePath = $this->main->h5pFileHandler->getBaseDirectory() . '/' .
-                $this->main->h5pFileHandler->getFilesDirectory() . '/' .
-                'content' . '/' . $this->params['file']['path'];
-        }
-
+        $image = $this->fileToBase64($this->params['file']['path'] ?? '');
         $alt = '';
+
         if (!empty($this->params['alt'])) {
             $alt = $this->params['alt'];
         } elseif (!empty($this->extras['metadata']['a11yTitle'])) {
@@ -72,8 +68,8 @@ class HtmlGeneratorImageMajor1Minor1 extends Generator implements GeneratorInter
         $container .= ' width="100%"';
         $container .= ' height="100%"';
 
-        if (isset($imagePath)) {
-            $container .= ' src="' . FileUtils::fileToBase64($imagePath) . '"';
+        if ($image !== '') {
+            $container .= ' src="' . $image . '"';
             $container .= ' alt="' . $alt .  '"';
         } else {
             $container .= ' class="h5p-placeholder"';

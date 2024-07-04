@@ -90,10 +90,6 @@ class HtmlGeneratorAgamottoMajor1Minor5 extends Generator implements GeneratorIn
      */
     private function renderSlide($params)
     {
-        $imagePath = $this->main->h5pFileHandler->getBaseDirectory() . '/' .
-            $this->main->h5pFileHandler->getFilesDirectory() . '/' .
-            'content' . '/' . $params['image']['params']['file']['path'];
-
         $bottomMarginStyle = ($params['index'] === $params['total'] - 1) ?
             '' :
             'margin-bottom: 2rem;';
@@ -107,7 +103,7 @@ class HtmlGeneratorAgamottoMajor1Minor5 extends Generator implements GeneratorIn
         $slide .= '<div class="h5p-agamotto-images-container" style="line-height: 0;">';
         $slide .=
             '<img ' .
-                'src="' . FileUtils::fileToBase64($imagePath) . '"' .
+                'src="' . $this->fileToBase64($params['image']['params']['file']['path']) . '"' .
                 'style="width: 100%;"' .
             '/>';
         $slide .= '</div>'; // Closing h5p-agamotto-images-container
