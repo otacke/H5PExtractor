@@ -58,7 +58,18 @@ class HtmlGeneratorFlashcardsMajor1Minor7 extends Generator implements Generator
          */
         $container = str_replace('h5pClassName', 'h5p-standalone h5p-flashcards', $container);
 
-        $container .= '<div class="h5p-description">' . $this->params['description'] . ' </div>';
+        if ($this->main->target === 'print') {
+            $container = str_replace('style=""', 'style="background-color: #ffffff;"', $container);
+            $descriptionStyle = 'color: inherit;';
+        }
+
+        $container .=
+            '<div ' .
+                'class="h5p-description"' .
+                'style="' . $descriptionStyle . '"' .
+            '>' .
+                $this->params['description'] .
+            ' </div>';
         $container .=
             '<div ' .
                 'class="h5p-inner"' .

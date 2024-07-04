@@ -170,7 +170,7 @@ class HtmlGeneratorQuestionSetMajor1Minor20 extends Generator implements Generat
     {
         $slideClosing = TextUtils::getClosingTag($slide);
 
-        $questionContainer = '<div class="h5p-question-container h5pClassName">';
+        $questionContainer = '<div class="h5p-question-container h5pClassName" style="">';
         $this->main->newRunnable(
             [
                 'library' => $question['library'],

@@ -52,7 +52,7 @@ class H5PExtractor
         }
 
         if (!isset($config['scope'])) {
-            $config['target'] = 'all';
+            $config['scope'] = 'all';
         }
 
         $this->config = $config;

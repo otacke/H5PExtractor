@@ -102,7 +102,7 @@ class HtmlGeneratorMain
                 $this->h5pFileHandler->getH5PInformation('minorVersion')
         ];
 
-        $container = '<div class="h5p-container h5pClassName">';
+        $container = '<div class="h5p-container h5pClassName" style="">';
 
         $this->newRunnable(
             $library,
@@ -326,7 +326,7 @@ class HtmlGeneratorMain
             $html .= '</div>';
             $html .= '</div>';
         } elseif ($machineName === 'H5P.Audio') {
-            $container = '<div class="h5p-question-audio h5pClassName">';
+            $container = '<div class="h5p-question-audio h5pClassName" style="">';
 
             $this->newRunnable(
                 [
@@ -343,7 +343,7 @@ class HtmlGeneratorMain
 
             $html = $container;
         } elseif ($machineName === 'H5P.Video') {
-            $container = '<div class="h5p-question-video h5pClassName">';
+            $container = '<div class="h5p-question-video h5pClassName" style="">';
 
             $this->newRunnable(
                 [

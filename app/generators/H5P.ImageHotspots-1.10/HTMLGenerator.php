@@ -315,7 +315,7 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
                 $container .= '<div class="h5p-image-hotspot-popup-body">';
 
                 foreach ($overlayHotspot['content'] as $content) {
-                    $subcontentContainer = '<div class="h5p-image-hotspot-popup-body-fraction h5pClassName">';
+                    $subcontentContainer = '<div class="h5p-image-hotspot-popup-body-fraction h5pClassName" style="">';
                     $this->main->newRunnable(
                         [
                             'library' => $content['library'],
@@ -408,7 +408,7 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
 
                 foreach ($overlayHotspot['content'] as $content) {
                     $subcontentContainer =
-                        '<div class="h5p-image-hotspot-popup-body-fraction h5pClassName">';
+                        '<div class="h5p-image-hotspot-popup-body-fraction h5pClassName" style="">';
 
                     $this->main->newRunnable(
                         [

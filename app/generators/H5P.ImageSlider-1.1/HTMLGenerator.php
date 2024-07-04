@@ -81,7 +81,7 @@ class HtmlGeneratorImageSliderMajor1Minor1 extends Generator implements Generato
 
         $holder .= '<div class="h5p-image-slider-slide-holder">';
 
-        $imageContainer = '<div class="h5p-image-slider-image-holder h5pClassName">';
+        $imageContainer = '<div class="h5p-image-slider-image-holder h5pClassName" style="">';
         $this->main->newRunnable(
             [
                 'library' => $params['image']['library'],

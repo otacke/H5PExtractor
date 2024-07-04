@@ -73,7 +73,7 @@ class HtmlGeneratorColumnMajor1Minor16 extends Generator implements GeneratorInt
                 $this->previousHasMargin = $separatorResults['previousHasMargin'];
                 $container .= $separatorResults['separator'];
 
-                $innerContainer = '<div class="h5p-column-content h5pClassName">';
+                $innerContainer = '<div class="h5p-column-content h5pClassName" style="">';
                 $this->main->newRunnable(
                     [
                         'library' => $libraryContent['library'],
