@@ -69,7 +69,6 @@ class HtmlGeneratorAgamottoMajor1Minor5 extends Generator implements GeneratorIn
         for ($i = 0; $i < count($this->params['items']); $i++) {
             $container .= $this->renderSlide([
                 'image' => $this->params['items'][$i]['image'],
-                'labelText' => $this->params['items'][$i]['itemText'] ?? '',
                 'description' => $this->params['items'][$i]['description'] ?? '',
                 'index' => $i,
                 'total' => count($this->params['items']),
