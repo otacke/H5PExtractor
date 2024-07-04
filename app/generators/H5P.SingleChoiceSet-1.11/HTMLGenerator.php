@@ -51,7 +51,7 @@ class HtmlGeneratorSingleChoiceSetMajor1Minor11 extends Generator implements Gen
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $container = str_replace('h5pClassName', 'h5p-question h5p-sigle-choice-set', $container);
+        $container = str_replace('h5pClassName', 'h5p-question h5p-single-choice-set', $container);
 
         $container  = '<div class="h5p-question-content">';
         $container .= '<div class="h5p-sc-set-wrapper initialized navigatable">';
