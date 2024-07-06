@@ -49,10 +49,13 @@ class HtmlGeneratorImageSequencingMajor1Minor1 extends Generator implements Gene
         // Ignoring the scaleTextNotCard parameter, will always scale
         $container = str_replace('h5pClassName', 'h5p-image-sequencing', $container);
 
-        $container .=
-            '<div class="h5p-task-description">' .
-                $this->params['taskDescription'] .
-            '</div>';
+        if (isset($this->params['taskDescription'])) {
+            $container .=
+                '<div class="h5p-task-description">' .
+                    $this->params['taskDescription'] .
+                '</div>';
+        }
+
         $container .= '<ul class="sortable ui-sortable">';
 
         shuffle($this->params['sequenceImages']);
