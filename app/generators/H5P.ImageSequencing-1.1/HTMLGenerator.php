@@ -46,7 +46,6 @@ class HtmlGeneratorImageSequencingMajor1Minor1 extends Generator implements Gene
     public function attach(&$container)
     {
         $htmlClosing = TextUtils::getClosingTag($container);
-        // Ignoring the scaleTextNotCard parameter, will always scale
         $container = str_replace('h5pClassName', 'h5p-image-sequencing', $container);
 
         if (isset($this->params['taskDescription'])) {
