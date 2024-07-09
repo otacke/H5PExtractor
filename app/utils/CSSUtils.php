@@ -91,7 +91,7 @@ class CSSUtils
         $css = preg_replace($unwanted_pseudo_elements, '{}', $css);
 
         // Remove cursor and interactivity from common interaction elements
-        $elements = ['input', 'button', 'a', 'p', 'span'];
+        $elements = ['input', 'button', 'a', 'p', 'span', 'textarea', 'select'];
         foreach ($elements as $element) {
             $css .= '.h5p-content ' . $element .
                 '{cursor:default;pointer-events: none;}';
