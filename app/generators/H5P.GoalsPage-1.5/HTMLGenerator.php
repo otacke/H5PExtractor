@@ -51,7 +51,7 @@ class HtmlGeneratorGoalsPageMajor1Minor5 extends Generator implements GeneratorI
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $container = str_replace('h5pClassName', 'h5p-goals-page',  $container);
+        $container = str_replace('h5pClassName', 'h5p-goals-page', $container);
 
         $container .= '<div class="page-header">';
         $container .=

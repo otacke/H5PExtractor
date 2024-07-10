@@ -55,7 +55,7 @@ class HtmlGeneratorDocumentationToolMajor1Minor8 extends Generator implements Ge
             * but content types may not follow the common schema to define the main
             * class name.
             */
-            $container .= str_replace('h5pClassName', 'h5p-documentation-tool',  $originalContainer);
+            $container .= str_replace('h5pClassName', 'h5p-documentation-tool', $originalContainer);
             $container .= '<div class="h5p-documentation-tool-main-content">';
             $container .= $this->buildNavigation($i);
             $container .= $this->buildPage($i);

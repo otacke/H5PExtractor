@@ -51,7 +51,7 @@ class HtmlGeneratorDocumentExportPageMajor1Minor5 extends Generator implements G
          * but content types may not follow the common schema to define the main
          * class name.
          */
-        $container = str_replace('h5pClassName', 'h5p-document-export-page',  $container);
+        $container = str_replace('h5pClassName', 'h5p-document-export-page', $container);
 
         $container .= '<div class="page-header">';
         $container .=
