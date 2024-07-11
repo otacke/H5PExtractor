@@ -48,14 +48,15 @@ class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements Generat
      */
     public function attach(&$container)
     {
-        $this->params['wordList'] = strtoupper($this->params['wordList'] ?? '');
-        $words = explode(',', $this->params['wordList']);
-        $words = array_map('trim', $words);
+        $words = $this->extractWords($this->params['wordList']);
 
-        $grid = $this->placeWordsOnGrid($words);
+        $grid = $this->placeWordsOnGrid(
+            $words,
+            $this->mapOrientations($this->params['behaviour']['orientations'])
+        );
         $grid = $this->fillBlanks($grid);
 
-        $sizes = $this->computeSizes($grid);
+        $sizes = $this->computeDOMSizes($grid);
 
         $htmlClosing = TextUtils::getClosingTag($container);
 
@@ -71,7 +72,10 @@ class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements Generat
         );
 
         $container .= '<div class="h5p-play-area">';
-        $container .= '<div class="h5p-task-description">' . $this->params['taskDescription'] . '</div>';
+        $container .=
+            '<div class="h5p-task-description">' .
+                $this->params['taskDescription'] .
+            '</div>';
         $container .=
             '<div ' .
                 'class="game-container"' .
@@ -141,6 +145,53 @@ class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements Generat
         $container .= '</div>'; // Closing h5p-play-area
 
         $container .= $htmlClosing;
+    }
+
+    /**
+     * Extract and sanitize words from the parameters.
+     *
+     * @param string $params The parameters.
+     *
+     * @return array The extracted words.
+     */
+    private function extractWords($params = '')
+    {
+        return array_map('trim', explode(',', strtoupper($params)));
+    }
+
+    /**
+     * Map orientations to directions.
+     *
+     * @param array $params The parameters.
+     *
+     * @return array The directions.
+     */
+    private function mapOrientations($params)
+    {
+        $allDirections = [
+            'horizontal', 'vertical', 'diagonal',
+            'horizontalreversed', 'verticalreversed', 'diagonalreversed'
+        ];
+
+        $orientations = array_keys(
+            array_filter($params ?? $allDirections)
+        );
+
+        $orientationToDirectionMap = [
+            'horizontal' => 'horizontal',
+            'vertical' => 'vertical',
+            'diagonal' => 'diagonal',
+            'diagonalUp' => 'diagonal',
+            'horizontalBack' => 'horizontalreversed',
+            'verticalUp' => 'verticalreversed',
+            'diagonalBack' => 'diagonalreversed',
+            'diagonalUpBack' => 'diagonalreversed',
+        ];
+
+        return array_values(array_unique(array_map(
+            fn($orientation) => $orientationToDirectionMap[$orientation],
+            array_intersect($orientations, array_keys($orientationToDirectionMap))
+        )));
     }
 
     /**
@@ -289,7 +340,7 @@ class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements Generat
      *
      * @return array The sizes.
      */
-    private function computeSizes($grid)
+    private function computeDOMSizes($grid)
     {
         $containerWidth = $this->main->renderWidth;
         $gridCol = count($grid);
