@@ -53,7 +53,7 @@ class HtmlGeneratorSingleChoiceSetMajor1Minor11 extends Generator implements Gen
          */
         $container = str_replace('h5pClassName', 'h5p-question h5p-single-choice-set', $container);
 
-        $container  = '<div class="h5p-question-content">';
+        $container .= '<div class="h5p-question-content">';
         $container .= '<div class="h5p-sc-set-wrapper initialized navigatable">';
 
         for ($i = 0; $i < count($this->params['choices']); $i++) {
