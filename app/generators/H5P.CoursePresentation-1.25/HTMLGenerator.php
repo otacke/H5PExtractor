@@ -76,27 +76,27 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
         $container .= '</style>';
 
         $slidesParams = $this->params['presentation']['slides'] ?? [];
-        for ($i = 0; $i < count($slidesParams); $i++) {
+        for ($slideIndex = 0; $slideIndex < count($slidesParams); $slideIndex++) {
             $container .= $this->buildSlideContainer([
                 'hasTasks' => array_map([$this, 'hasTask'], $slidesParams),
                 'presentation' => $this->params['presentation'],
                 'override' => $this->params['override'],
                 'l10n' => $this->params['l10n'],
-                'index' => $i,
+                'index' => $slideIndex,
                 'maxIndex' => count($slidesParams) - 1
             ]);
 
             if (count($this->overflowContentQueue) > 0) {
                 $container .= '<div class="h5p-extractor-content-wrapper">';
-                for ($j = 0; $j < count($this->overflowContentQueue); $j++) {
-                    $overflowContent = $this->overflowContentQueue[$j]['content'];
+                for ($contentIndex = 0; $contentIndex < count($this->overflowContentQueue); $contentIndex++) {
+                    $overflowContent = $this->overflowContentQueue[$contentIndex]['content'];
                     $container .=
                         '<div class="h5p-extractor-bubble-header">' .
                             '<div class="h5p-extractor-bubble-bobble">'.
-                                $j + 1 .
+                            $contentIndex + 1 .
                             '</div>' .
                             '<div class="h5p-extractor-bubble-title">' .
-                                $this->overflowContentQueue[$j]['title'] .
+                                $this->overflowContentQueue[$contentIndex]['title'] .
                             '</div>' .
                         '</div>';
                     $container .= $overflowContent;
@@ -105,7 +105,7 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
                 $this->overflowContentQueue = [];
                 $container .= '</div>'; // Closing .h5p-course-presentation-overflow-wrapper
 
-                if ($j < count($slidesParams) - 1) {
+                if ($slideIndex < count($slidesParams) - 1) {
                     $container .= '<div style="height: 3rem;"></div>';
                 }
             }
