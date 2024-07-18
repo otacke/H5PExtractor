@@ -1,0 +1,105 @@
+.h5p-audio-recorder-view {
+  font-size: 1em;
+  padding: .9em;
+  text-align: center;
+  font-family: Arial, "Open Sans", sans-serif;
+}
+
+.recording-indicator-wrapper {
+  height: 9.375em;
+  width: 9.375em;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 9.375em;
+  color: #8e8e8e;
+  position: relative;
+  margin-bottom: 1em;
+}
+
+.h5p-audio-recorder-vu-meter {
+  height: 100%;
+  width: 100%;
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMC4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAxMDUuNCAxMDUuNCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMTA1LjQgMTA1LjQ7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQoJLnN0MHtmaWxsOiNFREFCQjA7fQ0KPC9zdHlsZT4NCjx0aXRsZT5BcnRib2FyZCAxPC90aXRsZT4NCjxnPg0KCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik01Mi43LDBDMjMuNiwwLDAsMjMuNiwwLDUyLjdzMjMuNiw1Mi43LDUyLjcsNTIuN2MyOS4xLDAsNTIuNy0yMy42LDUyLjctNTIuN0MxMDUuNCwyMy42LDgxLjgsMCw1Mi43LDB6DQoJCSBNNTIuNywxMDUuMmMtMjksMC01Mi41LTIzLjUtNTIuNS01Mi41UzIzLjcsMC4yLDUyLjcsMC4yczUyLjUsMjMuNSw1Mi41LDUyLjVDMTA1LjIsODEuNyw4MS43LDEwNS4yLDUyLjcsMTA1LjJ6Ii8+DQoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTUyLjcsMTUuMkMzMiwxNS4yLDE1LjIsMzIsMTUuMiw1Mi43UzMyLDkwLjIsNTIuNyw5MC4yczM3LjUtMTYuOCwzNy41LTM3LjVjMCwwLDAsMCwwLDANCgkJQzkwLjEsMzIsNzMuNCwxNS4yLDUyLjcsMTUuMnoiLz4NCgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNTIuNyw3LjhDMjcuOSw3LjgsNy44LDI3LjksNy44LDUyLjdzMjAuMSw0NC45LDQ0LjksNDQuOWMyNC44LDAsNDQuOS0yMC4xLDQ0LjktNDQuOQ0KCQlDOTcuNiwyNy45LDc3LjUsNy44LDUyLjcsNy44eiBNNTIuNyw5Ni42Yy0yNC4yLDAtNDMuOS0xOS43LTQzLjktNDMuOWMwLTI0LjIsMTkuNy00My45LDQzLjktNDMuOWMyNC4yLDAsNDMuOSwxOS42LDQzLjksNDMuOQ0KCQlDOTYuNiw3Ni45LDc2LjksOTYuNiw1Mi43LDk2LjZ6Ii8+DQo8L2c+DQo8L3N2Zz4NCg==);
+  position: absolute;
+  transform: scale(0.8);
+}
+
+.h5p-audio-recorder-view .fa-microphone {
+  width: 60%;
+  height: 60%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  font-size: 2.5em;
+  border-radius: 50%;
+  background-color: #fff;
+  line-height: 2.5em;
+}
+
+.h5p-audio-recorder-view [class^=fa-] {
+  font-family: "H5PFontAwesome4";
+}
+
+.h5p-audio-recorder-view .title {
+  color: #000;
+  font-size: 1.25em;
+  margin-bottom: 1em;
+  line-height: 1.5em;
+}
+
+.h5p-audio-recorder-view [role=status] {
+  background-color: #f8f8f8;
+  color: #777;
+  padding: .6em;
+}
+
+.audio-recorder-timer {
+  font-family: "Open Sans", sans-serif;
+  font-size: 2.5em;
+  font-weight: 600;
+  color: #8f8f8f;
+  margin: 1em 0;
+}
+
+.h5p-audio-recorder-view .button-row {
+  margin-bottom: 1em;
+}
+
+.h5p-audio-recorder-view .button-row .button-row-double {
+  width: 100%;
+}
+
+.h5p-audio-recorder-view .button {
+  font-size: 1.042em;
+  font-family: "Open Sans", sans-serif;
+  padding: .708em 1.25em;
+  border-radius: 2em;
+  margin: 0 .5em;
+  border: 0;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.h5p-audio-recorder-view .button.record {
+  background-color: #d95354;
+  color: #fff;
+  border-color: #d95354;
+  border: 2px solid #d95354;
+  box-sizing: border-box;
+}
+
+.h5p-audio-recorder-view .button:not(.small-screen).record, .h5p-audio-recorder-view .button:not(.small-screen).pause {
+  min-width: 8.2em;
+}
+
+.h5p-audio-recorder-view .button:not(.small-screen) [class^=fa-] {
+  margin-right: .4em;
+}
+
+.h5p-audio-recorder-view .button [class^=fa-] {
+  font-weight: 400;
+}
