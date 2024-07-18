@@ -301,6 +301,67 @@ class H5PFileHandler
     }
 
     /**
+     * Get the JS for the given H5P content type.
+     *
+     * @param string $machineName  The machine name of the content type.
+     * @param int    $majorVersion The major version of the content type.
+     * @param int    $minorVersion The minor version of the content type.
+     *
+     * @return string|bool CSS for content type, false if not available.
+     */
+    public function getH5PContentTypeJS(
+        $machineName,
+        $majorVersion = null,
+        $minorVersion = null
+    ) {
+        $extractDir = $this->baseDirectory . '/' . $this->filesDirectory;
+        if (!is_dir($extractDir)) {
+            return false;
+        }
+
+        $assumedContentTypeDir
+            = $machineName . '-' . $majorVersion . '.' . $minorVersion;
+
+        $contentDirs = scandir($extractDir);
+
+        /*
+         * Newer versions of H5P core also add the patch version to the directory
+         * name. We don't know the patch version, however.
+         */
+        $dirMatching = '';
+        foreach ($contentDirs as $contentDir) {
+            if ($dirMatching !== '') {
+                continue;
+            }
+
+            if (strpos($contentDir, $assumedContentTypeDir) !== false) {
+                $dirMatching = $contentDir;
+            }
+        }
+
+        $contentTypeDir = $extractDir . '/' . $dirMatching;
+
+        if (!is_dir($contentTypeDir)) {
+            return false;
+        }
+
+        $libraryJson = $this->getLibraryJson($contentTypeDir);
+        if ($libraryJson === false || !isset($libraryJson['preloadedJs'])) {
+            return false;
+        }
+
+        $js = '';
+        for ($i = 0; $i < count($libraryJson['preloadedJs']); $i++) {
+            $jsFile = $contentTypeDir . '/' .
+                $libraryJson['preloadedJs'][$i]['path'];
+
+            $js .= file_get_contents($jsFile);
+        }
+
+        return $js;
+    }
+
+    /**
      * Extract the content of the H5P file to a temporary directory.
      *
      * @param string $file The H5P file to extract.

@@ -58,4 +58,27 @@ class DOMUtils
 
         return max($minFontSize, min($estimatedFontSizeThreshold, $maxFontSize));
     }
+
+    /**
+     * Build a style attribute.
+     *
+     * @param array $cssProperties CSS properties.
+     *
+     * @return string The style attribute.
+     */
+    public static function buildStyleAttribute($cssProperties, $spaced = true)
+    {
+        $delimiter = $spaced ? ' ' : '';
+
+        $style = '';
+        if (count($cssProperties) > 0) {
+            $style = $delimiter . 'style="';
+            foreach ($cssProperties as $name => $value) {
+                $style .= $name . ':' . $value . ';';
+            }
+            $style .= '"';
+        }
+
+        return $style;
+    }
 }

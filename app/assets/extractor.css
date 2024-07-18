@@ -1,0 +1,30 @@
+/* Nested CSS may not be supported by renderer yet */
+
+.h5p-extractor-content-wrapper {
+  margin-top: 1rem; padding: 0 1rem;
+}
+
+.h5p-extractor-content-wrapper .h5p-extractor-bubble-header {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.h5p-extractor-content-wrapper .h5p-extractor-bubble-header .h5p-extractor-bubble-bobble {
+  background-color: #000000;
+  border: 1px solid #ffffff;
+  border-radius: 50%;
+  color: #ffffff;
+  font-weight: bold;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  width: 2rem;
+}
+
+.h5p-extractor-content-wrapper .h5p-extractor-bubble-header .h5p-extractor-title {
+  font-size: 1.25rem;
+  font-weight: bold
+}

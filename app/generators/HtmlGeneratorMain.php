@@ -28,6 +28,7 @@ class HtmlGeneratorMain
     public $renderWidth;
     public $target;
     public $scope;
+    private $javaScripts;
 
     /**
      * The H5P file handler.
@@ -45,6 +46,7 @@ class HtmlGeneratorMain
         $this->renderWidth = $renderWidth;
         $this->target = $target;
         $this->scope = $scope;
+        $this->javaScripts = [];
     }
 
     /**
@@ -54,8 +56,15 @@ class HtmlGeneratorMain
      */
     public function create()
     {
+        // Add extractor CSS
         try {
-            $css = $this->getH5PCoreCSS();
+            $css = file_get_contents(__DIR__ . '/../assets/extractor.css');
+        } catch (\Exception $error) {
+            throw new \Exception($error->getMessage());
+        }
+
+        try {
+            $css .= $this->getH5PCoreCSS();
         } catch (\Exception $error) {
             throw new \Exception($error->getMessage());
         }
@@ -71,6 +80,16 @@ class HtmlGeneratorMain
                 $dependency['majorVersion'],
                 $dependency['minorVersion']
             );
+
+            $versionedMachineName = $dependency['machineName'] . ' ' .
+                $dependency['majorVersion'] . '.' . $dependency['minorVersion'];
+
+            $this->javaScripts[$versionedMachineName] =
+                $this->h5pFileHandler->getH5PContentTypeJs(
+                    $dependency['machineName'],
+                    $dependency['majorVersion'],
+                    $dependency['minorVersion']
+                );
         }
         $css = CSSUtils::removeClientHandlingCSS($css);
 
@@ -173,8 +192,13 @@ class HtmlGeneratorMain
      *
      * @return string The HTML for the H5P content type.
      */
-    public function newRunnable($library, $contentId, &$attachTo = '<div>', $skipResize = false, $extras = [])
-    {
+    public function newRunnable(
+        $library,
+        $contentId,
+        &$attachTo = '<div>',
+        $skipResize = false, // Just for keeping the same signature as H5P.newRunnable
+        $extras = []
+    ) {
         try {
             $nameSplit = explode(' ', $library['library'] ?? '', 2);
             $machineName = $nameSplit[0];
@@ -410,5 +434,20 @@ class HtmlGeneratorMain
         $coreCss = CSSUtils::replaceUrlsWithBase64($coreCss, $stylesPath);
 
         return $coreCss;
+    }
+
+    /**
+     * Determine whether the given content type is scored.
+     * Is based on checking the JavaScript for the presence of a getScore function.
+     *
+     * @param string $versionedMachineName The versioned machine name of the content type.
+     *
+     * @return bool True if the content type is scored, false otherwise.
+     */
+    public function isScoredContentType($versionedMachineName)
+    {
+        $js = $this->javaScripts[$versionedMachineName] ?? '';
+
+        return strpos($js, 'getScore') !== false;
     }
 }

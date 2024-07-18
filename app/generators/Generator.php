@@ -29,6 +29,7 @@ class Generator
     protected $extras;
     protected $main;
     public $libraryInfo;
+    private $cacheIsScoredContentType = [];
 
     public function __construct($params = [], $contentId = 0, $extras = [])
     {
@@ -66,5 +67,28 @@ class Generator
             'content' . '/' . $contentPath;
 
         return FileUtils::fileToBase64($fullPath);
+    }
+
+    /**
+     * Determine whether the given content type is scored.
+     *
+     * @param string $versionedMachineName The versioned machine name of the content type.
+     *
+     * @return bool True if the content type is scored, false otherwise.
+     */
+    public function isScoredContentType($versionedMachineName)
+    {
+        /*
+         * Cache the result to avoid multiple calls to the main class that
+         * might be expensive.
+         */
+        if (isset($this->cacheIsScoredContentType[$versionedMachineName])) {
+            return $this->cacheIsScoredContentType[$versionedMachineName];
+        }
+
+        $isScored = $this->main->isScoredContentType($versionedMachineName);
+        $this->cacheIsScoredContentType[$versionedMachineName] = $isScored;
+
+        return $isScored;
     }
 }

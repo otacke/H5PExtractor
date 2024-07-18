@@ -196,6 +196,7 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
                         '.h5p-image-hotspots-container { counter-reset: hotspot; }' .
                         '.h5p-image-hotspot-number {' .
                             'background-color: #000000;' .
+                            'border: 1px solid #ffffff;' .
                         '}' .
                         '.h5p-image-hotspot-number::before {' .
                             'color: #ffffff; ' .
@@ -347,48 +348,16 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
             $container .= '</div>';
 
             if ($index > -1) {
+                $container .= '<div class="h5p-extractor-content-wrapper">';
                 $container .=
-                    '<div ' .
-                        'class="h5p-extractor-popup" ' .
-                        'style="margin-top: 1rem; padding: 0 1rem;"' .
-                    '>';
-
-                $container .=
-                    '<div ' .
-                        'class="h5p-extractor-popup-header" ' .
-                        'style="' .
-                            'align-items: center; ' .
-                            'display: flex; ' .
-                            'flex-direction: row; ' .
-                            'gap: 0.5rem; ' .
-                            'margin-bottom: 0.5rem; ' .
-                        '"' .
-                    '>';
-
-                $container .=
-                    '<div ' .
-                        'class="h5p-extractor-popup-number" ' .
-                        'style="' .
-                            'background-color: #000000; ' .
-                            'border-radius: 50%; ' .
-                            'color: #ffffff; ' .
-                            'font-weight: bold; ' .
-                            'height: 2rem; ' .
-                            'line-height: 2rem; ' .
-                            'text-align: center; ' .
-                            'width: 2rem; ' .
-                        '"' .
-                    '>';
-                $container .= $index + 1;
-                $container .= '</div>';
-
-                $container .=
-                    '<div style="font-size: 1.25rem; font-weight: bold">' .
-                        ($overlayHotspot['header'] ?? '') .
+                    '<div class="h5p-extractor-bubble-header">' .
+                        '<div class="h5p-extractor-bubble-bobble">' .
+                            $index + 1 .
+                        '</div>' .
+                        '<div class="h5p-extractor-bubble-title">' .
+                            ($overlayHotspot['header'] ?? '') .
+                        '</div>' .
                     '</div>';
-
-                // Closing h5p-extractor-popup-header
-                $container .= '</div>';
 
                 foreach ($overlayHotspot['content'] as $content) {
                     $subcontentContainer =
