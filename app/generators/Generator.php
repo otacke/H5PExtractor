@@ -56,7 +56,7 @@ class Generator
      */
     public function fileToBase64($contentPath)
     {
-        if (getType($contentPath) !== 'string') {
+        if (getType($contentPath) !== 'string' || $contentPath === '') {
             return '';
         }
 
