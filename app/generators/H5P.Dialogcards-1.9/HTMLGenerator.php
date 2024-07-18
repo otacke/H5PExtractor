@@ -102,15 +102,16 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
         // Custom wrapper to display to cards side by side
         $set .= '<div style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1rem;">';
 
+        $imagePath = isset($dialog['image']) ? $dialog['image']['path'] : '';
         $set .= self::buildCardholder([
-            'image' => $this->fileToBase64($dialog['image']['path']),
+            'image' => $this->fileToBase64($imagePath),
             'audio' => count($dialog['audio'] ?? []) > 0,
             'text' => $dialog['text'] ?? '',
             'side' => 'front'
         ]);
 
         $set .= self::buildCardholder([
-            'image' => $this->fileToBase64($dialog['image']['path']),
+            'image' => $this->fileToBase64($imagePath),
             'audio' => count($dialog['audio'] ?? []) > 0,
             'text' => $dialog['answer'] ?? '',
             'side' => 'back'
