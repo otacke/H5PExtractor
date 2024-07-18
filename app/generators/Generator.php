@@ -62,9 +62,9 @@ class Generator
         }
 
         $fullPath =
-            $this->main->h5pFileHandler->getBaseDirectory() . '/' .
-            $this->main->h5pFileHandler->getFilesDirectory() . '/' .
-            'content' . '/' . $contentPath;
+            $this->main->h5pFileHandler->getBaseDirectory() . DIRECTORY_SEPARATOR .
+            $this->main->h5pFileHandler->getFilesDirectory() . DIRECTORY_SEPARATOR .
+            'content' . DIRECTORY_SEPARATOR . $contentPath;
 
         return FileUtils::fileToBase64($fullPath);
     }

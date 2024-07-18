@@ -46,7 +46,7 @@ class CSSUtils
                 }
 
                 return FileUtils::fileToBase64(
-                    $basePath . '/' . $trimmed
+                    $basePath . DIRECTORY_SEPARATOR . $trimmed
                 );
             },
             $css

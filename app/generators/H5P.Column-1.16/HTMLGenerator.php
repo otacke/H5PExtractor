@@ -47,7 +47,7 @@ class HtmlGeneratorColumnMajor1Minor16 extends Generator implements GeneratorInt
      */
     public function attach(&$container)
     {
-        include_once __DIR__ . '/Utils.php';
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
 
         $htmlClosing = TextUtils::getClosingTag($container);
 

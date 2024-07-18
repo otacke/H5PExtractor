@@ -117,9 +117,10 @@ class HtmlGeneratorQuestionSetMajor1Minor20 extends Generator implements Generat
 
         $styleProps = [];
         if (isset($this->params['introPage']['backgroundImage']['path'])) {
-            $imagePath = $this->main->h5pFileHandler->getBaseDirectory() . '/' .
-            $this->main->h5pFileHandler->getFilesDirectory() . '/' .
-                'content' . '/' .
+            $imagePath =
+                $this->main->h5pFileHandler->getBaseDirectory() . DIRECTORY_SEPARATOR .
+                $this->main->h5pFileHandler->getFilesDirectory() . DIRECTORY_SEPARATOR .
+                'content' . DIRECTORY_SEPARATOR .
                 $this->params['introPage']['backgroundImage']['path'];
 
             $styleProps[] = 'background: url(' .

@@ -80,9 +80,9 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
         ];
 
         if (isset($this->params['question']['settings']['background']['path'])) {
-            $imagePath = $this->main->h5pFileHandler->getBaseDirectory() . '/' .
-                $this->main->h5pFileHandler->getFilesDirectory() . '/' .
-                'content' . '/' .
+            $imagePath = $this->main->h5pFileHandler->getBaseDirectory() . DIRECTORY_SEPARATOR .
+                $this->main->h5pFileHandler->getFilesDirectory() . DIRECTORY_SEPARATOR .
+                'content' . DIRECTORY_SEPARATOR .
                 $this->params['question']['settings']['background']['path'];
 
             $styleProps[] = 'background-image: url(' .

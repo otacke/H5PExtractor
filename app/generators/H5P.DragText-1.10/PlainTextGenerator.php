@@ -45,7 +45,7 @@ class PlainTextGeneratorDragTextMajor1Minor10 extends Generator implements Gener
      */
     public function attach(&$container)
     {
-        include_once __DIR__ . '/Utils.php';
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
 
         if (isset($this->params['media']['type'])) {
             $container .= $this->main->renderH5PQuestionMedia(

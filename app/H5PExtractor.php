@@ -37,10 +37,11 @@ class H5PExtractor
      */
     public function __construct($config = [])
     {
-        require_once __DIR__ . '/autoloader.php';
+        require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoloader.php';
 
         if (!isset($config['uploadsPath'])) {
-            $config['uploadsPath'] = __DIR__ . '/../uploads';
+            $config['uploadsPath'] =
+                __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'uploads';
         }
 
         if (!isset($config['renderWidth'])) {

@@ -53,7 +53,10 @@ class HtmlGeneratorVideoMajor1Minor6 extends Generator implements GeneratorInter
          */
         $container = str_replace('h5pClassName', 'h5p-video', $container);
 
-        $imagePath = __DIR__ . '/../../assets/placeholder-video.svg';
+        $imagePath =
+            __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR .
+            '..' . DIRECTORY_SEPARATOR .
+            'assets' . DIRECTORY_SEPARATOR . 'placeholder-video.svg';
 
         $container .= '<img' .
             ' src="' . FileUtils::fileToBase64($imagePath) . '"' .

@@ -47,7 +47,7 @@ class PlainTextGeneratorColumnMajor1Minor16 extends Generator implements Generat
      */
     public function attach(&$container)
     {
-        include_once __DIR__ . '/Utils.php';
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
 
         if (isset($this->params['content'])) {
             foreach ($this->params['content'] as $content) {

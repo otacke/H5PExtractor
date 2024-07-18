@@ -20,6 +20,6 @@ spl_autoload_register(function ($class) {
     };
 
     if (isset($classmap[$class])) {
-        require_once __DIR__ . '/' . $classmap[$class];
+        require_once __DIR__ . DIRECTORY_SEPARATOR . $classmap[$class];
     }
 });

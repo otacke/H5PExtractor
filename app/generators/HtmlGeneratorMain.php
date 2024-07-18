@@ -58,7 +58,10 @@ class HtmlGeneratorMain
     {
         // Add extractor CSS
         try {
-            $css = file_get_contents(__DIR__ . '/../assets/extractor.css');
+            $css = file_get_contents(
+                __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR .
+                'assets' . DIRECTORY_SEPARATOR . 'extractor.css'
+            );
         } catch (\Exception $error) {
             throw new \Exception($error->getMessage());
         }
@@ -283,7 +286,7 @@ class HtmlGeneratorMain
         list($machineName, $majorVersion, $minorVersion) = array_values($library);
 
         $generatorPath
-            = __DIR__ . '/' . $bestGeneratorFullName . '/HTMLGenerator.php';
+            = __DIR__ . DIRECTORY_SEPARATOR . $bestGeneratorFullName . DIRECTORY_SEPARATOR . 'HTMLGenerator.php';
 
         if (!file_exists($generatorPath)) {
             return false; // No generator found
@@ -398,7 +401,10 @@ class HtmlGeneratorMain
         $h5pCorePath = 'h5p/h5p-core';
 
         $vendorPath = FileUtils::getVendorPath(__DIR__);
-        $stylesPath = $vendorPath . '/'  . $h5pCorePath . '/' . 'styles';
+        $stylesPath =
+            $vendorPath . DIRECTORY_SEPARATOR .
+            $h5pCorePath . DIRECTORY_SEPARATOR . 'styles';
+
         if (!isset($stylesPath)) {
             throw new \Exception(
                 'Could not find the H5P core styles.'
@@ -417,7 +423,7 @@ class HtmlGeneratorMain
         $coreCss = '';
         foreach ($requiredFiles as $fileName) {
             $coreCss .= file_get_contents(
-                $stylesPath . '/' . $fileName
+                $stylesPath . DIRECTORY_SEPARATOR . $fileName
             );
         }
 

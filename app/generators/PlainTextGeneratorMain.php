@@ -185,7 +185,7 @@ class PlainTextGeneratorMain
         list($machineName, $majorVersion, $minorVersion) = array_values($library);
 
         $generatorPath
-            = __DIR__ . '/' . $bestGeneratorFullName . '/PlainTextGenerator.php';
+            = __DIR__ . DIRECTORY_SEPARATOR . $bestGeneratorFullName . DIRECTORY_SEPARATOR . 'PlainTextGenerator.php';
 
         if (!file_exists($generatorPath)) {
             return false; // No generator found

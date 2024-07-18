@@ -175,7 +175,7 @@ class H5PFileHandler
      */
     public function getIconPath($machineName = null)
     {
-        $extractDir = $this->baseDirectory . '/' . $this->filesDirectory;
+        $extractDir = $this->baseDirectory . DIRECTORY_SEPARATOR . $this->filesDirectory;
         if (!is_dir($extractDir)) {
             return false;
         }
@@ -190,14 +190,14 @@ class H5PFileHandler
         // We're operating on the file system, so we cannot use spaces
         $machineName = str_replace(' ', '-', $machineName);
 
-        $pattern = $extractDir . '/' . $machineName . '*';
+        $pattern = $extractDir . DIRECTORY_SEPARATOR . $machineName . '*';
 
         $contentDirs = glob($pattern, GLOB_ONLYDIR);
         if (empty($contentDirs)) {
             return false;
         }
 
-        $iconFile = $contentDirs[0] . '/icon.svg';
+        $iconFile = $contentDirs[0] . DIRECTORY_SEPARATOR . 'icon.svg';
         if (!file_exists($iconFile)) {
             return false;
         }
@@ -212,17 +212,17 @@ class H5PFileHandler
      */
     public function getH5PContentParams()
     {
-        $extractDir = $this->baseDirectory . '/' . $this->filesDirectory;
+        $extractDir = $this->baseDirectory . DIRECTORY_SEPARATOR . $this->filesDirectory;
         if (!is_dir($extractDir)) {
             return false;
         }
 
-        $contentDir = $extractDir . '/content';
+        $contentDir = $extractDir . DIRECTORY_SEPARATOR . 'content';
         if (!is_dir($contentDir)) {
             return false;
         }
 
-        $contentJsonFile = $contentDir . '/content.json';
+        $contentJsonFile = $contentDir . DIRECTORY_SEPARATOR . 'content.json';
         if (!file_exists($contentJsonFile)) {
             return false;
         }
@@ -251,7 +251,7 @@ class H5PFileHandler
         $majorVersion = null,
         $minorVersion = null
     ) {
-        $extractDir = $this->baseDirectory . '/' . $this->filesDirectory;
+        $extractDir = $this->baseDirectory . DIRECTORY_SEPARATOR . $this->filesDirectory;
         if (!is_dir($extractDir)) {
             return false;
         }
@@ -276,7 +276,7 @@ class H5PFileHandler
             }
         }
 
-        $contentTypeDir = $extractDir . '/' . $dirMatching;
+        $contentTypeDir = $extractDir . DIRECTORY_SEPARATOR . $dirMatching;
 
         if (!is_dir($contentTypeDir)) {
             return false;
@@ -290,7 +290,7 @@ class H5PFileHandler
         $css = '';
         for ($i = 0; $i < count($libraryJson['preloadedCss']); $i++) {
             $cssFile
-                = $contentTypeDir . '/' . $libraryJson['preloadedCss'][$i]['path'];
+                = $contentTypeDir . DIRECTORY_SEPARATOR . $libraryJson['preloadedCss'][$i]['path'];
 
             $newCss = file_get_contents($cssFile);
             $newCss = CSSUtils::replaceUrlsWithBase64($newCss, dirname($cssFile));
@@ -314,7 +314,7 @@ class H5PFileHandler
         $majorVersion = null,
         $minorVersion = null
     ) {
-        $extractDir = $this->baseDirectory . '/' . $this->filesDirectory;
+        $extractDir = $this->baseDirectory . DIRECTORY_SEPARATOR . $this->filesDirectory;
         if (!is_dir($extractDir)) {
             return false;
         }
@@ -339,7 +339,7 @@ class H5PFileHandler
             }
         }
 
-        $contentTypeDir = $extractDir . '/' . $dirMatching;
+        $contentTypeDir = $extractDir . DIRECTORY_SEPARATOR . $dirMatching;
 
         if (!is_dir($contentTypeDir)) {
             return false;
@@ -352,7 +352,7 @@ class H5PFileHandler
 
         $js = '';
         for ($i = 0; $i < count($libraryJson['preloadedJs']); $i++) {
-            $jsFile = $contentTypeDir . '/' .
+            $jsFile = $contentTypeDir . DIRECTORY_SEPARATOR .
                 $libraryJson['preloadedJs'][$i]['path'];
 
             $js .= file_get_contents($jsFile);
@@ -373,7 +373,7 @@ class H5PFileHandler
         // Create temporary directory with time stamp+uuid for garbage collection
         $directoryName = time() . '-' . GeneralUtils::createUUID();
 
-        $extractDir = $this->baseDirectory . '/' . $directoryName;
+        $extractDir = $this->baseDirectory . DIRECTORY_SEPARATOR . $directoryName;
         if (!is_dir($extractDir)) {
             if (!is_writable($this->baseDirectory)) {
                 throw new \Exception(
@@ -416,7 +416,7 @@ class H5PFileHandler
             return false;
         }
 
-        $libraryJsonFile = $dir . '/library.json';
+        $libraryJsonFile = $dir . DIRECTORY_SEPARATOR . 'library.json';
         if (!file_exists($libraryJsonFile)) {
             return false;
         }
@@ -438,7 +438,7 @@ class H5PFileHandler
      */
     private function extractH5PInformation()
     {
-        $extractDir = $this->baseDirectory . '/' . $this->filesDirectory;
+        $extractDir = $this->baseDirectory . DIRECTORY_SEPARATOR . $this->filesDirectory;
 
         if (!is_dir($extractDir)) {
             throw new \Exception(
@@ -446,7 +446,7 @@ class H5PFileHandler
             );
         }
 
-        $h5pJsonFile = $extractDir . '/h5p.json';
+        $h5pJsonFile = $extractDir . DIRECTORY_SEPARATOR . 'h5p.json';
 
         if (!file_exists($h5pJsonFile)) {
             throw new \Exception('h5p.json file does not exist in the archive.');
@@ -489,17 +489,17 @@ class H5PFileHandler
      */
     private function deleteDirectory($dir)
     {
-        $dirWithBase = $this->baseDirectory . '/' . $dir;
+        $dirWithBase = $this->baseDirectory . DIRECTORY_SEPARATOR . $dir;
         if (!is_dir($dirWithBase)) {
             return;
         }
 
         $files = array_diff(scandir($dirWithBase), array('.', '..'));
         foreach ($files as $file) {
-            if (is_dir($dirWithBase . '/' . $file)) {
-                $this->deleteDirectory($dir . '/' . $file);
+            if (is_dir($dirWithBase . DIRECTORY_SEPARATOR . $file)) {
+                $this->deleteDirectory($dir . DIRECTORY_SEPARATOR . $file);
             } else {
-                unlink($dirWithBase . '/' . $file);
+                unlink($dirWithBase . DIRECTORY_SEPARATOR . $file);
             }
         }
 
@@ -517,7 +517,7 @@ class H5PFileHandler
     {
         $currentTimestamp = time();
 
-        $directories = glob($this->baseDirectory . '/*', GLOB_ONLYDIR);
+        $directories = glob($this->baseDirectory . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
 
         foreach ($directories as $dir) {
             $dirName = basename($dir);

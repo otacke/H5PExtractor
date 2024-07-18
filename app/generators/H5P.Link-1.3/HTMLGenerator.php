@@ -31,7 +31,7 @@ class HtmlGeneratorLinkMajor1Minor3 extends Generator implements GeneratorInterf
      */
     public function __construct($params, $contentId, $extras)
     {
-        include_once __DIR__ . '/Utils.php';
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
 
         UtilsLinkMajor1Minor3::sanitizeParams($params);
 

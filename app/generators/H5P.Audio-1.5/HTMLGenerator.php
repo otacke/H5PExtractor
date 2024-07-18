@@ -63,7 +63,10 @@ class HtmlGeneratorAudioMajor1Minor5 extends Generator implements GeneratorInter
             $container .= '/>';
             $container .= '</div>';
         } elseif ($this->params['playerMode'] === 'full') {
-            $imagePath = __DIR__ . '/../../assets/placeholder-audio.svg';
+            $imagePath =
+                __DIR__ . DIRECTORY_SEPARATOR . '..' .
+                DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR .
+                'assets' . DIRECTORY_SEPARATOR . 'placeholder-audio.svg';
 
             $container .= '<img' .
                 ' src="' . FileUtils::fileToBase64($imagePath) . '"' .
