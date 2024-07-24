@@ -64,6 +64,13 @@ class HtmlGeneratorDocumentExportPageMajor1Minor5 extends Generator implements G
         $container .= $this->params['description'];
         $container .= '</div>';
 
+        if (isset($this->params['helpText']) && $this->params['helpText'] !== '') {
+            $container .= '<div class="page-header">';
+            $container .= '<div class="page-title">' . "\u{2139}\u{fe0f}" . '</div>';
+            $container .= '</div>';
+            $container .= '<div>' . $this->params['helpText'] . '</div>';
+        }
+
         $container .= $htmlClosing;
     }
 }

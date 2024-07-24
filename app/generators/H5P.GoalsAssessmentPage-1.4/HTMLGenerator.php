@@ -82,6 +82,13 @@ class HtmlGeneratorGoalsAssessmentPageMajor1Minor4 extends Generator implements 
         $container .=   '<div class="rating-header">';
         $container .=   '</div>'; // Closing rating-header
 
+        if (isset($this->params['helpText']) && $this->params['helpText'] !== '') {
+            $container .= '<div class="page-header">';
+            $container .= '<div class="page-title">' . "\u{2139}\u{fe0f}" . '</div>';
+            $container .= '</div>';
+            $container .= '<div>' . $this->params['helpText'] . '</div>';
+        }
+
         $container .= $htmlClosing;
     }
 }
