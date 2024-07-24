@@ -196,7 +196,7 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
                         '.h5p-image-hotspots-container { counter-reset: hotspot; }' .
                         '.h5p-image-hotspot-number {' .
                             'background-color: #000000;' .
-                            'border: 1px solid #ffffff;' .
+                            'border: 3px solid #ffffff;' .
                         '}' .
                         '.h5p-image-hotspot-number::before {' .
                             'color: #ffffff; ' .
@@ -211,7 +211,7 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
                         'style="' .
                             'top: ' . $hotspot['position']['y'] . '%; ' .
                             'left: ' . $hotspot['position']['x'] .  '%; ' .
-                            'color: ' . $params['color'] . ';' .
+                            'scale: 1.5; ' .
                             $focusStyle .
                         '"></button>';
                 }
