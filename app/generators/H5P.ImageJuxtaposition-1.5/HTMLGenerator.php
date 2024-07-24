@@ -65,6 +65,14 @@ class HtmlGeneratorImageJuxtapositionMajor1Minor5 extends Generator implements G
                 '</div>';
         }
 
+        if (empty($this->params['imageBefore']['labelBefore'])) {
+            $this->params['imageBefore']['labelBefore'] = "#1";
+        }
+
+        if (empty($this->params['imageAfter']['labelAfter'])) {
+            $this->params['imageAfter']['labelAfter'] = "#2";
+        }
+
         $container .= $this->renderSlide([
             'image' => $this->params['imageBefore']['imageBefore'],
             'label' => $this->params['imageBefore']['labelBefore'] ?? null,
