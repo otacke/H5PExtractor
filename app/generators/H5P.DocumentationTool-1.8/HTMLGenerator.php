@@ -49,6 +49,11 @@ class HtmlGeneratorDocumentationToolMajor1Minor8 extends Generator implements Ge
 
         $originalContainer = $container;
 
+        // Filter out DocumentExportPage for printing
+        $this->params['pagesList'] = array_filter($this->params['pagesList'], function ($page) {
+            return explode(' ', $page['library'])[0] !== 'H5P.DocumentExportPage';
+        });
+
         $pagesListLength = count($this->params['pagesList']);
         for ($i = 0; $i < $pagesListLength; $i++) {
             /* In theory, one could derive this automatically and do in the parent,
