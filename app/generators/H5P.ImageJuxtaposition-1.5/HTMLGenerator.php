@@ -129,9 +129,19 @@ class HtmlGeneratorImageJuxtapositionMajor1Minor5 extends Generator implements G
                 'style="position: relative;"' .
             '>';
 
-        $style = ($params['fixedSize'] !== null) ?
-            ' style="max-width: ' . $params['fixedSize'] . 'px; width: 100%;"' :
-            ' style="max-width: 100%; width: 100%;"';
+            $style = ($params['fixedSize'] !== null) ?
+            ' style="' .
+                'border: 2px solid #000;' .
+                'box-sizing: border-box;' .
+                'max-width: ' . $params['fixedSize'] . 'px;' .
+                'width: 100%;' .
+            '"' :
+            ' style="' .
+                'border: 2px solid #000;' .
+                'box-sizing: border-box;' .
+                'max-width: 100%;' .
+                'width: 100%;' .
+            '"';
         $slide .=
             '<img ' .
                 'src="' .
