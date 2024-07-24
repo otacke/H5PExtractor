@@ -73,16 +73,29 @@ class HtmlGeneratorImageJuxtapositionMajor1Minor4 extends Generator implements G
             $this->params['imageAfter']['labelAfter'] = "#2";
         }
 
+        $sizeImageBefore = $this->getImageSize(
+            $this->params['imageBefore']['imageBefore']['params']['file']['path'] ?? null
+        );
+        $sizeImageAfter = $this->getImageSize(
+            $this->params['imageBefore']['imageBefore']['params']['file']['path'] ?? null
+        );
+
+        $fixedSize = ($sizeImageBefore !== null && $sizeImageAfter !== null) ?
+            min($sizeImageBefore[0], $sizeImageAfter[0]) :
+            null;
+
         $container .= $this->renderSlide([
             'image' => $this->params['imageBefore']['imageBefore'],
             'label' => $this->params['imageBefore']['labelBefore'] ?? null,
-            'index' => 0
+            'index' => 0,
+            'fixedSize' => $fixedSize
         ]);
 
         $container .= $this->renderSlide([
             'image' => $this->params['imageAfter']['imageAfter'],
             'label' => $this->params['imageAfter']['labelAfter'] ?? null,
-            'index' => 1
+            'index' => 1,
+            'fixedSize' => $fixedSize
         ]);
 
         $container .= '</div>'; // Closing h5p-image-juxtaposition-container
@@ -115,12 +128,16 @@ class HtmlGeneratorImageJuxtapositionMajor1Minor4 extends Generator implements G
                 'class="h5p-image-juxtaposition-image" ' .
                 'style="position: relative;"' .
             '>';
+
+        $style = ($params['fixedSize'] !== null) ?
+            ' style="max-width: ' . $params['fixedSize'] . 'px; width: 100%;"' :
+            ' style="max-width: 100%; width: 100%;"';
         $slide .=
             '<img ' .
                 'src="' .
                     $this->fileToBase64($params['image']['params']['file']['path']) .
-                '" ' .
-                'style="max-width: 100%; width: 100%" ' .
+                '"' .
+                $style .
             '/>';
 
         if (!empty($params['label'])) {

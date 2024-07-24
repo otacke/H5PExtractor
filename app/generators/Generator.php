@@ -70,6 +70,27 @@ class Generator
     }
 
     /**
+     * Get the size of an image.
+     *
+     * @param string $contentPath Path to the image.
+     *
+     * @return array Image size.
+     */
+    public function getImageSize($contentPath)
+    {
+        if (gettype ($contentPath) !== 'string' || $contentPath === '') {
+            return null;
+        }
+
+        $fullPath =
+            $this->main->h5pFileHandler->getBaseDirectory() . DIRECTORY_SEPARATOR .
+            $this->main->h5pFileHandler->getFilesDirectory() . DIRECTORY_SEPARATOR .
+            'content' . DIRECTORY_SEPARATOR . $contentPath;
+
+        return FileUtils::getImageSize($fullPath);
+    }
+
+    /**
      * Determine whether the given content type is scored.
      *
      * @param string $versionedMachineName The versioned machine name of the content type.

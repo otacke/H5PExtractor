@@ -52,6 +52,27 @@ class FileUtils
     }
 
     /**
+     * Get the size of the image at the given path.
+     *
+     * @param string $path The URL of the image.
+     *
+     * @return array The size of the image.
+     */
+    public static function getImageSize($path){
+        if (getType($path) !== 'string') {
+            return '';
+        }
+
+        $path = explode('?', $path)[0];
+
+        if (!file_exists($path)) {
+            return '';
+        }
+
+        return getimagesize($path);
+    }
+
+    /**
      * Get composer vendor path.
      *
      * @param string $startDir The directory to start the search from.
