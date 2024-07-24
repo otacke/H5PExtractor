@@ -103,10 +103,12 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
         $set .= '<div style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1rem;">';
 
         $imagePath = isset($dialog['image']) ? $dialog['image']['path'] : '';
+
         $set .= self::buildCardholder([
             'image' => $this->fileToBase64($imagePath),
             'audio' => count($dialog['audio'] ?? []) > 0,
             'text' => $dialog['text'] ?? '',
+            'hint' => $dialog['tips']['front'] ?? '',
             'side' => 'front'
         ]);
 
@@ -114,6 +116,7 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
             'image' => $this->fileToBase64($imagePath),
             'audio' => count($dialog['audio'] ?? []) > 0,
             'text' => $dialog['answer'] ?? '',
+            'hint' => $dialog['tips']['back'] ?? '',
             'side' => 'back'
         ]);
 
@@ -196,6 +199,13 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
         // 16 padding, 16 gap, 64 inner card padding
         $textAreaWidth = ($this->main->renderWidth - 32) / 2 - 64;
         $textAreaHeight = 72; // Fixed text area height in pixels from CSS
+
+        if ($params['hint'] !== '') {
+            $params['text'] .=
+                '<p style="margin-top: 0.5rem; text-align: center">' .
+                    '(' . "\u{2139}\u{fe0f}: " . $params['hint'] .')' .
+                '</p>';
+        }
 
         $fontSize = DOMUtils::estimateFittingFontSize(
             $params['text'],
