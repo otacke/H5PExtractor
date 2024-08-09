@@ -2,13 +2,30 @@
 Tool that is supposed to be be usable for rendering H5P content server-side.
 
 ## Quick start (to be done properly (!))
+1. Copy the library to your ow project. You can also use composer, but you will
+   need to fetch the library from github, because it is not available via packagist
+   (yet).
 
-1. Use `require_once <path_to_h5p-extractor> . '/app/H5PExtractor.php';` to
+   Your `composer.json` file should contain
+   ```
+   "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/otacke/H5PExtractor"
+        }
+    ],
+    "require": {
+        "snordian/h5p-extractor": "dev-master"
+   }
+   ```
+   and any other of your dependencies, of course.
+
+2. Use `require_once <path_to_h5p-extractor> . '/app/H5PExtractor.php';` to
 load code. It does autload everything it needs, but it is not instantiated by
 any autoload itself, because it it seems appropriate to only load H5PExtractor
 once actually needed.
 
-2. Use `$h5pExtractor = new H5PExtractor\H5PExtractor($config);` to create an
+3. Use `$h5pExtractor = new H5PExtractor\H5PExtractor($config);` to create an
    instance, where `$config` is supposed to be an optional an associative array
    containing configuration items, e.g.:
    ```
@@ -27,7 +44,7 @@ once actually needed.
    Please ensure that the respective `uploads` directory can be read and written by
    your server process.
 
-3. Use something like
+4. Use something like
    ```
    $extract = $h5pExtractor->extract(
        [
