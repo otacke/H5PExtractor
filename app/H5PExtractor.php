@@ -88,7 +88,7 @@ class H5PExtractor
      *
      * @return array The result or error.
      */
-    public function extract($params)
+    public function extract($params = [])
     {
         if (!isset($params['file'])) {
             $this->done(
