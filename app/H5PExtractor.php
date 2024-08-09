@@ -91,7 +91,7 @@ class H5PExtractor
     public function extract($params = [])
     {
         if (!isset($params['file'])) {
-            $this->done(
+            return $this->done(
                 null,
                 'It seems that no file was provided.'
             );
