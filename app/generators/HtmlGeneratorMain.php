@@ -416,12 +416,19 @@ class HtmlGeneratorMain
             'h5p.css',
             'h5p-confirmation-dialog.css',
             'h5p-core-button.css',
-            'h5p-tooltip.css',
-            'font-open-sans.css'
+            'h5p-tooltip.css', // Only as of H5P core 1.26
+            'font-open-sans.css' // Only as of H5P core 1.26
         ];
 
         $coreCss = '';
         foreach ($requiredFiles as $fileName) {
+            if (!file_exists($stylesPath . DIRECTORY_SEPARATOR . $fileName)) {
+                if ($fileName === 'font-open-sans.css') {
+                    // TODO: Add a fallback font
+                }
+                return;
+            }
+
             $coreCss .= file_get_contents(
                 $stylesPath . DIRECTORY_SEPARATOR . $fileName
             );

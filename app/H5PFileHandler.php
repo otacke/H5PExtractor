@@ -37,7 +37,23 @@ class H5PFileHandler
      */
     public function __construct($file, $uploadsPath)
     {
-        $this->baseDirectory = $uploadsPath;
+        $h5pExtractorDir = $uploadsPath . DIRECTORY_SEPARATOR . 'h5p-extractor';
+
+        if (!is_dir($h5pExtractorDir)) {
+            if (!is_writable($uploadsPath)) {
+                throw new \Exception(
+                    'Upload directory ' . $uploadsPath . ' is not writable.'
+                );
+            }
+
+            if (!mkdir($h5pExtractorDir, 0777, true) && !is_dir($h5pExtractorDir)) {
+                throw new \Exception(
+                    'Could not create upload directory ' . $h5pExtractorDir . '.'
+                );
+            }
+        }
+
+        $this->baseDirectory = $h5pExtractorDir;
 
         try {
             $this->filesDirectory = $this->extractContent($file);
@@ -461,7 +477,7 @@ class H5PFileHandler
 
         // Ensure that the content types stylesheet is loaded last
         $mainLibrary = $jsonData['mainLibrary'];
-        $preloadedDependencies = $jsonData['preloadedDependencies'];
+        $preloadedDependencies = $jsonData['preloadedDependencies'] ?? [];
         foreach ($preloadedDependencies as $key => $dependency) {
             if ($dependency['machineName'] === $mainLibrary) {
                 // Remove the item from the current position
