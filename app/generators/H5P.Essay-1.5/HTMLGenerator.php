@@ -72,7 +72,7 @@ class HtmlGeneratorEssayMajor1Minor5 extends Generator implements GeneratorInter
         $container .= '<textarea disabled' .
             ' class="h5p-essay-input-field-textfield"' .
             ' rows="' . $numberLines . '" ' .
-            ' placeholder="' . $this->params['placeholderText'] . '"' .
+            ' placeholder="' . ($this->params['placeholderText'] ?? '') . '"' .
             '>';
         $container .= '</textarea>';
         $container .= '</div>';

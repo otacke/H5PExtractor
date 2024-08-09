@@ -54,7 +54,7 @@ class PlainTextGeneratorEssayMajor1Minor5 extends Generator implements Generator
         $container .= TextUtils::htmlToText(($this->params['taskDescription'] ?? ''));
 
         if (!empty($this->params['placeholderText'])) {
-            $container .= $this->params['placeholderText'] . "\n\n";
+            $container .= ($this->params['placeholderText'] ?? '') . "\n\n";
         }
 
         $line = '________________________________________' . "\n";
