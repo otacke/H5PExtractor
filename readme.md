@@ -1,6 +1,15 @@
 # H5P Extractor - proof of concept
 Tool that is supposed to be be usable for rendering H5P content server-side.
 
+## VERY IMPORTANT NOTE
+Currently, the dependency to h5p-core is pinned to version ~1.24. That's because
+the H5P plugin for WordPress still uses an older core API that could break
+when using this library. The main target system for this library is WordPress
+though. If you are planning to use this library alongside H5P via composer,
+you may need to change the dependency version requirement or otherwise your
+platform may not be able to run the H5P plugin properly. I still need to figure
+out if there is a way to make the dependency version "flexible".
+
 ## Quick start (to be done properly (!))
 1. Copy the library to your ow project. You can also use composer, but you will
    need to fetch the library from github, because it is not available via packagist
