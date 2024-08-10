@@ -58,7 +58,8 @@ class FileUtils
      *
      * @return array The size of the image.
      */
-    public static function getImageSize($path){
+    public static function getImageSize($path)
+    {
         if (getType($path) !== 'string') {
             return '';
         }

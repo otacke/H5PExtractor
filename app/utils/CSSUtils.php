@@ -49,6 +49,110 @@ class CSSUtils
     }
 
     /**
+     * Simplify the given CSS by removing redundant properties.
+     *
+     * @param string $css The CSS to simplify.
+     * @param array  $properties The font format priorities.
+     *
+     * @return string The simplified CSS.
+     */
+    public static function simplifyFonts($css, $priority = null)
+    {
+        // Define font format priorities
+        if (!isset($priority)) {
+            $priority = [
+                'woff2' => 1,
+                'woff' => 2,
+                'otf' => 3,
+                'ttf' => 4,
+                'svg' => 5,
+                'eot' => 6
+            ];
+        }
+
+        // Regular expression to match @font-face blocks
+        $pattern = '/@font-face\s*{([^}]+)}/i';
+
+        // Callback function to process each @font-face block
+        $callback = function ($matches) use ($priority) {
+            $declaration = $matches[1];
+
+            // Extract all parts of the @font-face block
+            preg_match_all('/([a-z\-]+)\s*:\s*([^;]+);/i', $declaration, $attrMatches, PREG_SET_ORDER);
+
+            // Capture attributes
+            $attributes = [];
+            foreach ($attrMatches as $attrMatch) {
+                $property = strtolower(trim($attrMatch[1]));
+                $value = trim($attrMatch[2]);
+                $attributes[$property] = $value;
+            }
+
+            // Handle src declarations separately
+            preg_match_all(
+                '/src\s*:\s*url\(([^)]+)\)\s*(?:format\(["\']([^"\']+)["\']\))?|src\s*:\s*data:[^;]+;/i',
+                $declaration,
+                $srcMatches,
+                PREG_SET_ORDER
+            );
+
+            // Initialize variables to keep track of highest priority src
+            $highestPrioritySrc = '';
+            $highestPriorityFormat = '';
+            $highestPriorityValue = PHP_INT_MAX;
+            $dataUri = '';
+
+            foreach ($srcMatches as $srcMatch) {
+                $url = $srcMatch[1] ?? '';
+                $format = isset($srcMatch[2]) ? strtolower($srcMatch[2]) : '';
+
+                if ($url) {
+                    $priorityValue = isset($priority[$format]) ? $priority[$format] : PHP_INT_MAX;
+                    if ($priorityValue < $highestPriorityValue) {
+                        $highestPrioritySrc = $url;
+                        $highestPriorityFormat = $format;
+                        $highestPriorityValue = $priorityValue;
+                    }
+                } else {
+                    // Preserve data URIs
+                    $dataUri = $srcMatch[0];
+                }
+            }
+
+            // Build the new src declaration with the highest priority format
+            $newSrcDeclaration = $dataUri ?: '';
+            if ($highestPrioritySrc) {
+                $newSrcDeclaration .= ($newSrcDeclaration ? ', ' : '') . "url($highestPrioritySrc)";
+                if ($highestPriorityFormat) {
+                    $newSrcDeclaration .= " format('$highestPriorityFormat')";
+                }
+            }
+
+            // Remove existing src declarations and replace with new one
+            $declaration = preg_replace(
+                '/src\s*:\s*url\([^\)]+\)\s*(?:format\(["\'][^"\']+["\']\))?|src\s*:\s*data:[^;]+;/i',
+                '',
+                $declaration
+            );
+            $declaration = trim($declaration);
+
+            // Add the new src declaration and rebuild the @font-face block
+            if ($newSrcDeclaration) {
+                $attributes['src'] = $newSrcDeclaration;
+            }
+            $attributeString = '';
+            foreach ($attributes as $property => $value) {
+                $attributeString .= "$property: $value; ";
+            }
+
+            return "@font-face { " . trim($attributeString) . "}";
+        };
+
+        // Apply the callback to all @font-face blocks
+        return preg_replace_callback($pattern, $callback, $css);
+    }
+
+    /**
      * Replace URLs in the given CSS with base64 encoded strings.
      *
      * @param string $css      The CSS to replace URLs in.

@@ -78,7 +78,7 @@ class Generator
      */
     public function getImageSize($contentPath)
     {
-        if (gettype ($contentPath) !== 'string' || $contentPath === '') {
+        if (gettype($contentPath) !== 'string' || $contentPath === '') {
             return null;
         }
 

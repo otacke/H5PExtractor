@@ -309,6 +309,7 @@ class H5PFileHandler
                 = $contentTypeDir . DIRECTORY_SEPARATOR . $libraryJson['preloadedCss'][$i]['path'];
 
             $newCss = file_get_contents($cssFile);
+            $newCss = CSSUtils::simplifyFonts($newCss);
             $newCss = CSSUtils::replaceUrlsWithBase64($newCss, dirname($cssFile));
             $css .= $newCss;
         }
