@@ -28,10 +28,11 @@ class CSSUtils
      * Prettify the given CSS.
      *
      * @param string $css The CSS to prettify.
+     * @param bool   $compact Whether to prettify the CSS in compact mode.
      *
      * @return string The prettified CSS.
      */
-    public static function prettify($css, $compact = false)
+    public static function prettify($css, $compact = true)
     {
         $vendorPath = FileUtils::getVendorPath(__DIR__);
         $autoload = $vendorPath . DIRECTORY_SEPARATOR . 'autoload.php';
