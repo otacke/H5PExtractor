@@ -25,6 +25,30 @@ namespace H5PExtractor;
 class CSSUtils
 {
     /**
+     * Prettify the given CSS.
+     *
+     * @param string $css The CSS to prettify.
+     *
+     * @return string The prettified CSS.
+     */
+    public static function prettify($css, $compact = false)
+    {
+        $vendorPath = FileUtils::getVendorPath(__DIR__);
+        $autoload = $vendorPath . DIRECTORY_SEPARATOR . 'autoload.php';
+        require_once $autoload;
+
+        $parser = new \Sabberworm\CSS\Parser($css);
+        $cssDocument = $parser->parse();
+
+        if ($compact) {
+            $formatter = \Sabberworm\CSS\OutputFormat::createCompact();
+        } else {
+            $formatter = \Sabberworm\CSS\OutputFormat::createPretty();
+        }
+        return $cssDocument->render($formatter);
+    }
+
+    /**
      * Replace URLs in the given CSS with base64 encoded strings.
      *
      * @param string $css      The CSS to replace URLs in.

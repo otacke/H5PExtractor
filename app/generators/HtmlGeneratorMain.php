@@ -95,6 +95,7 @@ class HtmlGeneratorMain
                 );
         }
         $css = CSSUtils::removeClientHandlingCSS($css);
+        $css = CSSUtils::prettify($css);
 
         $metadataFields = [
             'title',
