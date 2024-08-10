@@ -149,7 +149,7 @@ class HtmlGeneratorMain
      */
     private function createMain($css = '', $contentHtml = '')
     {
-        $html  = '<style>' . $css . '</style>';
+        $html  = '<style>' . "\n" . $css . "\n" . '</style>' . "\n";
         $html .= '<div class="h5p-iframe">';
         $html .= '<div class="h5p-content h5p-initialized h5p-frame">';
         $html .= $contentHtml;
