@@ -56,7 +56,7 @@ class CSSUtils
      *
      * @return string The simplified CSS.
      */
-    public static function simplifyFonts($css)
+    public static function simplifyFonts($css, $formatPriorities = null)
     {
         // Find all @font-face blocks
         $fontFaceBlocks = [];
@@ -88,13 +88,16 @@ class CSSUtils
             $bestFormatIndex = 0;
             if (count($allSources) > 1) {
                 $bestFormatPriority = 0;
-                $formatPriorities = [
-                    'woff2' => 5,
-                    'woff' => 4,
-                    'ttf' => 3,
-                    'embedded-opentype' => 2,
-                    'svg' => 1
-                ];
+
+                if ($formatPriorities === null) {
+                    $formatPriorities = [
+                        'truetype' => 5,
+                        'woff2' => 4,
+                        'woff' => 3,
+                        'embedded-opentype' => 2,
+                        'svg' => 1
+                    ];
+                }
 
                 foreach ($allSources as $index => $source) {
                     $format = null;
