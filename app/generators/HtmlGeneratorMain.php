@@ -445,6 +445,7 @@ class HtmlGeneratorMain
         $coreCss = str_replace("@import 'font-open-sans.css';", "", $coreCss);
 
         // Replace URLs to fonts with respective base64 encoded strings
+        $coreCss = CSSUtils::simplifyFonts($coreCss);
         $coreCss = CSSUtils::replaceUrlsWithBase64($coreCss, $stylesPath);
 
         return $coreCss;
