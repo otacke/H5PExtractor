@@ -74,7 +74,8 @@ class HtmlGeneratorDragTextMajor1Minor10 extends Generator implements GeneratorI
             if (!str_starts_with($segment, '*')
                 || !str_ends_with($segment, '*')
             ) {
-                $textParts[] = '<span>' . $segment . '</span>';
+                // Span in original, but may conflict with Pressbooks. Does not hurt though.
+                $textParts[] = '<div style="display:inline;">' . $segment . '</div>';
                 continue;
             }
 
@@ -84,12 +85,14 @@ class HtmlGeneratorDragTextMajor1Minor10 extends Generator implements GeneratorI
                 'class="ui-draggable ui-draggable-handle" ' .
                 'style="position: relative; left: 0; top: 0;"' .
                 '>' .
-                '<span>' . $lexed['text'] . '</span>' .
+                // Span in original, but may conflict with Pressbooks. Does not hurt though.
+                '<div style="display: inline;">' . $lexed['text'] . '</div>' .
                 '</div>';
 
             $dropzone = '<div class="h5p-drag-dropzone-container">' .
                 '<div ' .
-                'aria-dropeffect="none" class="ui-droppable" style="width: 100px">' .
+                    'aria-dropeffect="none" class="ui-droppable" ' .
+                    'style="width: 100px">' .
                 '</div>' .
                 '</div>';
 
@@ -115,7 +118,8 @@ class HtmlGeneratorDragTextMajor1Minor10 extends Generator implements GeneratorI
               'class="ui-draggable ui-draggable-handle" ' .
               'style="position: relative; left: 0; top: 0;"' .
               '>' .
-              '<span>' . $lexed['text'] . '</span>' .
+              // Span in original, but may conflict with Pressbooks. Does not hurt though.
+              '<div style="display:inline;">' . $lexed['text'] . '</div>' .
               // TODO: Tips
               '</div>';
         }
