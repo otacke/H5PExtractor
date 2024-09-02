@@ -429,7 +429,7 @@ class HtmlGeneratorMain
                 if ($fileName === 'font-open-sans.css') {
                     // TODO: Add a fallback font
                 }
-                return;
+                continue;
             }
 
             $coreCss .= file_get_contents(
