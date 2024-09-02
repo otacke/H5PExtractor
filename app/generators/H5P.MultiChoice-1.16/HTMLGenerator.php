@@ -65,7 +65,7 @@ class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements Generat
 
         $container .= '<div class="h5p-question-introduction">';
         $container .= '<div>' . ($this->params['question'] ?? ''). '</div>';
-        $container .= '</div>';
+        $container .= '</div>'; // Closing h5p-question-introduction
 
         $numCorrect = count(
             array_filter(
@@ -93,18 +93,15 @@ class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements Generat
         for ($answerIndex = 0; $answerIndex < $answerCount; $answerIndex++) {
             $container .= '<li class="h5p-answer" role="' . $role . '">';
             $container .= '<div class="h5p-alternative-container">';
-            $container .= '<span class="h5p-alternative-inner">';
-
-            $answerData = $this->params['answers'][$answerIndex];
 
             /*
              * Browsers handle divs inside spans fine, but other renderers may not
-             * Since all that the div receives is display-inline via CSS, this should work
+             * Changing this span to a div doesn't seem to have any negative effects
              */
-            $itemText = $answerData['text'] ?? '';
-            $itemText = str_replace('<div>', '<span>', $itemText);
-            $itemText = str_replace('</div>', '</span>', $itemText);
-            $container .= $itemText;
+            $container .= '<div class="h5p-alternative-inner">';
+
+            $answerData = $this->params['answers'][$answerIndex];
+            $container .= $answerData['text'] ?? '';
 
             $container .= '</span>';
             // TODO: Tips
