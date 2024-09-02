@@ -417,6 +417,8 @@ class HtmlGeneratorMain
             'h5p.css',
             'h5p-confirmation-dialog.css',
             'h5p-core-button.css',
+            'h5p-theme.css', // Only as of H5P core 1.27
+            'h5p-theme-variables.css', // Only as of H5P core 1.27
             'h5p-tooltip.css', // Only as of H5P core 1.26
             'font-open-sans.css' // Only as of H5P core 1.26
         ];
