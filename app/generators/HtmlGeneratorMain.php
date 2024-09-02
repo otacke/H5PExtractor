@@ -28,6 +28,7 @@ class HtmlGeneratorMain
     public $renderWidth;
     public $target;
     public $scope;
+    public $customCss;
     private $javaScripts;
 
     /**
@@ -40,13 +41,15 @@ class HtmlGeneratorMain
         $h5pFileHandler,
         $renderWidth = 1024,
         $target = 'print',
-        $scope = 'all'
+        $scope = 'all',
+        $customCss = ''
     ) {
         $this->h5pFileHandler = $h5pFileHandler;
         $this->renderWidth = $renderWidth;
         $this->target = $target;
         $this->scope = $scope;
         $this->javaScripts = [];
+        $this->customCss = $customCss;
     }
 
     /**
@@ -95,6 +98,7 @@ class HtmlGeneratorMain
                 );
         }
         $css = CSSUtils::removeClientHandlingCSS($css);
+        $css .= $this->customCss;
         $css = CSSUtils::prettify($css);
 
         $metadataFields = [

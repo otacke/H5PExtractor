@@ -43,6 +43,7 @@ once actually needed.
      'renderWidth' => <the assumed viewport width : number, default: 1024>
      'target' => <specific target as option : ['print|screen'], default: 'print'>
      'scope' => <specific scope as option : ['all|initial'], default: 'all'>
+     'customCss' => <custom CSS to be applied after content CSS is set : string>
    ]
    ```
 

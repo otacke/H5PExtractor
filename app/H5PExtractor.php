@@ -34,6 +34,7 @@ class H5PExtractor
      *                     renderWidth (int): The width to render the content at in px.
      *                     target (string): [print|screen]
      *                     scope (string): [all|initial]
+     *                     customCss (string): Custom CSS to be added to the output.
      */
     public function __construct($config = [])
     {
@@ -54,6 +55,10 @@ class H5PExtractor
 
         if (!isset($config['scope'])) {
             $config['scope'] = 'all';
+        }
+
+        if (!isset($config['customCss'])) {
+            $config['customCss'] = '';
         }
 
         $this->config = $config;
@@ -148,7 +153,8 @@ class H5PExtractor
                     $h5pFileHandler,
                     $this->config['renderWidth'],
                     $this->config['target'],
-                    $this->config['scope']
+                    $this->config['scope'],
+                    $this->config['customCss']
                 );
                 break;
 
