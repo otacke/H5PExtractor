@@ -201,7 +201,7 @@ class HtmlGeneratorQuestionSetMajor1Minor20 extends Generator implements Generat
         $footer .= '<div class="qs-progress">';
 
         if ($this->params['progressType'] === 'dots') {
-            $footer .= '<ul class="dots-container>';
+            $footer .= '<ul class="dots-container">';
             for ($i = 0; $i < count($this->params['questions']); $i++) {
                 $footer .= '<li class="progress-item">';
                 $footer .= '<a href=""' .
