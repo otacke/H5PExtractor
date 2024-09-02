@@ -94,8 +94,18 @@ class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements Generat
             $container .= '<li class="h5p-answer" role="' . $role . '">';
             $container .= '<div class="h5p-alternative-container">';
             $container .= '<span class="h5p-alternative-inner">';
+
             $answerData = $this->params['answers'][$answerIndex];
-            $container .= ($answerData['text'] ?? '');
+
+            /*
+             * Browsers handle divs inside spans fine, but other renderers may not
+             * Since all that the div receives is display-inline via CSS, this should work
+             */
+            $itemText = $answerData['text'] ?? '';
+            $itemText = str_replace('<div>', '<span>', $itemText);
+            $itemText = str_replace('</div>', '</span>', $itemText);
+            $container .= $itemText;
+
             $container .= '</span>';
             // TODO: Tips
             $container .= '</div>';
