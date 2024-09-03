@@ -103,7 +103,7 @@ class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements Generat
             $answerData = $this->params['answers'][$answerIndex];
             $container .= $answerData['text'] ?? '';
 
-            $container .= '</span>';
+            $container .= '</div>';
             // TODO: Tips
             $container .= '</div>';
             $container .= '</li>';
