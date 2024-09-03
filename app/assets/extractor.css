@@ -1,6 +1,6 @@
 /* Nested CSS may not be supported by renderer yet */
 
-.h5p-extractor * {
+.h5p-extractor {
   all: initial;
 }
 
