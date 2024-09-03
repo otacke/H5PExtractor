@@ -1,5 +1,17 @@
 /* Nested CSS may not be supported by renderer yet */
 
+.h5p-iframe * {
+  all: initial;
+}
+
+.h5p-iframe *::before {
+  all: initial;
+}
+
+.h5p-iframe *::after {
+  all: initial;
+}
+
 .h5p-extractor-content-wrapper {
   margin-top: 1rem; padding: 0 1rem;
 }
