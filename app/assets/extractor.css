@@ -4,6 +4,11 @@
   all: initial;
 }
 
+/* Reset text-indent specifically */
+.h5p-iframe .h5p-content * { text-indent: 0; }
+.h5p-iframe .h5p-content *::before { text-indent: 0; }
+.h5p-iframe .h5p-content *::after { text-indent: 0; }
+
 .h5p-extractor-content-wrapper {
   margin-top: 1rem; padding: 0 1rem;
 }
