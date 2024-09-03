@@ -28,7 +28,8 @@ class HtmlGeneratorMain
     public $renderWidth;
     public $target;
     public $scope;
-    public $customCss;
+    public $customCssPre;
+    public $customCssPost;
     private $javaScripts;
 
     /**
@@ -42,14 +43,16 @@ class HtmlGeneratorMain
         $renderWidth = 1024,
         $target = 'print',
         $scope = 'all',
-        $customCss = ''
+        $customCssPre = '',
+        $customCssPost = ''
     ) {
         $this->h5pFileHandler = $h5pFileHandler;
         $this->renderWidth = $renderWidth;
         $this->target = $target;
         $this->scope = $scope;
         $this->javaScripts = [];
-        $this->customCss = $customCss;
+        $this->customCssPre = $customCssPre;
+        $this->customCssPost = $customCssPost;
     }
 
     /**
@@ -59,9 +62,11 @@ class HtmlGeneratorMain
      */
     public function create()
     {
+        $css = $this->customCssPre;
+
         // Add extractor CSS
         try {
-            $css = file_get_contents(
+            $css .= file_get_contents(
                 __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR .
                 'assets' . DIRECTORY_SEPARATOR . 'extractor.css'
             );
@@ -98,7 +103,7 @@ class HtmlGeneratorMain
                 );
         }
         $css = CSSUtils::removeClientHandlingCSS($css);
-        $css .= $this->customCss;
+        $css .= $this->customCssPost;
         $css = CSSUtils::prettify($css);
 
         $metadataFields = [

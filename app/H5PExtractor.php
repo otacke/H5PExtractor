@@ -57,8 +57,12 @@ class H5PExtractor
             $config['scope'] = 'all';
         }
 
-        if (!isset($config['customCss'])) {
+        if (!isset($config['customCssPre'])) {
             $config['customCss'] = '';
+        }
+
+        if (!isset($config['customCssPost'])) {
+            $config['customCssPost'] = '';
         }
 
         $this->config = $config;
@@ -154,7 +158,8 @@ class H5PExtractor
                     $this->config['renderWidth'],
                     $this->config['target'],
                     $this->config['scope'],
-                    $this->config['customCss']
+                    $this->config['customCssPre'],
+                    $this->config['customCssPost']
                 );
                 break;
 
