@@ -80,14 +80,7 @@ class HtmlGeneratorDragTextMajor1Minor10 extends Generator implements GeneratorI
             }
 
             $lexed = UtilsDragTextMajor1Minor10::lex($segment);
-            $draggables[] = '<div ' .
-                'role="button" aria-grabbed="false" ' .
-                'class="ui-draggable ui-draggable-handle" ' .
-                'style="position: relative; left: 0; top: 0;"' .
-                '>' .
-                // Span in original, but may conflict with Pressbooks. Does not hurt though.
-                '<div style="display: inline;">' . $lexed['text'] . '</div>' .
-                '</div>';
+            $draggables[] = $this->buildDraggableHTML($lexed['text']);
 
             $dropzone = '<div class="h5p-drag-dropzone-container">' .
                 '<div ' .
@@ -113,15 +106,7 @@ class HtmlGeneratorDragTextMajor1Minor10 extends Generator implements GeneratorI
             }
 
             $lexed = UtilsDragTextMajor1Minor10::lex($segment);
-            $draggables[] = '<div ' .
-              'role="button" aria-grabbed="false" ' .
-              'class="ui-draggable ui-draggable-handle" ' .
-              'style="position: relative; left: 0; top: 0;"' .
-              '>' .
-              // Span in original, but may conflict with Pressbooks. Does not hurt though.
-              '<div style="display:inline;">' . $lexed['text'] . '</div>' .
-              // TODO: Tips
-              '</div>';
+            $draggables[] = $this->buildDraggableHTML($lexed['text']);
         }
 
         $container .= '<div class="h5p-question-introduction">';
@@ -146,5 +131,24 @@ class HtmlGeneratorDragTextMajor1Minor10 extends Generator implements GeneratorI
         $container .= '</div>';
 
         $container .= $htmlClosing;
+    }
+
+    /**
+     * Build draggable HTML.
+     *
+     * @param string $text Text.
+     *
+     * @return string Draggable HTML.
+     */
+    private function buildDraggableHTML($text)
+    {
+        return
+            '<div ' .
+                'role="button" aria-grabbed="false" ' .
+                'class="ui-draggable ui-draggable-handle" ' .
+                'style="position: relative; left: 0; top: 0;"' .
+            '>' .
+                '<span>' . $text . '</span>' .
+            '</div>';
     }
 }
