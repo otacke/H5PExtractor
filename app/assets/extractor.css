@@ -1,14 +1,6 @@
 /* Nested CSS may not be supported by renderer yet */
 
-.h5p-iframe * {
-  all: initial;
-}
-
-.h5p-iframe *::before {
-  all: initial;
-}
-
-.h5p-iframe *::after {
+.h5p-extractor * {
   all: initial;
 }
 
