@@ -58,7 +58,7 @@ class H5PExtractor
         }
 
         if (!isset($config['customCssPre'])) {
-            $config['customCss'] = '';
+            $config['customCssPre'] = '';
         }
 
         if (!isset($config['customCssPost'])) {
