@@ -24,8 +24,8 @@ namespace H5PExtractor;
  */
 class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements GeneratorInterface
 {
-    private $main;
-    private $params;
+    protected $main;
+    protected $params;
 
     /**
      * Constructor.
