@@ -35,6 +35,7 @@
 
 .h5p-extractor .h5p-multichoice .h5p-alternative-inner {
   margin-left: 0;
+  text-indent: 0;
 }
 
 .h5p-extractor .h5p-multichoice .h5p-alternative-inner div {
