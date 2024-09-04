@@ -98,8 +98,8 @@ class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements Generat
             $container .= '<div class="h5p-alternative-container">';
 
             /*
-             * Browsers handle divs inside spans fine, but other renderers may not
-             * Changing this span to a div doesn't seem to have any negative effects
+             * Browsers handle divs inside spans fine, but other renderers may not.
+             * Added rules in extractor.css to handle proper indenting
              */
             $container .= '<div class="h5p-alternative-inner">';
 

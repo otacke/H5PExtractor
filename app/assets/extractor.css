@@ -32,3 +32,12 @@
   font-size: 1.25rem;
   font-weight: bold
 }
+
+.h5p-extractor .h5p-multichoice .h5p-alternative-inner {
+  margin-left: 0;
+}
+
+.h5p-extractor .h5p-multichoice .h5p-alternative-inner div {
+  padding-left: 2em;
+  text-indent: -2em;
+}
