@@ -57,6 +57,15 @@ class HtmlGeneratorSingleChoiceSetMajor1Minor11 extends Generator implements Gen
         $container .= '<div class="h5p-sc-set-wrapper initialized navigatable">';
 
         for ($i = 0; $i < count($this->params['choices']); $i++) {
+            // Sanitization
+            if (!isset($this->params['choices'][$i]['question'])) {
+                $this->params['choices'][$i]['question'] = '';
+            }
+
+            if (!isset($this->params['choices'][$i]['answers'])) {
+                $this->params['choices'][$i]['answers'] = [];
+            }
+
             shuffle($this->params['choices'][$i]['answers']);
         }
 
