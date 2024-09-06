@@ -104,7 +104,11 @@ class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements Generat
             $container .= '<div class="h5p-alternative-inner">';
 
             $answerData = $this->params['answers'][$answerIndex];
-            $container .= $answerData['text'] ?? '';
+            $answerText = $answerData['text'] ?? '';
+            if (!str_starts_with($answerText, '<div>')) {
+                $answerText = '<div>' . $answerText . '</div>';
+            }
+            $container .= $answerText;
 
             $container .= '</div>';
             // TODO: Tips
