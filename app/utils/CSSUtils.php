@@ -25,6 +25,40 @@ namespace H5PExtractor;
 class CSSUtils
 {
     /**
+     * Prettify the given CSS.
+     *
+     * @param string $css The CSS to prettify.
+     *
+     * @return string The prettified CSS.
+     */
+    public static function prettify($css)
+    {
+        // Remove consecutive spaces
+        $css = preg_replace('/\s+/', ' ', $css);
+
+        // Remove comments
+        $css = preg_replace('/\/\*.*?\*\//s', '', $css);
+
+        // Remove blank lines
+        $css = preg_replace('/^\s*[\r\n]/m', '', $css);
+
+        // Remove occurrences of @CHARSET "UTF-8"
+        $css = preg_replace('/@charset\s+"utf-8";/i', '', $css);
+
+        // Remove all line breaks
+        $css = str_replace(["\r", "\n"], '', $css);
+
+        // Remove empty rules until no more can be found
+        $css = preg_replace('/[^{}]+\{\s*\}/', '', $css);
+
+        while (preg_match('/\}[^{}]*\{\}/', $css)) {
+            $css = preg_replace('/\}[^{}]*\{\}/', '}', $css);
+        }
+
+        return $css;
+    }
+
+    /**
      * Simplify the given CSS by removing redundant properties.
      *
      * @param string $css The CSS to simplify.
