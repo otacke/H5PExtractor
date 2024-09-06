@@ -25,31 +25,6 @@ namespace H5PExtractor;
 class CSSUtils
 {
     /**
-     * Prettify the given CSS.
-     *
-     * @param string $css The CSS to prettify.
-     * @param bool   $compact Whether to prettify the CSS in compact mode.
-     *
-     * @return string The prettified CSS.
-     */
-    public static function prettify($css, $compact = true)
-    {
-        $vendorPath = FileUtils::getVendorPath(__DIR__);
-        $autoload = $vendorPath . DIRECTORY_SEPARATOR . 'autoload.php';
-        require_once $autoload;
-
-        $parser = new \Sabberworm\CSS\Parser($css);
-        $cssDocument = $parser->parse();
-
-        if ($compact) {
-            $formatter = \Sabberworm\CSS\OutputFormat::createCompact();
-        } else {
-            $formatter = \Sabberworm\CSS\OutputFormat::createPretty();
-        }
-        return $cssDocument->render($formatter);
-    }
-
-    /**
      * Simplify the given CSS by removing redundant properties.
      *
      * @param string $css The CSS to simplify.

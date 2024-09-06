@@ -104,7 +104,6 @@ class HtmlGeneratorMain
         }
         $css = CSSUtils::removeClientHandlingCSS($css);
         $css .= $this->customCssPost;
-        $css = CSSUtils::prettify($css);
 
         $metadataFields = [
             'title',
