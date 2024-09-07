@@ -30,6 +30,10 @@ class HtmlGeneratorMain
     public $scope;
     public $customCssPre;
     public $customCssPost;
+    public $customContentJson;
+    public $h5pContentUrl;
+    public $h5pCoreUrl;
+    public $h5pLibrariesUrl;
     private $javaScripts;
 
     /**
@@ -44,7 +48,10 @@ class HtmlGeneratorMain
         $target = 'print',
         $scope = 'all',
         $customCssPre = '',
-        $customCssPost = ''
+        $customCssPost = '',
+        $h5pContentUrl = null,
+        $h5pCoreUrl = null,
+        $h5pLibrariesUrl = null
     ) {
         $this->h5pFileHandler = $h5pFileHandler;
         $this->renderWidth = $renderWidth;
@@ -53,6 +60,9 @@ class HtmlGeneratorMain
         $this->javaScripts = [];
         $this->customCssPre = $customCssPre;
         $this->customCssPost = $customCssPost;
+        $this->h5pContentUrl = $h5pContentUrl;
+        $this->h5pCoreUrl = $h5pCoreUrl;
+        $this->h5pLibrariesUrl = $h5pLibrariesUrl;
     }
 
     /**
@@ -89,7 +99,8 @@ class HtmlGeneratorMain
             $css .= $this->h5pFileHandler->getH5PContentTypeCSS(
                 $dependency['machineName'],
                 $dependency['majorVersion'],
-                $dependency['minorVersion']
+                $dependency['minorVersion'],
+                $this->h5pLibrariesUrl
             );
 
             $versionedMachineName = $dependency['machineName'] . ' ' .
@@ -457,9 +468,17 @@ class HtmlGeneratorMain
         // Remove the font import, we've loaded it manually
         $coreCss = str_replace("@import 'font-open-sans.css';", "", $coreCss);
 
-        // Replace URLs to fonts with respective base64 encoded strings
+        // Use one URL for font only
         $coreCss = CSSUtils::simplifyFonts($coreCss);
-        $coreCss = CSSUtils::replaceUrlsWithBase64($coreCss, $stylesPath);
+
+        if (isset($this->h5pCoreUrl)) {
+            // Replace relative URLs with absolute URLs using custom H5P Core URL base path
+            $coreCss = CSSUtils::replaceUrlsWithBase64($coreCss, $this->h5pCoreUrl);
+        }
+        else {
+            // Replace URLs to fonts with respective base64 encoded strings
+            $coreCss = CSSUtils::replaceUrlsWithBase64($coreCss, $stylesPath);
+        }
 
         return $coreCss;
     }

@@ -27,6 +27,7 @@ class H5PFileHandler
     private $baseDirectory;
     private $filesDirectory;
     private $h5pInfo;
+    private $contentParams;
 
     /**
      * Constructor.
@@ -34,8 +35,9 @@ class H5PFileHandler
      * @param string $file        The H5P file to handle.
      * @param string $uploadsPath The path to the uploads directory.
      *                            Will default to "uploads" in current directory.
+     * @param string  $contentJson A content.json string.
      */
-    public function __construct($file, $uploadsPath)
+    public function __construct($file, $uploadsPath, $contentJson = null)
     {
         $h5pExtractorDir = $uploadsPath . DIRECTORY_SEPARATOR . 'h5p-extractor';
 
@@ -228,6 +230,10 @@ class H5PFileHandler
      */
     public function getH5PContentParams()
     {
+        if (isset($this->contentParams)) {
+            return $this->contentParams; // Prevent loading files multiple times
+        }
+
         $extractDir = $this->baseDirectory . DIRECTORY_SEPARATOR . $this->filesDirectory;
         if (!is_dir($extractDir)) {
             return false;
@@ -250,6 +256,8 @@ class H5PFileHandler
             return false;
         }
 
+        $this->contentParams = $jsonData;
+
         return $jsonData;
     }
 
@@ -265,7 +273,8 @@ class H5PFileHandler
     public function getH5PContentTypeCSS(
         $machineName,
         $majorVersion = null,
-        $minorVersion = null
+        $minorVersion = null,
+        $h5pLibrariesURL = null
     ) {
         $extractDir = $this->baseDirectory . DIRECTORY_SEPARATOR . $this->filesDirectory;
         if (!is_dir($extractDir)) {
@@ -310,7 +319,13 @@ class H5PFileHandler
 
             $newCss = file_get_contents($cssFile);
             $newCss = CSSUtils::simplifyFonts($newCss);
-            $newCss = CSSUtils::replaceUrlsWithBase64($newCss, dirname($cssFile));
+
+            if (isset($h5pLibrariesURL)) {
+                $newCss = CSSUtils::replaceURLsSource($newCss, $h5pLibrariesURL . $dirMatching .'/');
+            } else {
+                $newCss = CSSUtils::replaceUrlsWithBase64($newCss, dirname($cssFile));
+            }
+
             $css .= $newCss;
         }
 

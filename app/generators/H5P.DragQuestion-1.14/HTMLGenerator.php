@@ -85,9 +85,7 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
                 'content' . DIRECTORY_SEPARATOR .
                 $this->params['question']['settings']['background']['path'];
 
-            $styleProps[] = 'background-image: url(' .
-                FileUtils::fileToBase64($imagePath) .
-                ')';
+            $styleProps[] = 'background-image: url(' . $this->buildFileSource($imagePath) . ')';
 
             list($width, $height) = getimagesize($imagePath);
             $styleProps[] = 'aspect-ratio: ' . $width . '/' . $height;

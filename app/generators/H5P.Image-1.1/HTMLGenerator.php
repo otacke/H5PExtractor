@@ -53,7 +53,7 @@ class HtmlGeneratorImageMajor1Minor1 extends Generator implements GeneratorInter
          */
         $container = str_replace('h5pClassName', 'h5p-image', $container);
 
-        $image = $this->fileToBase64($this->params['file']['path'] ?? '');
+        $image = $this->buildFileSource($this->params['file']['path'] ?? '');
         $alt = '';
 
         if (!empty($this->params['alt'])) {

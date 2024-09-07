@@ -145,7 +145,7 @@ class HtmlGeneratorImageJuxtapositionMajor1Minor4 extends Generator implements G
         $slide .=
             '<img ' .
                 'src="' .
-                    $this->fileToBase64($params['image']['params']['file']['path']) .
+                    $this->buildFileSource($params['image']['params']['file']['path']) .
                 '"' .
                 $style .
             '/>';

@@ -105,7 +105,7 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
         $imagePath = isset($dialog['image']) ? $dialog['image']['path'] : '';
 
         $set .= self::buildCardholder([
-            'image' => $this->fileToBase64($imagePath),
+            'image' => $this->buildFileSource($imagePath),
             'audio' => count($dialog['audio'] ?? []) > 0,
             'text' => $dialog['text'] ?? '',
             'hint' => $dialog['tips']['front'] ?? '',
@@ -113,7 +113,7 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
         ]);
 
         $set .= self::buildCardholder([
-            'image' => $this->fileToBase64($imagePath),
+            'image' => $this->buildFileSource($imagePath),
             'audio' => count($dialog['audio'] ?? []) > 0,
             'text' => $dialog['answer'] ?? '',
             'hint' => $dialog['tips']['back'] ?? '',

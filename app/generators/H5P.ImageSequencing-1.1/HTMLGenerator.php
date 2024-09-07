@@ -60,7 +60,7 @@ class HtmlGeneratorImageSequencingMajor1Minor1 extends Generator implements Gene
         shuffle($this->params['sequenceImages']);
 
         for ($i = 0; $i < count($this->params['sequenceImages']); $i++) {
-            $imgSrc = $this->fileToBase64($this->params['sequenceImages'][$i]['image']['path']);
+            $imgSrc = $this->buildFileSource($this->params['sequenceImages'][$i]['image']['path']);
 
             $container .=
                 '<li class="sequencing-item draggabled ui-sortable-handle ui-droppable">';

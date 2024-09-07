@@ -87,7 +87,7 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
             }
         );
 
-        $imageSrc = $this->fileToBase64($this->params['image']['path']);
+        $imageSrc = $this->buildFileSource($this->params['image']['path']);
 
         $defaultFontSize = 24;
 
@@ -118,7 +118,7 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
         $container = '';
 
         if ($this->params['iconType'] === 'image') {
-            $iconImage = $this->fileToBase64($this->params['iconImage']['path'] ?? '');
+            $iconImage = $this->buildFileSource($this->params['iconImage']['path'] ?? '');
         }
 
         for ($i = -1; $i < count($this->params['hotspots'] ?? []); $i++) {

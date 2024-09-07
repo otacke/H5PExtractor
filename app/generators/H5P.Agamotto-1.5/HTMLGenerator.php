@@ -103,7 +103,7 @@ class HtmlGeneratorAgamottoMajor1Minor5 extends Generator implements GeneratorIn
         $slide .= '<div class="h5p-agamotto-images-container" style="line-height: 0;">';
         $slide .=
             '<img ' .
-                'src="' . $this->fileToBase64($params['image']['params']['file']['path']) . '"' .
+                'src="' . $this->buildFileSource($params['image']['params']['file']['path']) . '"' .
                 'style="width: 100%;"' .
             '/>';
         $slide .= '</div>'; // Closing h5p-agamotto-images-container

@@ -255,7 +255,7 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
         }
         if ($backgroundImagePath !== '') {
             $properties['background-image'] = 'url(' .
-                $this->fileToBase64($backgroundImagePath) .
+                $this->buildFileSource($backgroundImagePath) .
             ')';
         }
 

@@ -130,9 +130,17 @@ class CSSUtils
                 }
             }
 
+            if (count($allSources) === 0) {
+                continue;
+            }
+
             $newSrc = $allSources[$bestFormatIndex];
             if (substr($newSrc, -1) !== ';') {
                 $newSrc .= ';';
+            }
+
+            if (count($srcValues) === 0 || count($srcValues[0]) === 0) {
+                continue;
             }
 
             // Replace the src value in the @font-face block with $newSrc
@@ -170,6 +178,34 @@ class CSSUtils
                 return FileUtils::fileToBase64(
                     $basePath . DIRECTORY_SEPARATOR . $trimmed
                 );
+            },
+            $css
+        );
+
+        return $css;
+    }
+
+    /**
+     * Replace URLs in the given CSS with the given base URL.
+     *
+     * @param string $css The CSS to replace URLs in.
+     * @param string $baseURL The base URL to use.
+     *
+     * @return string The CSS with URLs replaced with the given base URL.
+     */
+    public static function replaceURLsSource($css, $baseURL)
+    {
+        $pattern = '/url\s*\(\s*[\'"]?\K[^\'")]+/';
+
+        // Replace URLs with base64 encoded strings
+        $css = preg_replace_callback(
+            $pattern,
+            function ($matches) use ($baseURL) {
+                $trimmed = trim($matches[0], '\'"');
+                $trimmed = str_replace('../', '', $trimmed);
+                $trimmed = explode('?', $trimmed)[0];
+
+                return $baseURL . $trimmed;
             },
             $css
         );

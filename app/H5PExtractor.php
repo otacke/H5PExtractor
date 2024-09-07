@@ -45,6 +45,18 @@ class H5PExtractor
                 __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'uploads';
         }
 
+        if (!isset($config['h5pContentUrl'])) {
+            $config['h5pContentUrl'] = null;
+        }
+
+        if (!isset($config['h5pCoreUrl'])) {
+            $config['h5pCoreUrl'] = null;
+        }
+
+        if (!isset($config['h5pLibrariesUrl'])) {
+            $config['h5pLibrariesUrl'] = null;
+        }
+
         if (!isset($config['renderWidth'])) {
             $config['renderWidth'] = 1024;
         }
@@ -159,7 +171,10 @@ class H5PExtractor
                     $this->config['target'],
                     $this->config['scope'],
                     $this->config['customCssPre'],
-                    $this->config['customCssPost']
+                    $this->config['customCssPost'],
+                    $this->config['h5pContentUrl'],
+                    $this->config['h5pCoreUrl'],
+                    $this->config['h5pLibrariesUrl']
                 );
                 break;
 

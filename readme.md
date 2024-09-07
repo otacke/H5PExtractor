@@ -45,12 +45,20 @@ once actually needed.
      'scope' => <specific scope as option : ['all|initial'], default: 'all'>
      'customCssPre' => <custom CSS to be applied before H5P core/content CSS is set : string>
      'customCssPost' => <custom CSS to be applied after H5P core/content CSS is set : string>
+     'h5pCoreUrl' => <full URL to `h5p-php-library/` folder to use as core asset source : string>
+     'h5pLibrariesUrl' => <full URL to `libraries/` folder to use as content type asset source : string>
+     'h5pContentUrl' => <full URL to `content/<id>/` folder to use author defined content as source>
    ]
    ```
 
    By default, if that value is not set or no `$config` argument is passed,
-   H5PExtractor will try to create/use a directory named `uploads` inside its main
-   `h5p-extractor` directory.
+   H5PExtractor will
+   - try to create/use a directory named `uploads` inside its main
+     `h5p-extractor` directory.
+   - use a default render width of 1024 pixels
+   - not apply and custom CSS
+   - return base64 encoded representations of files inside the file if no Url to core, libraries
+     or the content is set.
 
    Please ensure that the respective `uploads` directory can be read and written by
    your server process.

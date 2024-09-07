@@ -49,7 +49,7 @@ class HtmlGeneratorQuestionSetMajor1Minor20 extends Generator implements Generat
 
         if (($this->params['backgroundImage']['path'] ?? '') !== '') {
             $styleProps[] = 'background-image: url(' .
-                $this->fileToBase64($this->params['backgroundImage']['path']) .
+                $this->buildFileSource($this->params['backgroundImage']['path']) .
             ')';
         }
 
@@ -123,9 +123,8 @@ class HtmlGeneratorQuestionSetMajor1Minor20 extends Generator implements Generat
                 'content' . DIRECTORY_SEPARATOR .
                 $this->params['introPage']['backgroundImage']['path'];
 
-            $styleProps[] = 'background: url(' .
-                FileUtils::fileToBase64($imagePath) .
-            ') 50% 50% / auto 100% no-repeat rgb(255, 255, 255);';
+            $styleProps[] = 'background: url(' . $this->buildFileSource($imagePath) . ') ' .
+                '50% 50% / auto 100% no-repeat rgb(255, 255, 255);';
 
             list($width, $height) = getimagesize($imagePath);
             $renderHeight = $this->main->renderWidth / $width * $height;

@@ -80,7 +80,7 @@ class HtmlGeneratorBlanksMajor1Minor14 extends Generator implements GeneratorInt
                 '/\*([^*]+)\*/',
                 '<span class="h5p-input-wrapper">' .
                     '<input class="h5p-text-input" style="width: ' .
-                        $blankWidth . ';" />' .
+                        $blankWidth . ';">' .
                     '</span>',
                 $questionData
             );

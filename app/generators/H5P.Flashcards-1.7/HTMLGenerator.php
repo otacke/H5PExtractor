@@ -95,7 +95,7 @@ class HtmlGeneratorFlashcardsMajor1Minor7 extends Generator implements Generator
      */
     private function renderCard($params)
     {
-        $imageSrc = $this->fileToBase64($params['image']['path'] ?? null);
+        $imageSrc = $this->buildFileSource($params['image']['path'] ?? null);
 
         $card = '<div class="h5p-card h5p-current" style="position: inherit;">';
         $card .= '<div class="h5p-cardholder">';

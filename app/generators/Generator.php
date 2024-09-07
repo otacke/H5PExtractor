@@ -38,14 +38,44 @@ class Generator
         $this->extras = $extras;
     }
 
+    /**
+     * Set the main class.
+     *
+     * @param HtmlGeneratorMain $main The main class.
+     */
     public function setMain($main)
     {
         $this->main = $main;
     }
 
+    /**
+     * Set the library info.
+     *
+     * @param array $libraryInfo The library info.
+     */
     public function setLibraryInfo($libraryInfo)
     {
         $this->libraryInfo = $libraryInfo;
+    }
+
+    /**
+     * Build src for given content path. Will use base64 encoding if no URL path to H5P content is set.
+     *
+     * @param string $contentPath Path to the file.
+     *
+     * @return string URL or base64 encoded file content.
+     */
+    public function buildFileSource($contentPath)
+    {
+        if (gettype($contentPath) !== 'string' || $contentPath === '') {
+            return '';
+        }
+
+        if (isset($this->main->h5pContentUrl)) {
+            return $this->main->h5pContentUrl . $contentPath;
+        }
+
+        return $this->fileToBase64($contentPath);
     }
 
     /**
@@ -59,6 +89,10 @@ class Generator
     {
         if (getType($contentPath) !== 'string' || $contentPath === '') {
             return '';
+        }
+
+        if (isset($this->main->h5pContentUrl)) {
+            return $this->main->h5pContentUrl . $contentPath;
         }
 
         $fullPath =
