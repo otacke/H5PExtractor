@@ -149,7 +149,7 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
         $container = $containerTemplate;
 
         $container .= '<div class="h5p-image-hotspots-container"' .
-            ' style="width: ' . $this->main->renderWidth . 'px; ' .
+            ' style="width: ' . $this->getRenderWidth() . 'px; ' .
             'font-size: ' . $params['defaultFontSize'] . 'px;' .
             '">';
 
@@ -157,7 +157,7 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
             $container .= '<img ' .
             'src="' . $params['imageSrc'] . '" ' .
             'class="h5p-image-hotspots-image" ' .
-            'style="width: ' . $this->main->renderWidth . 'px"/>';
+            'style="width: ' . $this->getRenderWidth() . 'px"/>';
 
             $hotspotsCount = count($this->params['hotspots'] ?? []);
             for ($i = 0; $i < $hotspotsCount; $i++) {
@@ -221,7 +221,7 @@ class HtmlGeneratorImageHotspotsMajor1Minor10 extends Generator implements Gener
         if ($this->main->scope !== 'all') {
             $overlayHotspot = $index >= 0 ? $this->params['hotspots'][$index] : null;
             if (isset($overlayHotspot)) {
-                $width = $this->main->renderWidth;
+                $width = $this->getRenderWidth();
                 $pointerWidthInPercent = 1.55;
                 $hotspotWidth = (1.1666667 * 1.2 * $params['defaultFontSize']) / $width * 100;
 

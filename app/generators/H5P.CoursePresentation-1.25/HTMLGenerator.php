@@ -129,9 +129,9 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
             'width' =>
                 'auto',
             'height' =>
-                ($this->main->renderWidth / self::BASE_ASPECT_RATIO) . 'px',
+                ($this->getRenderWidth() / self::BASE_ASPECT_RATIO) . 'px',
             'font-size' =>
-                (self::BASE_FONT_SIZE_PX * $this->main->renderWidth / self::BASE_WIDTH_PX) . 'px'
+                (self::BASE_FONT_SIZE_PX * $this->getRenderWidth() / self::BASE_WIDTH_PX) . 'px'
         ];
         $style = DOMUtils::buildStyleAttribute($properties);
 

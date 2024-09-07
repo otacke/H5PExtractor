@@ -127,7 +127,7 @@ class HtmlGeneratorQuestionSetMajor1Minor20 extends Generator implements Generat
                 '50% 50% / auto 100% no-repeat rgb(255, 255, 255);';
 
             list($width, $height) = getimagesize($imagePath);
-            $renderHeight = $this->main->renderWidth / $width * $height;
+            $renderHeight = $this->getRenderWidth() / $width * $height;
 
             $styleProps[] = 'min-height: ' . $renderHeight . 'px';
         }

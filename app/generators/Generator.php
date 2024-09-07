@@ -59,6 +59,23 @@ class Generator
     }
 
     /**
+     * Get render width.
+     *
+     * @return int The render width.
+     */
+    public function getRenderWidth()
+    {
+        $machineName = $this->libraryInfo['machineName'] ?? '';
+
+        // Use custom render width if set for machine name
+        if (isset($this->main->renderWidths[$machineName])) {
+            return $this->main->renderWidths[$machineName];
+        }
+
+        return $this->main->renderWidth;
+    }
+
+    /**
      * Build src for given content path. Will use base64 encoding if no URL path to H5P content is set.
      *
      * @param string $contentPath Path to the file.

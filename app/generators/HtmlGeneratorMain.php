@@ -26,6 +26,7 @@ class HtmlGeneratorMain
 {
     public $h5pFileHandler;
     public $renderWidth;
+    public $renderWidths;
     public $target;
     public $scope;
     public $customCssPre;
@@ -41,10 +42,19 @@ class HtmlGeneratorMain
      *
      * @param H5PFileHandler $h5pFileHandler The H5P file handler.
      * @param int            $renderWidth    The render width.
+     * @param array          $renderWidths   The render widths for specific content types.
+     * @param string         $target         The target.
+     * @param string         $scope          The scope.
+     * @param string         $customCssPre   The custom CSS to apply before the H5P content.
+     * @param string         $customCssPost  The custom CSS to apply after the H5P content.
+     * @param string         $h5pContentUrl  The H5P content URL to use for assets.
+     * @param string         $h5pCoreUrl     The H5P core URL to use for assets.
+     * @param string         $h5pLibrariesUrl The H5P libraries URL to use for assets.
      */
     public function __construct(
         $h5pFileHandler,
         $renderWidth = 1024,
+        $renderWidths = [],
         $target = 'print',
         $scope = 'all',
         $customCssPre = '',
@@ -55,6 +65,7 @@ class HtmlGeneratorMain
     ) {
         $this->h5pFileHandler = $h5pFileHandler;
         $this->renderWidth = $renderWidth;
+        $this->renderWidths = $renderWidths;
         $this->target = $target;
         $this->scope = $scope;
         $this->javaScripts = [];

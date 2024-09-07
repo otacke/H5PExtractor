@@ -70,7 +70,7 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
         $container .= '<div class="h5p-question-content">';
 
         $fontSize = 16 * (
-            $this->main->renderWidth /
+            $this->getRenderWidth() /
             $this->params['question']['settings']['size']['width']
         );
 

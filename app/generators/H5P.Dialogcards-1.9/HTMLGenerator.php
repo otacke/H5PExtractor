@@ -197,7 +197,7 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
         $cardholder .= '<div class="h5p-dialogcards-card-text">';
 
         // 16 padding, 16 gap, 64 inner card padding
-        $textAreaWidth = ($this->main->renderWidth - 32) / 2 - 64;
+        $textAreaWidth = ($this->getRenderWidth() - 32) / 2 - 64;
         $textAreaHeight = 72; // Fixed text area height in pixels from CSS
 
         if ($params['hint'] !== '') {

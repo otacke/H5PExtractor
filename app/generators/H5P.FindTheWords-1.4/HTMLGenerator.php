@@ -342,7 +342,7 @@ class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements Generat
      */
     private function computeDOMSizes($grid)
     {
-        $containerWidth = $this->main->renderWidth;
+        $containerWidth = $this->getRenderWidth();
         $gridCol = count($grid);
         $gridMaxWidth = $gridCol * self::$CELL_MAX_SIZE_PX + 2 * self::$CELL_MARGIN_PX;
         $gridElementStdSize = ($containerWidth - 2 * self::$CELL_MARGIN_PX) / $gridCol;

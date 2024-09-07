@@ -61,6 +61,10 @@ class H5PExtractor
             $config['renderWidth'] = 1024;
         }
 
+        if (!isset($config['renderWidths'])) {
+            $config['renderWidths'] = [];
+        }
+
         if (!isset($config['target'])) {
             $config['target'] = 'print';
         }
@@ -168,6 +172,7 @@ class H5PExtractor
                 $generator = new HtmlGeneratorMain(
                     $h5pFileHandler,
                     $this->config['renderWidth'],
+                    $this->config['renderWidths'],
                     $this->config['target'],
                     $this->config['scope'],
                     $this->config['customCssPre'],
