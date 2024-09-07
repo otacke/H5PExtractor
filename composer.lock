@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "33899881a88183f5c2209735b7bf020a",
+    "content-hash": "b9f75af62723c671f974889ebfe69a72",
     "packages": [
         {
             "name": "h5p/h5p-core",
