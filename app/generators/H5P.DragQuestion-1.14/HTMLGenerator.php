@@ -177,10 +177,12 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
             }
 
             $h5pInnerDivStyleProps = [
-                'background-color: rgba(245, 245, 245, ' .
+                'background-color: rgb(245, 245, 245)', // Fallback for older render engines without opacity support
+                'background-color: rgb(245, 245, 245, ' .
                     $dropzone['backgroundOpacity'] .
-                    ')',
-                'background-image: none'
+                ')',
+                'background-image: none',
+                'height: 100%'
             ];
 
             $h5pInnerDiv = '<div' .
