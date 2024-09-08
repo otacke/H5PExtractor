@@ -48,6 +48,8 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
 
         $htmlClosing = TextUtils::getClosingTag($container);
 
+        $renderWidth = $this->getRenderWidth();
+
         /*
          * In theory, one could derive this automatically and do in the parent,
          * but content types may not follow the common schema to define the main
@@ -59,6 +61,12 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
             $container
         );
 
+        $container = str_replace(
+            'style=""',
+            'style="width: ' . $renderWidth . 'px"',
+            $container
+        );
+
         if ($this->params['behaviour']['showTitle'] ?? false) {
             $container .= '<div class="h5p-question-introduction">';
             $container .= '<p class="h5p-dragquestion-introduction">' .
@@ -67,31 +75,43 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
             $container .= '</div>';
         }
 
-        $container .= '<div class="h5p-question-content">';
+        // `position: relative` for older render engines that will not position draggables correctly otherwise
+        $container .= '<div class="h5p-question-content" style="position: relative;">';
 
         $fontSize = 16 * (
-            $this->getRenderWidth() /
+            $renderWidth /
             $this->params['question']['settings']['size']['width']
         );
 
         $styleProps = [
-            'width: 100%',
-            'font-size: ' . $fontSize . 'px'
+            'font-size: ' . $fontSize . 'px',
+            'width: ' . $renderWidth . 'px',
         ];
 
+        $imageNaturalWidth = 0;
+        $imageNaturalHeight = 0;
+        $imageRenderHeight = 0;
         if (isset($this->params['question']['settings']['background']['path'])) {
-            $imagePath = $this->main->h5pFileHandler->getBaseDirectory() . DIRECTORY_SEPARATOR .
-                $this->main->h5pFileHandler->getFilesDirectory() . DIRECTORY_SEPARATOR .
-                'content' . DIRECTORY_SEPARATOR .
-                $this->params['question']['settings']['background']['path'];
+            $imagePath = $this->params['question']['settings']['background']['path'];
 
             $styleProps[] = 'background-image: url(' . $this->buildFileSource($imagePath) . ')';
+            $styleProps[] = 'background-size: contain';
+            $styleProps[] = 'background-position: left top';
 
-            list($width, $height) = getimagesize($imagePath);
-            $styleProps[] = 'aspect-ratio: ' . $width . '/' . $height;
-        } else {
-            $styleProps[] = 'aspect-ratio: 2';
+            $fullImagePath = $this->main->h5pFileHandler->getBaseDirectory() . DIRECTORY_SEPARATOR .
+                $this->main->h5pFileHandler->getFilesDirectory() . DIRECTORY_SEPARATOR .
+                'content' . DIRECTORY_SEPARATOR . $imagePath;
+
+            list($imageNaturalWidth, $imageNaturalHeight) = getimagesize($fullImagePath);
         }
+        if (($imageNaturalWidth ?? 0) === 0 || ($imageNaturalHeight ?? 0) === 0) {
+            $imageNaturalWidth = 2;
+            $imageNaturalHeight = 1;
+        }
+
+        $imageRenderHeight = $renderWidth * $imageNaturalHeight / $imageNaturalWidth;
+        $styleProps[] = 'aspect-ratio: ' . $imageNaturalWidth . '/' . $imageNaturalHeight;
+        $styleProps[] = 'height: ' . $imageRenderHeight . 'px';
 
         $container .=
             '<div class="h5p-inner" style="' . implode('; ', $styleProps)  . '">';
@@ -101,11 +121,14 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
             $innerContainer = '<div';
 
             $innerContainerStyleProps = [
-                'left: ' . ($draggable['x'] ?? 0) . '%',
-                'top: ' . ($draggable['y'] ?? 0) . '%',
-                'width: ' . ($draggable['width'] ?? 10) . 'em',
-                'height: ' . ($draggable['height'] ?? 10) . 'em',
-                'background-image: none;'
+                'left: ' . ($draggable['x'] ?? 0) / 100 * $renderWidth . 'px',
+                'top: ' . ($draggable['y'] ?? 0) / 100 * $imageRenderHeight . 'px',
+                'width: ' . ($draggable['width'] ?? 10) * $fontSize . 'px',
+                'height: ' . ($draggable['height'] ?? 10) * $fontSize . 'px',
+                'background-image: none',
+                'display: flex',
+                'flex-direction: column',
+                'align-items: center',
             ];
 
             if (count($draggable['dropZones'] ?? []) === 0) {
@@ -126,7 +149,6 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
 
             $innerContainer .=
                 ' style="' . implode('; ', $innerContainerStyleProps) . '">';
-
             $this->main->newRunnable(
                 $draggable['type'] ?? [],
                 1,
@@ -167,10 +189,10 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
                 '></div>';
 
             $dropZoneDivStyleProps = [
-                'left: ' . ($dropzone['x'] ?? 0) . '%',
-                'top: ' . ($dropzone['y'] ?? 0) . '%',
-                'width: ' . ($dropzone['width'] ?? 10) . 'em',
-                'height: ' . ($dropzone['height'] ?? 10) . 'em'
+                'left: ' . ($dropzone['x'] ?? 0) / 100 * $renderWidth . 'px',
+                'top: ' . ($dropzone['y'] ?? 0) / 100 * $renderWidth . 'px',
+                'width: ' . ($dropzone['width'] ?? 10) * $fontSize . 'px',
+                'height: ' . ($dropzone['height'] ?? 10) * $fontSize . 'px'
             ];
 
             $dropZoneDiv = '<div' .
