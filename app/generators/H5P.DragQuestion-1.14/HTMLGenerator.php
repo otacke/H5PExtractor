@@ -190,7 +190,7 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
 
             $dropZoneDivStyleProps = [
                 'left: ' . ($dropzone['x'] ?? 0) / 100 * $renderWidth . 'px',
-                'top: ' . ($dropzone['y'] ?? 0) / 100 * $renderWidth . 'px',
+                'top: ' . ($dropzone['y'] ?? 0) / 100 * $imageRenderHeight . 'px',
                 'width: ' . ($dropzone['width'] ?? 10) * $fontSize . 'px',
                 'height: ' . ($dropzone['height'] ?? 10) * $fontSize . 'px'
             ];
