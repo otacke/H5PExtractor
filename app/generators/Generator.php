@@ -108,10 +108,6 @@ class Generator
             return '';
         }
 
-        if (isset($this->main->h5pContentUrl)) {
-            return $this->main->h5pContentUrl . $contentPath;
-        }
-
         $fullPath =
             $this->main->h5pFileHandler->getBaseDirectory() . DIRECTORY_SEPARATOR .
             $this->main->h5pFileHandler->getFilesDirectory() . DIRECTORY_SEPARATOR .
