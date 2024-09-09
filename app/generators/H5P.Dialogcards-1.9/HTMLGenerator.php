@@ -91,7 +91,9 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
     private function buildCardWrapSet($dialog)
     {
         // Cardwrap-Set
-        $setHeight = isset($dialog['image']['path']) ? '29em' : '16em';
+        $setHeight = isset($dialog['image']['path']) ?
+            29 * $this->getBaseFontSize() .'px' :
+            16 * $this->getBaseFontSize() .'px';
         $set  = '<div class="h5p-dialogcards-cardwrap-set" style="height: ' . $setHeight . ';">';
         $set .=
             '<div ' .
@@ -100,7 +102,8 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
                 '>';
 
         // Custom wrapper to display to cards side by side
-        $set .= '<div style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1rem;">';
+        // $set .= '<div style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1rem;">';
+        $set .= '<div style="display: flex; flex-direction: row;">';
 
         $imagePath = isset($dialog['image']) ? $dialog['image']['path'] : '';
 
@@ -165,20 +168,33 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
      */
     private function buildCardholder($params)
     {
-        $cardholder  = '<div class="h5p-dialogcards-cardholder" style="width: 100%">';
+        $styleProps = [
+            'width: 100%',
+        ];
+        if ($params['side'] === 'front') {
+            $styleProps[] = 'margin-right: 1rem'; // Gap is not supported by older render engines
+        }
+
+        $cardholder  = '<div class="h5p-dialogcards-cardholder" style="' . implode(';', $styleProps) . '">';
         $cardholder .= '<div class="h5p-dialogcards-card-content">';
 
         // Image
-        $wrapperHeight = ($params['image'] !== '') ? ' 15em' : 'auto';
+        $imageHeight = 15 * $this->getBaseFontSize();
+        $wrapperHeight = ($params['image'] !== '') ? $imageHeight . 'px' : 'auto';
         $cardholder .= '<div class="h5p-dialogcards-image-wrapper" style="height: ' . $wrapperHeight . ';">';
         if ($params['image'] !== '') {
-            $cardholder .= '<img class="h5p-dialogcards-image" src="' . $params['image'] . '"/>';
+            $cardholder .=
+                '<img ' .
+                    'style="height: ' . $imageHeight . 'px" ' .
+                    'class="h5p-dialogcards-image" ' .
+                    'src="' . $params['image'] . '"' .
+                '/>';
         }
         $cardholder .= '</div>';
 
         // Text
         $cardholder .= '<div class="h5p-dialogcards-card-text-wrapper">';
-        $textInnerHeightStyle = ($params['image'] !== '') ? '' : 'height: 12em;';
+        $textInnerHeightStyle = ($params['image'] !== '') ? '' : 'height: ' . 12 * $this->getBaseFontSize() . 'px;';
         $cardholder .= '<div class="h5p-dialogcards-card-text-inner" style="' . $textInnerHeightStyle .'">';
 
         $cardholder .= '<div class="h5p-dialogcards-card-text-inner-content">';
