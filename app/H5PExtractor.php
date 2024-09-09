@@ -40,45 +40,25 @@ class H5PExtractor
     {
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoloader.php';
 
-        if (!isset($config['uploadsPath'])) {
-            $config['uploadsPath'] =
-                __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'uploads';
-        }
+        $defaultConfig = [
+            'uploadsPath' => __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'uploads',
+            'h5pContentUrl' => null,
+            'h5pCoreUrl' => null,
+            'h5pLibrariesUrl' => null,
+            'baseFontSize' => 16,
+            'fontFamily' => 'sans-serif',
+            'renderWidth' => 1024,
+            'renderWidths' => [],
+            'target' => 'print',
+            'scope' => 'all',
+            'customCssPre' => '',
+            'customCssPost' => ''
+        ];
 
-        if (!isset($config['h5pContentUrl'])) {
-            $config['h5pContentUrl'] = null;
-        }
-
-        if (!isset($config['h5pCoreUrl'])) {
-            $config['h5pCoreUrl'] = null;
-        }
-
-        if (!isset($config['h5pLibrariesUrl'])) {
-            $config['h5pLibrariesUrl'] = null;
-        }
-
-        if (!isset($config['renderWidth'])) {
-            $config['renderWidth'] = 1024;
-        }
-
-        if (!isset($config['renderWidths'])) {
-            $config['renderWidths'] = [];
-        }
-
-        if (!isset($config['target'])) {
-            $config['target'] = 'print';
-        }
-
-        if (!isset($config['scope'])) {
-            $config['scope'] = 'all';
-        }
-
-        if (!isset($config['customCssPre'])) {
-            $config['customCssPre'] = '';
-        }
-
-        if (!isset($config['customCssPost'])) {
-            $config['customCssPost'] = '';
+        foreach ($defaultConfig as $key => $value) {
+            if (!isset($config[$key])) {
+                $config[$key] = $value;
+            }
         }
 
         $this->config = $config;
@@ -173,6 +153,8 @@ class H5PExtractor
                     $h5pFileHandler,
                     $this->config['renderWidth'],
                     $this->config['renderWidths'],
+                    $this->config['baseFontSize'],
+                    $this->config['fontFamily'],
                     $this->config['target'],
                     $this->config['scope'],
                     $this->config['customCssPre'],

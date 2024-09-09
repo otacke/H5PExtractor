@@ -27,6 +27,8 @@ class HtmlGeneratorMain
     public $h5pFileHandler;
     public $renderWidth;
     public $renderWidths;
+    public $baseFontSize;
+    public $fontFamily;
     public $target;
     public $scope;
     public $customCssPre;
@@ -43,6 +45,8 @@ class HtmlGeneratorMain
      * @param H5PFileHandler $h5pFileHandler The H5P file handler.
      * @param int            $renderWidth    The render width.
      * @param array          $renderWidths   The render widths for specific content types.
+     * @param int            $baseFontSize   The base font size.
+     * @param string         $fontFamily     The font family.
      * @param string         $target         The target.
      * @param string         $scope          The scope.
      * @param string         $customCssPre   The custom CSS to apply before the H5P content.
@@ -55,6 +59,8 @@ class HtmlGeneratorMain
         $h5pFileHandler,
         $renderWidth = 1024,
         $renderWidths = [],
+        $baseFontSize = 16,
+        $fontFamily = 'sans-serif',
         $target = 'print',
         $scope = 'all',
         $customCssPre = '',
@@ -66,6 +72,8 @@ class HtmlGeneratorMain
         $this->h5pFileHandler = $h5pFileHandler;
         $this->renderWidth = $renderWidth;
         $this->renderWidths = $renderWidths;
+        $this->baseFontSize = $baseFontSize;
+        $this->fontFamily = $fontFamily;
         $this->target = $target;
         $this->scope = $scope;
         $this->javaScripts = [];
@@ -83,7 +91,9 @@ class HtmlGeneratorMain
      */
     public function create()
     {
-        $css = $this->customCssPre;
+        $css  = $this->customCssPre;
+        $css .= '.h5p-extractor .h5p-iframe .h5p-content { font-size: ' . $this->baseFontSize . 'px !important; }';
+        $css .= '.h5p-extractor .h5p-iframe  > body { font-family: ' . $this->fontFamily . '; }';
 
         // Add extractor CSS
         try {
@@ -485,7 +495,8 @@ class HtmlGeneratorMain
         if (isset($this->h5pCoreUrl)) {
             // Replace relative URLs with absolute URLs using custom H5P Core URL base path
             $coreCss = CSSUtils::replaceUrlsWithBase64($coreCss, $this->h5pCoreUrl);
-        } else {
+        }
+        else {
             // Replace URLs to fonts with respective base64 encoded strings
             $coreCss = CSSUtils::replaceUrlsWithBase64($coreCss, $stylesPath);
         }

@@ -59,6 +59,14 @@ class Generator
     }
 
     /**
+     * Get the base font size.
+     */
+    public function getBaseFontSize()
+    {
+        return $this->main->baseFontSize;
+    }
+
+    /**
      * Get render width.
      *
      * @return int The render width.
@@ -106,6 +114,10 @@ class Generator
     {
         if (getType($contentPath) !== 'string' || $contentPath === '') {
             return '';
+        }
+
+        if (isset($this->main->h5pContentUrl)) {
+            return $this->main->h5pContentUrl . $contentPath;
         }
 
         $fullPath =
