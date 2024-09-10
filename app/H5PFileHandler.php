@@ -75,6 +75,12 @@ class H5PFileHandler
             $this->h5pInfo['preloadedDependencies'], // hard dependencies
         );
 
+        // Remove duplicates
+        $this->h5pInfo['preloadedDependencies'] = array_values(
+            array_unique($this->h5pInfo['preloadedDependencies'], SORT_REGULAR)
+        );
+
+        // Get the major and minor version of the main library
         for ($i = 0; $i < count($this->h5pInfo['preloadedDependencies']); $i++) {
             if (isset($this->h5pInfo['majorVersion'])) {
                 break;
