@@ -317,11 +317,20 @@ class H5PFileHandler
             $cssFile
                 = $contentTypeDir . DIRECTORY_SEPARATOR . $libraryJson['preloadedCss'][$i]['path'];
 
+            $relativeCSSPath =
+                implode(
+                    DIRECTORY_SEPARATOR,
+                    array_slice(explode(DIRECTORY_SEPARATOR, $libraryJson['preloadedCss'][$i]['path']), 0, -1)
+                );
+            if ($relativeCSSPath !== '') {
+                $relativeCSSPath .= DIRECTORY_SEPARATOR;
+            }
+
             $newCss = file_get_contents($cssFile);
             $newCss = CSSUtils::simplifyFonts($newCss);
 
             if (isset($h5pLibrariesURL)) {
-                $newCss = CSSUtils::replaceURLsSource($newCss, $h5pLibrariesURL . $dirMatching .'/');
+                $newCss = CSSUtils::replaceURLsSource($newCss, $h5pLibrariesURL . $dirMatching .'/' . $relativeCSSPath );
             } else {
                 $newCss = CSSUtils::replaceUrlsWithBase64($newCss, dirname($cssFile));
             }

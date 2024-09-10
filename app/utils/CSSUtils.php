@@ -189,7 +189,7 @@ class CSSUtils
      * Replace URLs in the given CSS with the given base URL.
      *
      * @param string $css The CSS to replace URLs in.
-     * @param string $baseURL The base URL to use.
+     * @param string $baseURL The base URL to the CSS file
      *
      * @return string The CSS with URLs replaced with the given base URL.
      */
@@ -201,9 +201,20 @@ class CSSUtils
         $css = preg_replace_callback(
             $pattern,
             function ($matches) use ($baseURL) {
+                if (strpos($matches[0], 'data:') === 0) {
+                    return $matches[0]; // Is base64 encoded
+                }
+
                 $trimmed = trim($matches[0], '\'"');
-                $trimmed = str_replace('../', '', $trimmed);
                 $trimmed = explode('?', $trimmed)[0];
+
+                $trimmed = urldecode($trimmed); // Some URLs are URL encoded (?)
+                if (str_starts_with($trimmed, '"')) {
+                    $trimmed = substr($trimmed, 1);
+                }
+                if (str_ends_with($trimmed, '"')) {
+                    $trimmed = substr($trimmed, 0, -1);
+                }
 
                 return $baseURL . $trimmed;
             },
