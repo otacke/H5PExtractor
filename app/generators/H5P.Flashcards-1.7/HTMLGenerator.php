@@ -73,11 +73,12 @@ class HtmlGeneratorFlashcardsMajor1Minor7 extends Generator implements Generator
         $container .=
             '<div ' .
                 'class="h5p-inner"' .
-                'style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1rem;"' .
+                // Older renderers do not support 'grid' - and also not 'gap', so we use margin on cards
+                'style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; padding-top: 1rem"' .
             '>';
 
-        foreach ($this->params['cards'] as $card) {
-            $container .= $this->renderCard($card);
+        for ($i = 0; $i < count($this->params['cards']); $i++) {
+            $container .= $this->renderCard($this->params['cards'][$i], $i, count($this->params['cards']) - 1);
         }
 
         // Closing h5p-inner
@@ -97,7 +98,15 @@ class HtmlGeneratorFlashcardsMajor1Minor7 extends Generator implements Generator
     {
         $imageSrc = $this->buildFileSource($params['image']['path'] ?? null);
 
-        $card = '<div class="h5p-card h5p-current" style="position: inherit;">';
+        // Older renderers do not support 'gap', so we use margin on cards
+        $properties = [
+            'margin' => '0 1rem 1rem 1rem',
+            'position' => 'inherit'
+        ];
+
+        $style = DOMUtils::buildStyleAttribute($properties);
+
+        $card = '<div class="h5p-card h5p-current" ' . $style . '>';
         $card .= '<div class="h5p-cardholder">';
 
         $card .= '<div class="h5p-imageholder">';
@@ -117,8 +126,9 @@ class HtmlGeneratorFlashcardsMajor1Minor7 extends Generator implements Generator
         $card .= '<div class="h5p-input">';
 
         $card .= '<input type="text" class="h5p-textinput" placeholder="Your answer" />';
-        $card .= '<button type="button" class="h5p-button h5p-check-button" >Check</button>';
-        $card .= '<button class="h5p-button h5p-icon-button"></button>';
+        // These are fine in modern browsers, but older render engines mess the height up
+        // $card .= '<button type="button" class="h5p-button h5p-check-button">Check</button>';
+        // $card .= '<button class="h5p-button h5p-icon-button"></button>';
 
         $card .= '</div>'; // Closing h5p-input
         $card .= '</div>'; // Closing h5p-answer
