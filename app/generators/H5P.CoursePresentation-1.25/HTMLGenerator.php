@@ -125,11 +125,15 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
      */
     private function buildSlideContainer($params)
     {
+        $fullWidth = $this->getRenderWidth();
+        $fullHeight = $fullWidth / self::BASE_ASPECT_RATIO;
+
         $properties = [
-            'width' =>
-                'auto',
-            'height' =>
-                ($this->getRenderWidth() / self::BASE_ASPECT_RATIO) . 'px',
+            'width' => $fullWidth . 'px',
+            'height' => $fullHeight . 'px',
+            'position' => 'relative',
+            'display' =>  'flex',
+            'flex-direction' => 'column',
             'font-size' =>
                 (self::BASE_FONT_SIZE_PX * $this->getRenderWidth() / self::BASE_WIDTH_PX) . 'px'
         ];
@@ -137,13 +141,25 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
 
         $slide = '<div class="h5p-wrapper" ' . $style . '>';
 
-        $activeSurfaceStyle =
+        $style =
             $params['override']['activeSurface'] ?
-            ' style="height: 100%"' :
-            '';
+                'style="height: ' . $fullHeight . 'px"' :
+                'style="' .
+                    'width: ' . $fullWidth . 'px;' .
+                    'height: ' . $fullHeight * 0.9 . 'px;' .
+                    'position: relative' .
+                '"';
 
-        $slide .= '<div class="h5p-box-wrapper" ' . $activeSurfaceStyle .'>';
-        $slide .= '<div class="h5p-presentation-wrapper">';
+        $slide .=
+            '<div ' .
+                'class="h5p-box-wrapper" ' . $style .
+
+        '>';
+        $slide .=
+            '<div ' .
+                'class="h5p-presentation-wrapper" ' .
+                'style="width: ' . $fullWidth . 'px; height: ' . $fullHeight * 0.9 . 'px;"' .
+            '>';
 
         if ($params['presentation']['keywordListAlwaysShow']) {
             $slide .= $this->buildKeywordsWrapper([
@@ -157,6 +173,8 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
         $slide .= $this->buildSlide([
             'presentation' => $params['presentation'],
             'index' => $params['index'],
+            'width' => $fullWidth,
+            'height' => $fullHeight * 0.9,
         ]);
         $slide .= '</div>'; // Closing .h5p-presentation-wrapper
         $slide .= '</div>'; // Closing .h5p-box-wrapper
@@ -165,13 +183,17 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
             $slide .= $this->buildNavigation([
                 'hasTasks' => $params['hasTasks'],
                 'index' => $params['index'],
-                'maxIndex' => $params['maxIndex']
+                'maxIndex' => $params['maxIndex'],
+                'width' => $fullWidth,
+                'height' => $fullHeight * 0.035,
             ]);
 
             $slide .= $this->buildFooter(
                 $params['presentation']['slides'][$params['index']],
                 $params['index'],
-                $params['maxIndex']
+                $params['maxIndex'],
+                $fullWidth,
+                $fullHeight * 0.065,
             );
         }
 
@@ -228,9 +250,14 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
      */
     private function buildSlide($params = [])
     {
-        $slide = '<div class="h5p-slides-wrapper">';
+        $slide =
+            '<div ' .
+                'class="h5p-slides-wrapper" ' .
+                'style="position: relative; width: ' . $params['width'] . 'px; height: ' . $params['height'] . 'px;"' .
+            '>';
 
         $slideParams = $params['presentation']['slides'][$params['index']] ?? [];
+        $slideParams['elements'] = $slideParams['elements'] ?? [];
 
         $backgroundImagePath =
             $slideParams['slideBackgroundSelector']['imageSlideBackground']['path'] ?? '';
@@ -249,7 +276,14 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
                 '';
         }
 
-        $properties = [];
+        // Required to work on older render engines
+        $properties = [
+            'width' => $params['width'] . 'px',
+            'height' => $params['height'] . 'px',
+            'transform' =>  'none',
+            'background-size' => $params['width'] . 'px' . ' ' . $params['height'] . 'px',
+            'display' => 'block',
+        ];
         if ($backgroundColor !== '') {
             $properties['background-color'] = $backgroundColor;
         }
@@ -265,15 +299,13 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
             ' has-background' :
             '';
 
+        $slide .= '<div class="h5p-slide h5p-current' . $hasBackground . '" '. $style . '>';
         $slide .=
-            '<div ' .
-                'class="h5p-slide h5p-current' . $hasBackground . '" '.
-                $style .
+            '<div role="document" ' .
+                'style="position: relative; width: ' . $params['width'] . 'px; height: ' . $params['height'] . 'px"' .
             '>';
-
-        $slide .= '<div role="document">';
         foreach ($slideParams['elements'] as $element) {
-            $slide .= $this->buildElement($element);
+            $slide .= $this->buildElement($element, $params['width'], $params['height']);
         }
 
         $slide .= '</div>'; // Closing role=document
@@ -281,23 +313,24 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
         $slide .= '</div>'; // Closing .h5p-slide
 
         $slide .= '</div>'; // Closing .h5p-slides-wrapper
+
         return $slide;
     }
 
-    private function buildElement($elementParams)
+    /**
+     * Build an element.
+     *
+     * @param array $elementParams Parameters.
+     * @param int   $width         Width of the slide.
+     * @param int   $height        Height of the slide.
+     *
+     * @return string The element HTML.
+     */
+    private function buildElement($elementParams, $width, $height)
     {
         $machineName = (isset($elementParams['action'])) ?
             explode(' ', $elementParams['action']['library'])[0] :
             '';
-
-        $properties = [
-            'left' => $elementParams['x'] . '%',
-            'top' => $elementParams['y'] . '%',
-            'width' => $elementParams['width'] . '%',
-            'height' => $elementParams['height'] . '%'
-        ];
-
-        $style = DOMUtils::buildStyleAttribute($properties);
 
         /*
          * For print, content that consists of multiple slides, pages, etc. that
@@ -310,19 +343,25 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
         $isOverflowContent = in_array($machineName, self::OVERFLOW_SUBCONTENTS);
 
         $buttonWrapperClass = (
-            $isOverflowContent ||
-                isset($elementParams['displayAsButton']) &&
-                $elementParams['displayAsButton']
+            $isOverflowContent || isset($elementParams['displayAsButton']) && $elementParams['displayAsButton']
         ) ?
             ' h5p-element-button-wrapper' :
             '';
 
-        $buttonSizeClass = ' h5p-element-button-' .
-            ($elementParams['buttonSize'] ?? 'big');
+        $buttonSize = $elementParams['buttonSize'] ?? 'big';
+        $buttonSizeClass = ' h5p-element-button-' . $buttonSize;
 
         $transparencyClass = ($elementParams['backgroundOpacity'] === 0) ?
             ' h5p-transparent' :
             '';
+
+        $properties = [
+            'left' => $elementParams['x'] / 100 * $width . 'px',
+            'top' => $elementParams['y'] / 100 * $height . 'px',
+            'width' => $elementParams['width'] / 100 * $width . 'px',
+            'height' => $elementParams['height'] / 100 * $height . 'px',
+        ];
+        $style = DOMUtils::buildStyleAttribute($properties);
 
         $element =
             '<div ' .
@@ -349,12 +388,10 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
                 'content' => $innerContainer
             ];
 
+            // TODO: Why does Pressbooks not display this in print?
             $element .=
             '<div ' .
-                'class="h5p-element-button' .
-                $buttonSizeClass . ' ' .
-                'h5p-course-presentation-overflow-button' .
-                '"' .
+                'class="h5p-element-button' . $buttonSizeClass . ' ' . 'h5p-course-presentation-overflow-button"' .
             '>' . count($this->overflowContentQueue) . '</div>';
         } elseif (isset($elementParams['action'])) {
             if (!$isOverflowContent) {
@@ -448,9 +485,13 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
      */
     private function buildNavigation($params)
     {
-        $navigation = '<nav class="h5p-cp-navigation">';
+        $width = $params['width'];
+        $height = $params['height'];
 
-        $navigation .= '<div class="h5p-progressbar">';
+        // Lots of unpleasant customization, because neither grid nor flex render properly in Pressbooks
+        $navigation = '<nav class="h5p-cp-navigation" style="width:' . $width .'px;height:' . $height . 'px">';
+
+        $navigation .= '<div class="h5p-progressbar" style="display:block;width:' . $width .'px;height:' . $height . 'px">';
 
         for ($i = 0; $i <= $params['maxIndex']; $i++) {
             $selected = ($i === $params['index']) ?
@@ -462,6 +503,7 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
             $navigation .=
                 '<div ' .
                     'class="h5p-progressbar-part' . $show . $selected . '"' .
+                    'style="float:left;width:' . $width / ($params['maxIndex'] + 1) - 1 . 'px;height:' . $height . 'px"' .
                 '>';
 
             if ($params['hasTasks'][$i]) {
@@ -487,15 +529,18 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
      * @param array $params   Parameters.
      * @param int   $index    Index of the slide.
      * @param int   $maxIndex Maximum index of the slides.
+     * @param int   $width    Width of the footer in px
+     * @param int   $height   Height of the footer in px
      *
      * @return string The footer HTML.
      */
-    private function buildFooter($params = [], $index = 0, $maxIndex = 0)
+    private function buildFooter($params = [], $index = 0, $maxIndex = 0, $width = 0, $height = 0)
     {
-        $footer = '<div class="h5p-footer">';
+        // Lots of unpleasant customization, because neither grid nor flex render properly in Pressbooks
+        $footer = '<div class="h5p-footer" style="display:block;width:' . $width . 'px;height: ' . $height . 'px">';
 
         // LEFT (Title)
-        $footer .= '<div class="h5p-footer-left-adjusted">';
+        $footer .= '<div class="h5p-footer-left-adjusted" style="float:left;width:' . $width * 0.4 . 'px; height:' . $height .'px">';
 
         $title = '';
         if (isset($params['keywords']) &&
@@ -514,7 +559,7 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
         $footer .= '</div>'; // Closing .h5p-footer-left-adjusted
 
         // CENTER
-        $footer .= '<div class="h5p-footer-center-adjusted">';
+        $footer .= '<div class="h5p-footer-center-adjusted" style="float:left;width:' . $width * 0.2 . 'px; height:' . $height .'px">';
 
         $disabled = $index === 0 ? 'true' : 'false';
         $footer .=
@@ -546,7 +591,7 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
         $footer .= '</div>'; // Closing .h5p-footer-center-adjusted
 
         // RIGHT (toolbar)
-        $footer .= '<div class="h5p-footer-right-adjusted">';
+        $footer .= '<div class="h5p-footer-right-adjusted" style="float:left;width:' . $width * 0.4 . 'px; height:' . $height .'px">';
         $footer .= '</div>';
 
         $footer .= '</div>'; // Closing h5p-footer
