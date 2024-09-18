@@ -1,7 +1,7 @@
 {
     "name": "snordian/h5p-extractor",
     "description": "Allows to create H5P content HTML server-side",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "authors": [
         {
             "name": "Oliver Tacke",
@@ -15,6 +15,6 @@
         "h5p"
     ],
     "require": {
-        "h5p/h5p-core": "1.24.4"
+        "h5p/h5p-core": "^1.26.0"
     }
 }
