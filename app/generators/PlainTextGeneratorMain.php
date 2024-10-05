@@ -76,7 +76,7 @@ class PlainTextGeneratorMain
 
         $container = '';
 
-        $instance = $this->newRunnable(
+        $this->newRunnable(
             $library,
             1,
             $container,
