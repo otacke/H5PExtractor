@@ -151,7 +151,7 @@ class H5PExtractor
             case 'html':
                 $generator = new HtmlGeneratorMain(
                     $h5pFileHandler,
-                    $this->config['renderWidth'],
+                    floor($this->config['renderWidth']),
                     $this->config['renderWidths'],
                     $this->config['baseFontSize'],
                     $this->config['fontFamily'],
