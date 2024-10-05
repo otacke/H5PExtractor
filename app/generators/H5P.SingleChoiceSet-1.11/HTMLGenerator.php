@@ -95,7 +95,11 @@ class HtmlGeneratorSingleChoiceSetMajor1Minor11 extends Generator implements Gen
     private function renderSet($params)
     {
         $set  = '<div class="h5p-sc-set">';
-        $set .= '<div class="h5p-sc-set-slide h5p-sc h5p-sc-current-slide" style="position: inherit;">';
+        $set .=
+            '<div ' .
+                'class="h5p-sc-set-slide h5p-sc h5p-sc-current-slide" ' .
+                'style="break-inside: avoid; position: inherit;"' .
+            '>';
         $set .= '<div class="h5p-sc-question">' . $params['choices']['question'] . '</div>';
 
         $set .= '<ul class="h5p-sc-alternatives">';

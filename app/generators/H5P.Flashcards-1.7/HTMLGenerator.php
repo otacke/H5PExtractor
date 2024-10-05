@@ -59,7 +59,7 @@ class HtmlGeneratorFlashcardsMajor1Minor7 extends Generator implements Generator
         $container = str_replace('h5pClassName', 'h5p-standalone h5p-flashcards', $container);
 
         if ($this->main->target === 'print') {
-            $container = str_replace('style=""', 'style="background-color: #ffffff;"', $container);
+            $container = str_replace('style="', 'style="background-color: #ffffff;', $container);
             $descriptionStyle = 'color: inherit;';
         }
 
@@ -100,6 +100,7 @@ class HtmlGeneratorFlashcardsMajor1Minor7 extends Generator implements Generator
 
         // Older renderers do not support 'gap', so we use margin on cards
         $properties = [
+            'break-inside' => 'avoid',
             'margin' => '0 1rem 1rem 1rem',
             'position' => 'inherit'
         ];

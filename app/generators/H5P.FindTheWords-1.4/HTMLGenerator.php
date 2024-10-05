@@ -25,7 +25,7 @@ namespace H5PExtractor;
 class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements GeneratorInterface
 {
     private static $CELL_MIN_SIZE_PX = 32;
-    private static $CELL_MAX_SIZE_PX = 64;
+    private static $CELL_MAX_SIZE_PX = 48;
     private static $CELL_MARGIN_PX = 8;
     private static $CHAR_SPACING_FACTOR = 0.66;
 
@@ -66,8 +66,8 @@ class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements Generat
          */
         $container = str_replace('h5pClassName', 'h5p-find-the-words', $container);
         $container = str_replace(
-            'style=""',
-            'style="display: flex; flex-direction: column;"',
+            'style="',
+            'style="display: flex; flex-direction: column;',
             $container
         );
 
@@ -79,7 +79,7 @@ class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements Generat
         $container .=
             '<div ' .
                 'class="game-container"' .
-                'style="display: flex; flex-direction: row"' .
+                'style="display: flex; flex-direction: row; font-family: sans-serif;"' .
             '>';
 
         $container .= '<div class="puzzle-container">';
@@ -106,8 +106,8 @@ class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements Generat
                             '-webkit-touch-callout: none;' .
                             '-webkit-user-select: none;' .
                             'user-select: none;' .
-                            'width: ' . $sizes['cellWidth'] . 'px;' .
-                            'height: ' . $sizes['cellHeight'] . 'px;' .
+                            'width: ' . $sizes['cellWidth'] - 4 . 'px;' .
+                            'height: ' . $sizes['cellHeight'] - 4 . 'px;' .
                             'padding-left: ' . $sizes['cellPaddingLeft'] . 'px;' .
                             'padding-top: ' . $sizes['cellPaddingTop'] . 'px;' .
                         '"' .
@@ -362,8 +362,8 @@ class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements Generat
             'elementSize' => $elementSize,
             'gridWidth' => $gridWidth,
             'gridHeight' => $gridHeight,
-            'fontSize' => $elementSize / 3 / self::$CHAR_SPACING_FACTOR * self::$CHAR_SPACING_FACTOR,
-            'lineHeight' => $elementSize / 3 / self::$CHAR_SPACING_FACTOR * self::$CHAR_SPACING_FACTOR,
+            'fontSize' => $elementSize / 3 * self::$CHAR_SPACING_FACTOR,
+            'lineHeight' => $elementSize / 3 * self::$CHAR_SPACING_FACTOR,
             'cellWidth' => $gridWidth / count($grid[0]),
             'cellHeight' => $gridHeight / count($grid),
             'cellPaddingLeft' => $elementSize / 4 * self::$CHAR_SPACING_FACTOR,

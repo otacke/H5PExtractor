@@ -94,7 +94,7 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
         $setHeight = isset($dialog['image']['path']) ?
             29 * $this->getBaseFontSize() .'px' :
             16 * $this->getBaseFontSize() .'px';
-        $set  = '<div class="h5p-dialogcards-cardwrap-set" style="height: ' . $setHeight . ';">';
+        $set  = '<div class="h5p-dialogcards-cardwrap-set" style="break-inside: avoid; height: ' . $setHeight . ';">';
         $set .=
             '<div ' .
                 'class="h5p-dialogcards-cardwrap h5p-dialogcards-mode-normal h5p-dialogcards-current" ' .
@@ -172,7 +172,7 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
             'width: 100%',
         ];
         if ($params['side'] === 'front') {
-            $styleProps[] = 'margin-right: 1rem'; // Gap is not supported by older render engines
+            $styleProps[] = 'margin-right: 1rem';
         }
 
         $cardholder  = '<div class="h5p-dialogcards-cardholder" style="' . implode(';', $styleProps) . '">';

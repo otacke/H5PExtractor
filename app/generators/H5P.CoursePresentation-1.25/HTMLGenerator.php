@@ -143,8 +143,9 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
 
         $style =
             $params['override']['activeSurface'] ?
-                'style="height: ' . $fullHeight . 'px"' :
+                'style="break-inside: avoid; height: ' . $fullHeight . 'px"' :
                 'style="' .
+                    'break-inside: avoid;' .
                     'width: ' . $fullWidth . 'px;' .
                     'height: ' . $fullHeight * 0.9 . 'px;' .
                     'position: relative' .

@@ -93,7 +93,7 @@ class HtmlGeneratorMain
     {
         $css  = $this->customCssPre;
         $css .= '.h5p-extractor .h5p-iframe .h5p-content { font-size: ' . $this->baseFontSize . 'px !important; }';
-        $css .= '.h5p-extractor .h5p-iframe  > body { font-family: ' . $this->fontFamily . '; }';
+        $css .= '.h5p-extractor .h5p-iframe > body { font-family: ' . $this->fontFamily . '; }';
 
         // Add extractor CSS
         try {
@@ -191,7 +191,10 @@ class HtmlGeneratorMain
      */
     private function createMain($css = '', $contentHtml = '')
     {
-        $html  = '<style>' . "\n" . $css . "\n" . '</style>' . "\n";
+        $html  =
+            '<style>' . "\n" .
+            $css . "\n" .
+            '</style>' . "\n";
         $html .= '<div class="h5p-extractor">';
         $html .= '<div class="h5p-iframe">';
         $html .= '<div class="h5p-content h5p-initialized h5p-frame">';
@@ -397,7 +400,7 @@ class HtmlGeneratorMain
             $html .= '</div>';
             $html .= '</div>';
         } elseif ($machineName === 'H5P.Audio') {
-            $container = '<div class="h5p-question-audio h5pClassName" style="">';
+            $container = '<div class="h5p-question-audio h5pClassName" style="break-inside:avoid;">';
 
             $this->newRunnable(
                 [
@@ -414,7 +417,7 @@ class HtmlGeneratorMain
 
             $html = $container;
         } elseif ($machineName === 'H5P.Video') {
-            $container = '<div class="h5p-question-video h5pClassName" style="">';
+            $container = '<div class="h5p-question-video h5pClassName" style="break-inside:avoid;">';
 
             $this->newRunnable(
                 [

@@ -62,8 +62,8 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
         );
 
         $container = str_replace(
-            'style=""',
-            'style="width: ' . $renderWidth . 'px"',
+            'style="',
+            'style="width: ' . $renderWidth . 'px;',
             $container
         );
 

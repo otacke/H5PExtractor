@@ -2,6 +2,11 @@
 
 .h5p-extractor {
   all: initial;
+  font-family: sans-serif;
+}
+
+.h5p-extractor .h5p-container {
+  break-inside: avoid;
 }
 
 .h5p-extractor-content-wrapper {
