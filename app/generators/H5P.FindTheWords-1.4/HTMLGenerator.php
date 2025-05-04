@@ -25,9 +25,10 @@ namespace H5PExtractor;
 class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements GeneratorInterface
 {
     private static $CELL_MIN_SIZE_PX = 32;
-    private static $CELL_MAX_SIZE_PX = 48;
+    private static $CELL_MAX_SIZE_PX = 96;
     private static $CELL_MARGIN_PX = 8;
     private static $CHAR_SPACING_FACTOR = 0.66;
+    private static $HEADING_FONT_SIZE_FACTOR = 1.2;
 
     /**
      * Constructor.
@@ -58,6 +59,10 @@ class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements Generat
 
         $sizes = $this->computeDOMSizes($grid);
 
+        $gridSize = count($grid);
+        error_log(print_r($sizes, true));
+        error_log(print_r($gridSize, true));
+
         $htmlClosing = TextUtils::getClosingTag($container);
 
         /* In theory, one could derive this automatically and do in the parent,
@@ -79,7 +84,7 @@ class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements Generat
         $container .=
             '<div ' .
                 'class="game-container"' .
-                'style="display: flex; flex-direction: row; font-family: sans-serif;"' .
+                'style="display: flex; flex-direction: column; font-family: sans-serif;"' .
             '>';
 
         $container .= '<div class="puzzle-container">';
@@ -106,8 +111,8 @@ class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements Generat
                             '-webkit-touch-callout: none;' .
                             '-webkit-user-select: none;' .
                             'user-select: none;' .
-                            'width: ' . $sizes['cellWidth'] - 4 . 'px;' .
-                            'height: ' . $sizes['cellHeight'] - 4 . 'px;' .
+                            'width: ' . $sizes['cellWidth'] . 'px;' .
+                            'height: ' . $sizes['cellHeight'] . 'px;' .
                             'padding-left: ' . $sizes['cellPaddingLeft'] . 'px;' .
                             'padding-top: ' . $sizes['cellPaddingTop'] . 'px;' .
                         '"' .
@@ -117,24 +122,43 @@ class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements Generat
             }
         }
 
+        $headingFontSize = $sizes['fontSize'] * self::$HEADING_FONT_SIZE_FACTOR;
+        $headingPaddingTopBottom = $sizes['fontSize'] / 2;
+
         $container .= '</div>'; // Closing dom-canvas-grid
         $container .= '</div>'; // Closing puzzle-container
-
-        $container .= '<div class="vocabulary-container">';
+        $container .= '<div class="vocabulary-container" style="width: ' . $sizes['gridWidth'] . 'px;">';
         $container .=
             '<div ' .
                 'class="vocHeading"' .
-                'style="overflow-y: auto;"' .
+                'style="' .
+                    'font-size: ' . $headingFontSize . 'px;' .
+                    'overflow-y: auto;' .
+                    'padding: ' . $headingPaddingTopBottom . 'px 8px;' .
+                '"' .
             '>';
         $container .= '<em class="fa fa-book fa-fw"></em>';
         $container .= $this->params['l10n']['wordListHeader'];
         $container .= '</div>';
 
-        $container .= '<ul>';
+        $container .= '<ul ' .
+            'style="'.
+                'margin: 0;' .
+                'padding-right: ' . $headingPaddingTopBottom .'px;' .
+                'padding-top: ' . $headingPaddingTopBottom . 'px;' .
+            '"' .
+        '>';
+
+        $marginBotton = $sizes['fontSize'] / 2;
         for ($i = 0; $i < count($words); $i++) {
-            $container .= '<li>';
-            $container .= '<div class="word">';
-            $container .= '<em class="fa fa-check" style="visibility: hidden;"></em>';
+            $container .= '<li style="display: inline-block; margin: 0 0 ' . $marginBotton . 'px 0;">';
+            $container .= '<div ' .
+                'class="word"' .
+                'style="' .
+                    'font-size:' . $sizes['fontSize'] . 'px;' .
+                '"' .
+            '>';
+            $container .= '<em class="fa fa-check"></em>';
             $container .= $words[$i];
             $container .= '</div>';
         }
