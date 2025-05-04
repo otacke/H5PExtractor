@@ -60,8 +60,6 @@ class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements Generat
         $sizes = $this->computeDOMSizes($grid);
 
         $gridSize = count($grid);
-        error_log(print_r($sizes, true));
-        error_log(print_r($gridSize, true));
 
         $htmlClosing = TextUtils::getClosingTag($container);
 
