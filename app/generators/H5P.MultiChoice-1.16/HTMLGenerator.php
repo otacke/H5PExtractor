@@ -91,7 +91,7 @@ class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements Generat
         $role = $mode === 'h5p-radio' ? 'radiogroup' : 'group';
         $container .= '<ul class="h5p-answers" role="' . $role . '">';
 
-        $role = $mode === 'h5p-radio' ? 'radio' : 'checkbox';
+        $role = 'listitem';
         $answerCount = count($this->params['answers']);
         for ($answerIndex = 0; $answerIndex < $answerCount; $answerIndex++) {
             $container .= '<li class="h5p-answer" role="' . $role . '">';
