@@ -47,12 +47,12 @@ class UtilsColumnMajor1Minor16
         'H5P.DocumentationTool'
       ];
 
-    // Odd hardcoded list of content types with margins as in original Column code
+      // Odd hardcoded list of content types with margins as in original Column code
       const HAS_TOP_MARGINS = [
         'H5P.SingleChoiceSet'
       ];
 
-    // Odd hardcoded list of content types with margins as in original Column code
+      // Odd hardcoded list of content types with margins as in original Column code
       const HAS_BOTTOM_MARGINS = [
         'H5P.CoursePresentation',
         'H5P.Dialogcards',

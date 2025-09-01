@@ -73,7 +73,7 @@ class PlainTextGeneratorColumnMajor1Minor16 extends Generator implements Generat
                     $innerContainer,
                     false,
                     [
-                        'metadata' => $libraryContent['metadata'],
+                        'metadata' => isset($libraryContent['metadata']) ? $libraryContent['metadata'] : [],
                     ]
                 );
 

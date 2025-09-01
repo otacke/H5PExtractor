@@ -14,7 +14,7 @@
 namespace H5PExtractor;
 
 /**
- * Class for generating HTML for H5P.Text-1.1.
+ * Class for generating HTML for H5P.StandardPage-1.5.
  *
  * @category Tool
  * @package  H5PExtractor
@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorTextMajor1Minor1 extends Generator implements GeneratorInterface
+class PlainTextGeneratorStandardPageMajor1Minor5 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -45,6 +45,28 @@ class PlainTextGeneratorTextMajor1Minor1 extends Generator implements GeneratorI
      */
     public function attach(&$container)
     {
+        if (isset($this->extras['metadata']['title']) && $this->extras['metadata']['title'] !== '') {
+            $container .= '## ' . ($this->extras['metadata']['title'] ?? '') . "\n";
+        }
+
+        for ($i = 0; $i < count($this->params['elementList']); $i++) {
+            $innerContainer = '';
+            $libraryContent = $this->params['elementList'][$i];
+            $this->main->newRunnable(
+                [
+                    'library' => $libraryContent['library'],
+                    'params' => $libraryContent['params'],
+                ],
+                1,
+                $innerContainer,
+                false,
+                [
+                    'metadata' => isset($libraryContent['metadata']) ? $libraryContent['metadata'] : [],
+                ]
+            );
+            $container .= $innerContainer . "\n\n";
+        }
+
         if (isset($this->params['text'])) {
             $container .= TextUtils::htmlToText($this->params['text']);
         }

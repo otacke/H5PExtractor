@@ -57,6 +57,13 @@ class TextUtils
         // Replace <em> tags with Markdown italic syntax
         $string = preg_replace('/<em>(.*?)<\/em>/', '*$1*', $string);
 
+        // Replace spaces in between <ul>/<ol> and <li>
+        $string = preg_replace('/<ul>\s*<li>/', '<ul><li>', $string);
+        $string = preg_replace('/<ol>\s*<li>/', '<ol><li>', $string);
+
+        // Trim content between <li> and </li>
+        $string = preg_replace('/<li>\s*(.*?)\s*<\/li>/', '<li>$1</li>', $string);
+
         // Replace <ul><li> tags with Markdown unordered list syntax
         $string = preg_replace_callback('/<ul>(.*?)<\/ul>/', function ($matches) {
             $listItems = preg_replace('/<li>(.*?)<\/li>/', "- $1\n", $matches[1]);
@@ -71,6 +78,9 @@ class TextUtils
             }, $matches[1]);
             return $listItems;
         }, $string);
+
+        // Place a line break after </h1> to </h6>
+        $string = preg_replace('/<\/h([1-6])>/', "\n</h$1>", $string);
 
         // Remove all other HTML tags
         $string = preg_replace('/<[^>]*>/', '', $string);

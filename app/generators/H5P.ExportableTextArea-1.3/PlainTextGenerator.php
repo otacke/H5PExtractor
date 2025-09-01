@@ -14,7 +14,7 @@
 namespace H5PExtractor;
 
 /**
- * Class for generating HTML for H5P.Essay-1.5.
+ * Class for generating HTML for H5P.ExportableTextArea-1.3.
  *
  * @category Tool
  * @package  H5PExtractor
@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorEssayMajor1Minor5 extends Generator implements GeneratorInterface
+class PlainTextGeneratorExportableTextAreaMajor1Minor3 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -45,22 +45,12 @@ class PlainTextGeneratorEssayMajor1Minor5 extends Generator implements Generator
      */
     public function attach(&$container)
     {
-        if (isset($this->params['media']['type'])) {
-            $container .= $this->main->renderH5PQuestionMedia(
-                $this->params['media']['type']
-            );
-        }
-
-        $container .= TextUtils::htmlToText(($this->params['taskDescription'] ?? ''));
-
-        if (!empty($this->params['placeholderText'])) {
-            $container .= ($this->params['placeholderText'] ?? '') . "\n\n";
+        if (isset($this->params['label'])) {
+            $container .= TextUtils::htmlToText($this->params['label']) . "\n";
         }
 
         $line = '________________________________________' . "\n";
-        $numberLines = (isset($this->params['behaviour']['inputFieldSize'])) ?
-            $this->params['behaviour']['inputFieldSize'] :
-            10;
+        $numberLines = 10;
 
         for ($i = 0; $i < $numberLines / 2; $i++) {
             $container .= $line . "\n";

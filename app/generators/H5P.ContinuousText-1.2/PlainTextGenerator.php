@@ -14,7 +14,7 @@
 namespace H5PExtractor;
 
 /**
- * Class for generating HTML for H5P.Text-1.1.
+ * Class for generating HTML for H5P.ContinuousText-1.2.
  *
  * @category Tool
  * @package  H5PExtractor
@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorTextMajor1Minor1 extends Generator implements GeneratorInterface
+class PlainTextGeneratorContinuousTextMajor1Minor2 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -45,10 +45,11 @@ class PlainTextGeneratorTextMajor1Minor1 extends Generator implements GeneratorI
      */
     public function attach(&$container)
     {
-        if (isset($this->params['text'])) {
-            $container .= TextUtils::htmlToText($this->params['text']);
-        }
-
+        /*
+         * The editor of CoursePresentation will have split up the text already,
+         * so the parameters can simply be used as they are.
+         */
+        $container .= TextUtils::htmlToText($this->params['text']);
         $container = trim($container);
     }
 }

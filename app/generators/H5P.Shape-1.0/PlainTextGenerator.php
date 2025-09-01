@@ -14,7 +14,7 @@
 namespace H5PExtractor;
 
 /**
- * Class for generating HTML for H5P.Text-1.1.
+ * Class for generating HTML for H5P.Shape-1.0.
  *
  * @category Tool
  * @package  H5PExtractor
@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorTextMajor1Minor1 extends Generator implements GeneratorInterface
+class PlainTextGeneratorShape1Minor0 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -45,10 +45,7 @@ class PlainTextGeneratorTextMajor1Minor1 extends Generator implements GeneratorI
      */
     public function attach(&$container)
     {
-        if (isset($this->params['text'])) {
-            $container .= TextUtils::htmlToText($this->params['text']);
-        }
-
+        // Nothing that we could sensibly do here
         $container = trim($container);
     }
 }

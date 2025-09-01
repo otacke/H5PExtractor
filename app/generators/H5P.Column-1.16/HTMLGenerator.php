@@ -83,7 +83,7 @@ class HtmlGeneratorColumnMajor1Minor16 extends Generator implements GeneratorInt
                     $innerContainer,
                     false,
                     [
-                        'metadata' => $libraryContent['metadata'],
+                        'metadata' => isset($libraryContent['metadata']) ? $libraryContent['metadata'] : [],
                     ]
                 );
                 $container .= $innerContainer;
