@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorShape1Minor0 extends Generator implements GeneratorInterface
+class PlainTextGeneratorShapeMajor1Minor0 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
