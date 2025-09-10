@@ -336,7 +336,7 @@ class H5PFileHandler
             $newCss = CSSUtils::simplifyFonts($newCss);
 
             if (isset($h5pLibrariesURL)) {
-                $newCss = CSSUtils::replaceURLsSource($newCss, $h5pLibrariesURL . $dirMatching .'/' . $relativeCSSPath );
+                $newCss = CSSUtils::replaceURLsSource($newCss, $h5pLibrariesURL . $dirMatching .'/' . $relativeCSSPath);
             } else {
                 $newCss = CSSUtils::replaceUrlsWithBase64($newCss, dirname($cssFile));
             }

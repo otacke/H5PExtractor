@@ -38,7 +38,8 @@ class UtilsCoursePresentationMajor1Minor25
      *
      * @return bool True if covered, false otherwise.
      */
-    public static function isCoveredByGoToSlide($telemetry, $goToSlides) {
+    public static function isCoveredByGoToSlide($telemetry, $goToSlides)
+    {
         $result = false;
 
         foreach ($goToSlides as $goToSlide) {
@@ -61,7 +62,8 @@ class UtilsCoursePresentationMajor1Minor25
      *
      * @return float The coverage percentage.
      */
-    public static function calculateCoveragePercentage($element1, $element2) {
+    public static function calculateCoveragePercentage($element1, $element2)
+    {
         $intersectLeft = max($element1['x'], $element2['x']);
         $intersectTop = max($element1['y'], $element2['y']);
         $intersectRight = min($element1['x'] + $element1['width'], $element2['x'] + $element2['width']);

@@ -498,8 +498,7 @@ class HtmlGeneratorMain
         if (isset($this->h5pCoreUrl)) {
             // Replace relative URLs with absolute URLs using custom H5P Core URL base path
             $coreCss = CSSUtils::replaceUrlsWithBase64($coreCss, $this->h5pCoreUrl);
-        }
-        else {
+        } else {
             // Replace URLs to fonts with respective base64 encoded strings
             $coreCss = CSSUtils::replaceUrlsWithBase64($coreCss, $stylesPath);
         }
