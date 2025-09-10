@@ -49,13 +49,15 @@ class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements Generat
      */
     public function attach(&$container)
     {
-        $words = $this->extractWords($this->params['wordList']);
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
 
-        $grid = $this->placeWordsOnGrid(
+        $words = UtilsFindTheWordsMajor1Minor4::extractWords($this->params['wordList']);
+
+        $grid = UtilsFindTheWordsMajor1Minor4::placeWordsOnGrid(
             $words,
-            $this->mapOrientations($this->params['behaviour']['orientations'])
+            UtilsFindTheWordsMajor1Minor4::mapOrientations($this->params['behaviour']['orientations'])
         );
-        $grid = $this->fillBlanks($grid);
+        $grid = UtilsFindTheWordsMajor1Minor4::fillBlanks($grid, $this->params);
 
         $sizes = $this->computeDOMSizes($grid);
 
@@ -167,192 +169,6 @@ class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements Generat
         $container .= '</div>'; // Closing h5p-play-area
 
         $container .= $htmlClosing;
-    }
-
-    /**
-     * Extract and sanitize words from the parameters.
-     *
-     * @param string $params The parameters.
-     *
-     * @return array The extracted words.
-     */
-    private function extractWords($params = '')
-    {
-        return array_map('trim', explode(',', strtoupper($params)));
-    }
-
-    /**
-     * Map orientations to directions.
-     *
-     * @param array $params The parameters.
-     *
-     * @return array The directions.
-     */
-    private function mapOrientations($params)
-    {
-        $allDirections = [
-            'horizontal', 'vertical', 'diagonal',
-            'horizontalreversed', 'verticalreversed', 'diagonalreversed'
-        ];
-
-        $orientations = array_keys(
-            array_filter($params ?? $allDirections)
-        );
-
-        $orientationToDirectionMap = [
-            'horizontal' => 'horizontal',
-            'vertical' => 'vertical',
-            'diagonal' => 'diagonal',
-            'diagonalUp' => 'diagonal',
-            'horizontalBack' => 'horizontalreversed',
-            'verticalUp' => 'verticalreversed',
-            'diagonalBack' => 'diagonalreversed',
-            'diagonalUpBack' => 'diagonalreversed',
-        ];
-
-        return array_values(array_unique(array_map(
-            fn($orientation) => $orientationToDirectionMap[$orientation],
-            array_intersect($orientations, array_keys($orientationToDirectionMap))
-        )));
-    }
-
-    /**
-     * Fill blanks in the grid with random characters.
-     *
-     * @param array $grid The grid.
-     *
-     * @return array The grid with blanks filled.
-     */
-    private function fillBlanks($grid)
-    {
-        $pool = strtoupper(
-            $this->params['behaviour']['fillPool'] ??
-                'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        );
-
-        $gridSize = count($grid);
-        for ($i = 0; $i < $gridSize; $i++) {
-            for ($j = 0; $j < $gridSize; $j++) {
-                if ($grid[$i][$j] == '.') {
-                    $grid[$i][$j] = $pool[mt_rand(0, strlen($pool) - 1)];
-                }
-            }
-        }
-        return $grid;
-    }
-
-    /**
-     * Place words on a grid.
-     *
-     * @param array $words The words to place.
-     * @param array $allowedDirections The directions in which to place the words.
-     * @param int $maxAttempts The maximum number of attempts to place a word.
-     */
-    private function placeWordsOnGrid(
-        $words,
-        $allowedDirections = [
-            'horizontal', 'vertical', 'diagonal',
-            'horizontalreversed', 'verticalreversed', 'diagonalreversed'
-        ],
-        $maxAttempts = 50
-    ) {
-        // Sort words by length, hoping there are more options for overlapping
-        usort($words, function ($a, $b) {
-            return strlen($b) - strlen($a);
-        });
-
-        // Initialize grid with dimensions enough for the longest word
-        $gridSize = strlen($words[0]);
-        $directions = [
-            'horizontal' => [1, 0],
-            'vertical' => [0, 1],
-            'diagonal' => [1, 1],
-            'horizontalreversed' => [-1, 0],
-            'verticalreversed' => [0, -1],
-            'diagonalreversed' => [-1, -1]
-        ];
-
-        $allWordsPlaced = false;
-        while (!$allWordsPlaced) {
-            $grid = array_fill(0, $gridSize, array_fill(0, $gridSize, '.'));
-            $allWordsPlaced = true;
-
-            foreach ($words as $word) {
-                $wordPlaced = false;
-                $attempts = 0;
-
-                while (!$wordPlaced && $attempts < $maxAttempts) {
-                    $startX = mt_rand(0, $gridSize - 1);
-                    $startY = mt_rand(0, $gridSize - 1);
-                    $directionKey = $allowedDirections[mt_rand(0, count($allowedDirections) - 1)];
-                    $dx = $directions[$directionKey][0];
-                    $dy = $directions[$directionKey][1];
-
-                    if ($this->canPlaceWord($grid, $startX, $startY, $dx, $dy, $word)) {
-                        $this->placeWord($grid, $startX, $startY, $dx, $dy, $word);
-                        $wordPlaced = true;
-                    }
-
-                    $attempts++;
-                }
-
-                if (!$wordPlaced) {
-                    $allWordsPlaced = false;
-                    break;
-                }
-            }
-
-            if (!$allWordsPlaced) {
-                $gridSize++;
-            }
-        }
-
-        return $grid;
-    }
-
-    /**
-     * Check if a word can be placed on the grid.
-     *
-     * @param array $grid The grid.
-     * @param int $startX The x-coordinate of the starting point.
-     * @param int $startY The y-coordinate of the starting point.
-     * @param int $dx The x-direction.
-     * @param int $dy The y-direction.
-     * @param string $word The word to place.
-     */
-    private function canPlaceWord(&$grid, $startX, $startY, $dx, $dy, $word)
-    {
-        $gridSize = count($grid);
-        for ($i = 0; $i < strlen($word); $i++) {
-            $x = $startX + $i * $dx;
-            $y = $startY + $i * $dy;
-            if ($x < 0 || $x >= $gridSize || $y < 0 || $y >= $gridSize) {
-                return false;
-            }
-            if ($grid[$y][$x] != '.' && $grid[$y][$x] != $word[$i]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Place a word on the grid.
-     *
-     * @param array $grid The grid.
-     * @param int $startX The x-coordinate of the starting point.
-     * @param int $startY The y-coordinate of the starting point.
-     * @param int $dx The x-direction.
-     * @param int $dy The y-direction.
-     * @param string $word The word to place.
-     */
-    private function placeWord(&$grid, $startX, $startY, $dx, $dy, $word)
-    {
-        for ($i = 0; $i < strlen($word); $i++) {
-            $x = $startX + $i * $dx;
-            $y = $startY + $i * $dy;
-            $grid[$y][$x] = $word[$i];
-        }
     }
 
     /**

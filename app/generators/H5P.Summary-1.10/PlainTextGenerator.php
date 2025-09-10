@@ -14,7 +14,7 @@
 namespace H5PExtractor;
 
 /**
- * Class for generating HTML for H5P.AdvancedText-1.1.
+ * Class for generating HTML for H5P.Summary-1.10.
  *
  * @category Tool
  * @package  H5PExtractor
@@ -22,7 +22,7 @@ namespace H5PExtractor;
  * @license  MIT License
  * @link     https://github.com/otacke/H5PExtractor
  */
-class PlainTextGeneratorAdvancedTextMajor1Minor1 extends Generator implements GeneratorInterface
+class PlainTextGeneratorSummaryMajor1Minor10 extends Generator implements GeneratorInterface
 {
     /**
      * Constructor.
@@ -45,8 +45,17 @@ class PlainTextGeneratorAdvancedTextMajor1Minor1 extends Generator implements Ge
      */
     public function attach(&$container)
     {
-        if (isset($this->params['text'])) {
-            $container .= TextUtils::htmlToText($this->params['text']);
+        if (isset($this->params['intro'])) {
+            $container .= TextUtils::htmlToText($this->params['intro']) . "\n";
+        }
+
+        for ($i = 0; $i < count($this->params['summaries']); $i++) {
+            $container .= ($i + 1) . '/' . count($this->params['summaries']) . "\n";
+            $options = $this->params['summaries'][$i];
+
+            foreach ($options['summary'] ?? [] as $j => $option) {
+                $container .= '- ' . TextUtils::htmlToText($option);
+            }
         }
 
         $container = trim($container);
