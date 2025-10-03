@@ -114,3 +114,4 @@ about H5P core and H5P content types as a side product :-)
 ### Open issues:
 - Implement handling of target and scope where needed
 - Add option to display answers for questions
+- Support H5P theming scheduled to be released late in 2025.
