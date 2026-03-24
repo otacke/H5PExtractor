@@ -210,13 +210,18 @@ class HtmlGeneratorMain
      * Build a placeholder HTML for the given H5P content type.
      *
      * @param string $machineName The machine name of the H5P content type.
+     * @param string $coreString Core string defining required core version.
      *
      * @return string The placeholder HTML for the H5P content type.
      */
-    private function buildPlaceholder($machineName)
+    private function buildPlaceholder($machineName, $coreString)
     {
+        $identifier = $machineName;
+        if (!empty($coreString)) {
+            $identifier .= ' (H5P core ' . $coreString .')';
+        }
         $html  = '<p style="text-align: center">';
-        $html .= 'No HTML renderer for <em>' . $machineName . '</em> available.';
+        $html .= 'No HTML renderer for <em>' . $identifier . '</em> available.';
         $html .= '</p>';
 
         $iconData = FileUtils::fileToBase64(
@@ -282,6 +287,23 @@ class HtmlGeneratorMain
             }
             return;
         }
+
+        $h5pInfo = $this->h5pFileHandler->getH5PInformation();
+        $coreApi = isset($h5pInfo['coreApi']) ? $h5pInfo['coreApi'] : [];
+        $majorVersion
+            = isset($coreApi['majorVersion']) ? $coreApi['majorVersion'] : '';
+        $minorVersion
+            = isset($coreApi['minorVersion']) ? $coreApi['minorVersion'] : '';
+
+        if ($majorVersion === 1 && $minorVersion >= 28) {
+            if (isset($attachTo)) {
+                $coreString = $majorVersion . '.' . $minorVersion;
+                $attachTo
+                    = $this->buildPlaceholder($library['library'], $coreString);
+            }
+            return;
+        }
+
         $generator = new $generatorClassName($library['params'], $contentId, $extras);
 
         $generator->setMain($this);
@@ -463,10 +485,11 @@ class HtmlGeneratorMain
             'h5p.css',
             'h5p-confirmation-dialog.css',
             'h5p-core-button.css',
-            'h5p-theme.css', // Only as of H5P core 1.27
-            'h5p-theme-variables.css', // Only as of H5P core 1.27
-            'h5p-tooltip.css', // Only as of H5P core 1.26
-            'font-open-sans.css' // Only as of H5P core 1.26
+            'h5p-fonts.css',
+            'h5p-table.css',
+            'h5p-theme.css',
+            'h5p-theme-variables.css',
+            'h5p-tooltip.css',
         ];
 
         $coreCss = '';

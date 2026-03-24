@@ -509,6 +509,7 @@ class H5PFileHandler
         // Ensure that the content types stylesheet is loaded last
         $mainLibrary = $jsonData['mainLibrary'];
         $preloadedDependencies = $jsonData['preloadedDependencies'] ?? [];
+        $mainLibraryFolderName = '';
         foreach ($preloadedDependencies as $key => $dependency) {
             if ($dependency['machineName'] === $mainLibrary) {
                 // Remove the item from the current position
@@ -517,12 +518,27 @@ class H5PFileHandler
 
                 $preloadedDependencies[] = $item;
 
+                $mainLibraryFolderName = $mainLibrary . '-'
+                    . $dependency['majorVersion'] . '.'
+                    . $dependency['minorVersion'];
                 break;
             }
         }
 
         // Reindex the array to fix any gaps in the keys
         $jsonData['preloadedDependencies'] = array_values($preloadedDependencies);
+
+        $contentTypeDir = $extractDir . DIRECTORY_SEPARATOR . $mainLibraryFolderName;
+        if (!is_dir($contentTypeDir)) {
+            return $jsonData;
+        }
+
+        $libraryJson = $this->getLibraryJson($contentTypeDir);
+        if ($libraryJson === false || !isset($libraryJson['coreApi'])) {
+            return $jsonData;
+        }
+
+        $jsonData['coreApi'] = $libraryJson['coreApi'];
 
         return $jsonData;
     }
