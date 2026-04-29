@@ -60,6 +60,9 @@ class PlainTextGeneratorDragQuestionMajor1Minor14 extends Generator implements G
 
             $dropZoneLabel = str_replace('</div><div>', ' ', $dropZone['label']);
             $dropZoneLabel = str_replace('<br>', ' ', $dropZoneLabel);
+            $dropZoneLabel = str_replace('&nbsp;', ' ', $dropZoneLabel);
+            $dropZoneLabel = preg_replace('/>\s+/', '>', $dropZoneLabel);
+            $dropZoneLabel = preg_replace('/\s+</', '<', $dropZoneLabel);
             $dropZoneLabel = trim($dropZoneLabel);
 
             if ($dropZone['showLabel'] && $dropZoneLabel !== '') {
@@ -85,6 +88,7 @@ class PlainTextGeneratorDragQuestionMajor1Minor14 extends Generator implements G
                 $text = str_replace('-<br>', '-', $text);
                 $text = str_replace('</p><p>', ' ', $text);
                 $text = str_replace('<br>', ' ', $text);
+                $text = trim($text);
                 $element['type']['params']['text'] = $text;
             }
 
