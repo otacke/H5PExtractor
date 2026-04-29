@@ -58,8 +58,12 @@ class PlainTextGeneratorDragQuestionMajor1Minor14 extends Generator implements G
         foreach ($task['dropZones'] ?? [] as $dropZone) {
             $container .= '__________';
 
-            if ($dropZone['showLabel'] && trim($dropZone['label']) !== '') {
-                $container .= ' (' . TextUtils::htmlToText($dropZone['label']) . ')';
+            $dropZoneLabel = str_replace('</div><div>', ' ', $dropZone['label']);
+            $dropZoneLabel = str_replace('<br>', ' ', $dropZoneLabel);
+            $dropZoneLabel = trim($dropZoneLabel);
+
+            if ($dropZone['showLabel'] && $dropZoneLabel !== '') {
+                $container .= ' (' . TextUtils::htmlToText($dropZoneLabel) . ')';
             }
 
             $container .= ", ";
@@ -74,6 +78,16 @@ class PlainTextGeneratorDragQuestionMajor1Minor14 extends Generator implements G
                 continue; // Just "decoration"
             }
 
+            $draggableParams = $draggable['type'] ?? [];
+            if (str_starts_with($draggableParams['library'], 'H5P.AdvancedText ')) {
+                $text = $draggableParams['params']['text'];
+                $text = str_replace('-</p><p>', '-', $text);
+                $text = str_replace('-<br>', '-', $text);
+                $text = str_replace('</p><p>', ' ', $text);
+                $text = str_replace('<br>', ' ', $text);
+                $draggable['type']['params']['text'] = $text;
+            }
+
             $innerContainer = '';
             $this->main->newRunnable(
                 $draggable['type'] ?? [],
@@ -81,7 +95,7 @@ class PlainTextGeneratorDragQuestionMajor1Minor14 extends Generator implements G
                 $innerContainer
             );
 
-            $container .= $innerContainer . ", ";
+            $container .= " - " . $innerContainer . "\n";
         }
 
         $container = trim($container);
