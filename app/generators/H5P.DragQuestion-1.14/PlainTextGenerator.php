@@ -71,31 +71,45 @@ class PlainTextGeneratorDragQuestionMajor1Minor14 extends Generator implements G
 
         $container .= "\n\n";
 
-        $container .= '**Draggables**' . "\n\n"; // TODO i18n
+        $elements = $task['elements'] ?? [];
+        usort($elements, fn($a, $b) => $a['y'] !== $b['y'] ? $a['y'] <=> $b['y'] : $a['x'] <=> $b['x']);
 
-        foreach ($task['elements'] ?? [] as $draggable) {
-            if (count($draggable['dropZones'] ?? []) === 0) {
-                continue; // Just "decoration"
-            }
+        $nonDraggables = array_filter($elements, fn($el) => count($el['dropZones'] ?? []) === 0);
+        $draggables = array_filter($elements, fn($el) => count($el['dropZones'] ?? []) !== 0);
 
-            $draggableParams = $draggable['type'] ?? [];
-            if (str_starts_with($draggableParams['library'], 'H5P.AdvancedText ')) {
-                $text = $draggableParams['params']['text'];
+        $appendElement = function ($element) use (&$container) {
+            $elementParams = $element['type'] ?? [];
+            if (str_starts_with($elementParams['library'], 'H5P.AdvancedText ')) {
+                $text = $elementParams['params']['text'];
                 $text = str_replace('-</p><p>', '-', $text);
                 $text = str_replace('-<br>', '-', $text);
                 $text = str_replace('</p><p>', ' ', $text);
                 $text = str_replace('<br>', ' ', $text);
-                $draggable['type']['params']['text'] = $text;
+                $element['type']['params']['text'] = $text;
             }
 
             $innerContainer = '';
             $this->main->newRunnable(
-                $draggable['type'] ?? [],
+                $element['type'] ?? [],
                 1,
                 $innerContainer
             );
 
             $container .= " - " . $innerContainer . "\n";
+        };
+
+        if (!empty($nonDraggables)) {
+            $container .= '**Non-Draggables**' . "\n\n"; // TODO i18n
+            foreach ($nonDraggables as $element) {
+                $appendElement($element);
+            }
+            $container .= "\n";
+        }
+
+        $container .= '**Draggables**' . "\n\n"; // TODO i18n
+
+        foreach ($draggables as $element) {
+            $appendElement($element);
         }
 
         $container = trim($container);
