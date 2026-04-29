@@ -193,7 +193,9 @@ class HtmlGeneratorNDLATimelineMajor0Minor3 extends Generator implements Generat
         $dateStyle = 'color: #000;font-family: \'PT Sans Narrow\', sans-serif;';
 
         $headline  = '            <div class="tl-text-headline-container">';
-        $headline .= '              <h2 class="tl-headline tl-headline-title" style="word-break: break-word;">' . $slide['title'] . '</h2>';
+        $headline .= '              <h2 class="tl-headline tl-headline-title" style="word-break: break-word;">' .
+            $slide['title'] .
+            '</h2>';
         if (!empty($date)) {
             $headline .= '              <h3 class="tl-headline-date" style="' . $dateStyle . '">' . $date . '</h3>';
         }
