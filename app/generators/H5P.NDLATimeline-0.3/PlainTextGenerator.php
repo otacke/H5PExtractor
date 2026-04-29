@@ -81,7 +81,8 @@ class PlainTextGeneratorNDLATimelineMajor0Minor3 extends Generator implements Ge
 
         $title = $date ? $date . ': ' : '';
         if (isset($slide['title'])) {
-            $title .= $slide['title'];
+            $slideTitle = TextUtils::htmlToText($slide['title']);
+            $title .= $slideTitle;
             $slide_dom .= '## ' . $title . "\n";
         }
 
