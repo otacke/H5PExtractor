@@ -210,11 +210,11 @@ class HtmlGeneratorMain
      * Build a placeholder HTML for the given H5P content type.
      *
      * @param string $machineName The machine name of the H5P content type.
-     * @param string $coreString Core string defining required core version.
+     * @param string [$coreString] Core string defining required core version.
      *
      * @return string The placeholder HTML for the H5P content type.
      */
-    private function buildPlaceholder($machineName, $coreString)
+    private function buildPlaceholder($machineName, $coreString = '')
     {
         $identifier = $machineName;
         if (!empty($coreString)) {
