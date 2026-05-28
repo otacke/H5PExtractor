@@ -83,7 +83,9 @@ class PlainTextGeneratorSingleChoiceSetMajor1Minor11 extends Generator implement
     {
         $set = TextUtils::htmlToText($params['choices']['question']);
         foreach ($params['choices']['answers'] as $alternative) {
-            $set .= '( ) ' . TextUtils::htmlToText($alternative) . "\n";
+            $option = TextUtils::htmlToText($alternative);
+            $option = rtrim($option, "\n"); // $alternative could be <p> or plain text
+            $set .= '( ) ' . $option . "\n";
         }
 
         return $set;
