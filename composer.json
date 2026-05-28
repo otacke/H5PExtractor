@@ -15,6 +15,9 @@
         "h5p"
     ],
     "require": {
-        "h5p/h5p-core": "1.28.0"
+        "h5p/h5p-core": "^1.28.0"
+    },
+    "scripts": {
+        "post-autoload-dump": "@php scripts/strip-h5p-core-autoload.php"
     }
 }
