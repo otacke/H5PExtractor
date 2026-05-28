@@ -55,7 +55,7 @@ class PlainTextGeneratorCoursePresentationMajor1Minor25 extends Generator implem
         if (isset($this->params['presentation']['slides'])) {
             $slides = $this->params['presentation']['slides'];
             for ($i = 0; $i < count($slides); $i++) {
-                $output .= '##' . sprintf($slideProgressTemplate, $i + 1, count($slides)) . "\n";
+                $output .= '## ' . sprintf($slideProgressTemplate, $i + 1, count($slides)) . "\n";
 
                 $slide = $slides[$i];
                 if (!isset($slide['elements'])) {
