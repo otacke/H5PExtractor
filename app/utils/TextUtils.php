@@ -88,6 +88,9 @@ class TextUtils
         // Limit consecutive line breaks to 2
         $string = preg_replace('/(\n{3,})/', "\n\n", $string);
 
+        // Remove all &nbsp replacement chars that are trailing or right in front of the final line break
+        $string = preg_replace('/\x{00A0}+(?=\n|$)/u', '', $string);
+
         return $string;
     }
 

@@ -76,7 +76,7 @@ class PlainTextGeneratorMain
 
         $container = '';
 
-        $this->newRunnable(
+        $instance = $this->newRunnable(
             $library,
             1,
             $container,
@@ -86,7 +86,16 @@ class PlainTextGeneratorMain
             ]
         );
 
-        return $container;
+        $solution = (is_object($instance) && method_exists($instance, 'showSolutions'))
+                ? $instance->showSolutions()
+                : Generator::SOLUTION_FALLBACK;
+
+        $results = [
+            'representation' => $container,
+            'solution'       => $solution,
+        ];
+
+        return $results;
     }
 
     /**

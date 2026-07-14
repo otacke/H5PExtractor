@@ -45,6 +45,7 @@ class PlainTextGeneratorSummaryMajor1Minor10 extends Generator implements Genera
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
         if (isset($this->params['intro'])) {
             $container .= TextUtils::htmlToText($this->params['intro']) . "\n";
         }
@@ -59,5 +60,15 @@ class PlainTextGeneratorSummaryMajor1Minor10 extends Generator implements Genera
         }
 
         $container = trim($container);
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsSummaryMajor1Minor10::getSolutionTexts($this->params);
     }
 }

@@ -45,6 +45,7 @@ class HtmlGeneratorSummaryMajor1Minor10 extends Generator implements GeneratorIn
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
         $htmlClosing = TextUtils::getClosingTag($container);
 
         /* In theory, one could derive this automatically and do in the parent,
@@ -105,5 +106,15 @@ class HtmlGeneratorSummaryMajor1Minor10 extends Generator implements GeneratorIn
         $options .= '</div>'; // Closing summary-options
 
         return $options;
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsSummaryMajor1Minor10::getSolutionTexts($this->params);
     }
 }

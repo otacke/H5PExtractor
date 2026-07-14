@@ -45,6 +45,8 @@ class PlainTextGeneratorDragQuestionMajor1Minor14 extends Generator implements G
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
+
         if ($this->params['behaviour']['showTitle'] ?? false) {
             $container .=
                 ($this->extras['metadata']['title'] ?? 'Drag and Drop') . "\n\n";
@@ -85,5 +87,15 @@ class PlainTextGeneratorDragQuestionMajor1Minor14 extends Generator implements G
         }
 
         $container = trim($container);
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsDragQuestionMajor1Minor14::getSolutionTexts($this->params, $this->main);
     }
 }

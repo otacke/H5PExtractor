@@ -45,7 +45,6 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
      * @param array $params     Parameters.
      * @param int   $contentId  Content ID.
      * @param array $extras     Extras.
-     */
     public function __construct($params, $contentId, $extras)
     {
         parent::__construct($params, $contentId, $extras);
@@ -61,6 +60,7 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
         $htmlClosing = TextUtils::getClosingTag($container);
 
         /* In theory, one could derive this automatically and do in the parent,
@@ -598,5 +598,15 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
         $footer .= '</div>'; // Closing h5p-footer
 
         return $footer;
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsCoursePresentationMajor1Minor25::getSolutionTexts($this->params, $this->main);
     }
 }

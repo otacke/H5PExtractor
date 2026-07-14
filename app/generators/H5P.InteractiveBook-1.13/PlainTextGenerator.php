@@ -45,6 +45,8 @@ class PlainTextGeneratorInteractiveBookMajor1Minor13 extends Generator implement
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
+
         $this->attachCover($container);
 
         foreach ($this->params['chapters'] ?? [] as $index => $chapter) {
@@ -137,5 +139,15 @@ class PlainTextGeneratorInteractiveBookMajor1Minor13 extends Generator implement
         );
 
         $container .= $innerContainer;
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsInteractiveBookMajor1Minor13::getSolutionTexts($this->params, $this->main);
     }
 }

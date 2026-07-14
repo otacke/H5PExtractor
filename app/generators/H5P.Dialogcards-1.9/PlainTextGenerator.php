@@ -48,16 +48,17 @@ class PlainTextGeneratorDialogCardsMajor1Minor9 extends Generator implements Gen
         $container .= '## ' . TextUtils::htmlToText($this->params['title']);
         $container .= TextUtils::htmlToText($this->params['description']) . "\n";
 
+        $dialogs = $this->params['dialogs'];
         if ($this->params['behaviour']['randomCards'] ?? false) {
-            shuffle($this->params['dialogs']);
+            $dialogs = GeneralUtils::shuffle($dialogs);
         }
 
-        $cardsCount = count($this->params['dialogs']);
+        $cardsCount = count($dialogs);
         for ($index = 0; $index < $cardsCount; $index++) {
             $progressText = str_replace('@card', $index + 1, $this->params['progressText']);
             $progressText = str_replace('@total', $cardsCount, $progressText);
 
-            $dialog = $this->params['dialogs'][$index] ?? [];
+            $dialog = $dialogs[$index] ?? [];
 
             $container .= '### ' . $progressText . "\n";
 

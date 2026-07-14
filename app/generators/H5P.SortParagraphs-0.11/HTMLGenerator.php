@@ -45,6 +45,7 @@ class HtmlGeneratorSortParagraphsMajor0Minor11 extends Generator implements Gene
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
         $htmlClosing = TextUtils::getClosingTag($container);
 
         /* In theory, one could derive this automatically and do in the parent,
@@ -67,14 +68,16 @@ class HtmlGeneratorSortParagraphsMajor0Minor11 extends Generator implements Gene
         $container .= '<div class="h5p-sort-paragraphs-content">';
         $container .= '<div class="h5p-sort-paragraphs-list">';
 
-        shuffle($this->params['paragraphs']);
-
-        $numberOfParagraphs = count($this->params['paragraphs']);
+        $paragraphs = $this->params['paragraphs'] ?? [];
+        if ($this->params['randomParagraphs'] ?? false) {
+            $paragraphs = GeneralUtils::shuffle($paragraphs);
+        }
+        $numberOfParagraphs = count($paragraphs);
 
         for ($i = 0; $i < $numberOfParagraphs; $i++) {
             $container .= '<div class="h5p-sort-paragraphs-paragraph">';
             $container .= '<div class="h5p-sort-paragraphs-paragraph-container">';
-            $container .= $this->params['paragraphs'][$i];
+            $container .= $paragraphs[$i];
             $container .= '</div>';
             $container .= '</div>';
 
@@ -88,5 +91,15 @@ class HtmlGeneratorSortParagraphsMajor0Minor11 extends Generator implements Gene
         $container .= '</div>'; // Closing h5p-question-content
 
         $container .= $htmlClosing;
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsSortParagraphsMajor0Minor11::getSolutionTexts($this->params);
     }
 }

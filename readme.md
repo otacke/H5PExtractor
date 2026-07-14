@@ -42,6 +42,7 @@ once actually needed.
      'h5pCoreUrl' => <full URL to `h5p-php-library/` folder to use as core asset source : string>
      'h5pLibrariesUrl' => <full URL to `libraries/` folder to use as content type asset source : string>
      'h5pContentUrl' => <full URL to `content/<id>/` folder to use author defined content as source>
+     'solutionStyle' => <how to format the solution : ['reversed'], default: null>
    ]
    ```
 
@@ -53,7 +54,8 @@ once actually needed.
    - use the default or set render width if no machineName specific render width was set for a particular content type,
    - not apply and custom CSS,
    - return base64 encoded representations of files inside the file if no Url to core, libraries
-     or the content is set.
+     or the content is set,
+   - return solutions unmodified if no `solutionStyle` is set.
 
    Please ensure that the respective `uploads` directory can be read and written by
    your server process.

@@ -24,79 +24,120 @@ namespace H5PExtractor;
  */
 class UtilsColumnMajor1Minor16
 {
-      // Odd hardcoded list of content types with margins as in original Column code
-      const HAS_MARGINS = [
-        'H5P.AdvancedText',
-        'H5P.AudioRecorder',
-        'H5P.Essay',
-        'H5P.Link',
-        'H5P.Accordion',
-        'H5P.Table',
-        'H5P.GuessTheAnswer',
-        'H5P.Blanks',
-        'H5P.MultiChoice',
-        'H5P.TrueFalse',
-        'H5P.DragQuestion',
-        'H5P.Summary',
-        'H5P.DragText',
-        'H5P.MarkTheWords',
-        'H5P.ImageHotspotQuestion',
-        'H5P.MemoryGame',
-        'H5P.Dialogcards',
-        'H5P.QuestionSet',
-        'H5P.DocumentationTool'
-      ];
+    // Odd hardcoded list of content types with margins as in original Column code
+    const HAS_MARGINS = [
+    'H5P.AdvancedText',
+    'H5P.AudioRecorder',
+    'H5P.Essay',
+    'H5P.Link',
+    'H5P.Accordion',
+    'H5P.Table',
+    'H5P.GuessTheAnswer',
+    'H5P.Blanks',
+    'H5P.MultiChoice',
+    'H5P.TrueFalse',
+    'H5P.DragQuestion',
+    'H5P.Summary',
+    'H5P.DragText',
+    'H5P.MarkTheWords',
+    'H5P.ImageHotspotQuestion',
+    'H5P.MemoryGame',
+    'H5P.Dialogcards',
+    'H5P.QuestionSet',
+    'H5P.DocumentationTool'
+    ];
 
-      // Odd hardcoded list of content types with margins as in original Column code
-      const HAS_TOP_MARGINS = [
-        'H5P.SingleChoiceSet'
-      ];
+    // Odd hardcoded list of content types with margins as in original Column code
+    const HAS_TOP_MARGINS = [
+    'H5P.SingleChoiceSet'
+    ];
 
-      // Odd hardcoded list of content types with margins as in original Column code
-      const HAS_BOTTOM_MARGINS = [
-        'H5P.CoursePresentation',
-        'H5P.Dialogcards',
-        'H5P.GuessTheAnswer',
-        'H5P.ImageSlider'
-      ];
+    // Odd hardcoded list of content types with margins as in original Column code
+    const HAS_BOTTOM_MARGINS = [
+    'H5P.CoursePresentation',
+    'H5P.Dialogcards',
+    'H5P.GuessTheAnswer',
+    'H5P.ImageSlider'
+    ];
 
-      public static function addSeparator(
-          $libraryName,
-          $useSeparator,
-          $previousHasMargin = null
-      ) {
-          $thisHasMargin = in_array($libraryName, UtilsColumnMajor1Minor16::HAS_MARGINS);
-          $separator = '';
+    public static function addSeparator(
+        $libraryName,
+        $useSeparator,
+        $previousHasMargin = null
+    ) {
+        $thisHasMargin = in_array($libraryName, UtilsColumnMajor1Minor16::HAS_MARGINS);
+        $separator = '';
 
-          if (isset($previousHasMargin)) {
-              $separatorClass = 'h5p-column-ruler';
+        if (isset($previousHasMargin)) {
+            $separatorClass = 'h5p-column-ruler';
 
-              if (!$thisHasMargin &&
-              !in_array($libraryName, UtilsColumnMajor1Minor16::HAS_TOP_MARGINS)
-              ) {
-                  $separatorClass .= ' h5p-column-space-before';
-                  if (!$previousHasMargin &&
-                  $useSeparator === 'enabled'
-                  ) {
-                      $separatorClass .= ' h5p-column-space-after';
-                  }
-              } elseif (!$previousHasMargin &&
-              $useSeparator === 'enabled'
-              ) {
-                  $separatorClass .= ' h5p-column-space-before';
-              }
+            if (!$thisHasMargin &&
+            !in_array($libraryName, UtilsColumnMajor1Minor16::HAS_TOP_MARGINS)
+            ) {
+                $separatorClass .= ' h5p-column-space-before';
+                if (!$previousHasMargin &&
+                $useSeparator === 'enabled'
+                ) {
+                    $separatorClass .= ' h5p-column-space-after';
+                }
+            } elseif (!$previousHasMargin &&
+            $useSeparator === 'enabled'
+            ) {
+                $separatorClass .= ' h5p-column-space-before';
+            }
 
-              if ($useSeparator !== 'disabled') {
-                  $separator = '<div class="' . $separatorClass . '"></div>';
-              }
-          }
+            if ($useSeparator !== 'disabled') {
+                $separator = '<div class="' . $separatorClass . '"></div>';
+            }
+        }
 
-          $previousHasMargin = $thisHasMargin ||
-          in_array($libraryName, UtilsColumnMajor1Minor16::HAS_BOTTOM_MARGINS);
+        $previousHasMargin = $thisHasMargin ||
+        in_array($libraryName, UtilsColumnMajor1Minor16::HAS_BOTTOM_MARGINS);
 
-          return [
-          'separator' => $separator,
-          'previousHasMargin' => $previousHasMargin
-          ];
-      }
+        return [
+        'separator' => $separator,
+        'previousHasMargin' => $previousHasMargin
+        ];
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @param array $params The params array.
+     * @param HtmlGeneratorMain|PlainTextGeneratorMain $main Main instance.
+     *
+     * @return string The solution text.
+     */
+    public static function getSolutionTexts($params, $main)
+    {
+        if (!isset($params['content'])) {
+            return Generator::SOLUTION_FALLBACK;
+        };
+
+        $solutions = [];
+
+        foreach ($params['content'] as $content) {
+            $libraryContent = $content['content'];
+
+            $dom = '';
+            $instance = $main->newRunnable(
+                [
+                    'library' => $libraryContent['library'],
+                    'params' => $libraryContent['params'],
+                ],
+                1,
+                $innerContainer,
+                false,
+                [
+                    'metadata' => isset($libraryContent['metadata']) ? $libraryContent['metadata'] : [],
+                ]
+            );
+
+            if ((is_object($instance) && method_exists($instance, 'showSolutions'))) {
+                $solutions[] = $instance->showSolutions();
+            }
+        }
+
+        return implode("\n---\n", $solutions);
+    }
 }

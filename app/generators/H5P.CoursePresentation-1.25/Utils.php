@@ -42,8 +42,13 @@ class UtilsCoursePresentationMajor1Minor25
     {
         $result = false;
 
+        if (!is_array($goToSlides)) {
+            return false;
+        }
+
         foreach ($goToSlides as $goToSlide) {
-            $overlapPercentage = UtilsCoursePresentationMajor1Minor25::calculateCoveragePercentage($telemetry, $goToSlide);
+            $overlapPercentage =
+                UtilsCoursePresentationMajor1Minor25::calculateCoveragePercentage($telemetry, $goToSlide);
 
             if ($overlapPercentage > UtilsCoursePresentationMajor1Minor25::COVERAGE_THRESHOLD_PERCENT) {
                 $result = true;
@@ -83,5 +88,79 @@ class UtilsCoursePresentationMajor1Minor25
         $coveragePercentage = ($intersectionArea / $element1Area) * 100;
 
         return round($coveragePercentage, 2);
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @param array $params The params array.
+     * @param HtmlGeneratorMain|PlainTextGeneratorMain $main Main instance.
+     *
+     * @return string The solution text.
+     */
+    public static function getSolutionTexts($params, $main)
+    {
+        if (!isset($params['presentation']['slides'])) {
+            return Generator::SOLUTION_FALLBACK;
+        }
+
+        $solutions = [];
+
+        $slideString = (isset($params['l10n']['slide'])) ? $params['l10n']['slide'] : 'Slide'; // TODO: i18n
+        $slideProgressTemplate = $slideString . ' %d / %d';
+
+        $slides = $params['presentation']['slides'];
+        for ($i = 0; $i < count($slides); $i++) {
+            $slide = $slides[$i];
+            if (!isset($slide['elements'])) {
+                continue;
+            }
+
+            $elements = $slide['elements'];
+
+            // sort elements by their position (top to bottom, left to right)
+            usort(
+                $elements,
+                function ($a, $b) {
+                    if ($a['y'] == $b['y']) {
+                        return $a['x'] - $b['x'];
+                    }
+                    return $a['y'] - $b['y'];
+                }
+            );
+
+            foreach ($slide['elements'] as $element) {
+                if (isset($element['action'])) {
+                    $goToSlides = $slide['goToSlides'] ?? [];
+                    if (UtilsCoursePresentationMajor1Minor25::isCoveredByGoToSlide($element, $goToSlides)) {
+                        continue; // Skip if elements are supposedly used for navigation
+                    }
+
+                    $elementContainer = '';
+                    $action = $element['action'];
+
+                    $instance = $main->newRunnable(
+                        [
+                            'library' => $action['library'],
+                            'params' => $action['params'],
+                        ],
+                        1,
+                        $elementContainer,
+                        false,
+                        [
+                            'metadata' => isset($action['metadata']) ? $action['metadata'] : [],
+                        ]
+                    );
+
+                    if ((is_object($instance) && method_exists($instance, 'showSolutions'))) {
+                        $slideTitle = sprintf($slideProgressTemplate, $i + 1, count($slides)) . "\n";
+
+                        $solutions[] = $slideTitle . $instance->showSolutions();
+                    }
+                }
+            }
+        }
+
+        return implode("\n\n", $solutions);
     }
 }

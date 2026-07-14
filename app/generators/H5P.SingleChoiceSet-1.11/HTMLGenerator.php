@@ -45,6 +45,7 @@ class HtmlGeneratorSingleChoiceSetMajor1Minor11 extends Generator implements Gen
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
         $htmlClosing = TextUtils::getClosingTag($container);
 
         /* In theory, one could derive this automatically and do in the parent,
@@ -56,24 +57,25 @@ class HtmlGeneratorSingleChoiceSetMajor1Minor11 extends Generator implements Gen
         $container .= '<div class="h5p-question-content">';
         $container .= '<div class="h5p-sc-set-wrapper initialized navigatable">';
 
-        for ($i = 0; $i < count($this->params['choices']); $i++) {
+        $choices = $this->params['choices'];
+        for ($i = 0; $i < count($choices); $i++) {
             // Sanitization
-            if (!isset($this->params['choices'][$i]['question'])) {
-                $this->params['choices'][$i]['question'] = '';
+            if (!isset($choices[$i]['question'])) {
+                $choices[$i]['question'] = '';
             }
 
-            if (!isset($this->params['choices'][$i]['answers'])) {
-                $this->params['choices'][$i]['answers'] = [];
+            if (!isset($choices[$i]['answers'])) {
+                $choices[$i]['answers'] = [];
             }
 
-            shuffle($this->params['choices'][$i]['answers']);
+            $choices[$i]['answers'] = GeneralUtils::shuffle($choices[$i]['answers']);
         }
 
-        for ($i = 0; $i < count($this->params['choices']); $i++) {
+        for ($i = 0; $i < count($choices); $i++) {
             $container .= $this->renderSet([
                 'index' => $i,
-                'total' => count($this->params['choices']),
-                'choices' => $this->params['choices'][$i],
+                'total' => count($choices),
+                'choices' => $choices[$i],
             ]);
         }
 
@@ -114,5 +116,15 @@ class HtmlGeneratorSingleChoiceSetMajor1Minor11 extends Generator implements Gen
         $set .= '</div>';
 
         return $set;
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsSingleChoiceSetMajor1Minor11::getSolutionTexts($this->params);
     }
 }

@@ -71,9 +71,21 @@ class PlainTextGeneratorFindTheWordsMajor1Minor4 extends Generator implements Ge
             $container .= "\n";
         }
 
-        $container .= "\n";
-        $container .= "*" . $this->params['l10n']['wordListHeader'] . "*\n";
+        if ($this->params['behaviour']['showVocabulary'] ?? false) {
+            $container .= "\n";
+            $container .= "*" . $this->params['l10n']['wordListHeader'] . "*\n";
 
-        $container .= implode(", ", $words);
+            $container .= implode(", ", $words);
+        }
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsFindTheWordsMajor1Minor4::getSolutionTexts($this->params);
     }
 }

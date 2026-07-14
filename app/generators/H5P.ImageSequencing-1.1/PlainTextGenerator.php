@@ -45,17 +45,27 @@ class PlainTextGeneratorImageSequencingMajor1Minor1 extends Generator implements
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
         if (isset($this->params['taskDescription'])) {
             $container .= TextUtils::htmlToText($this->params['taskDescription']) . "\n\n";
         }
 
-        shuffle($this->params['sequenceImages']);
-
-        for ($i = 0; $i < count($this->params['sequenceImages']); $i++) {
+        $shuffledImages = GeneralUtils::shuffle($this->params['sequenceImages']);
+        for ($i = 0; $i < count($shuffledImages); $i++) {
             $container .=
                 '___ ' .
-                TextUtils::htmlToText($this->params['sequenceImages'][$i]['imageDescription']) .
+                TextUtils::htmlToText($shuffledImages[$i]['imageDescription']) .
                 "\n\n";
         }
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsImageSequencingMajor1Minor1::getSolutionTexts($this->params);
     }
 }

@@ -45,25 +45,28 @@ class PlainTextGeneratorSingleChoiceSetMajor1Minor11 extends Generator implement
      */
     public function attach(&$container)
     {
-        for ($i = 0; $i < count($this->params['choices']); $i++) {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
+
+        $choices = $this->params['choices'];
+        for ($i = 0; $i < count($choices); $i++) {
             // Sanitization
-            if (!isset($this->params['choices'][$i]['question'])) {
-                $this->params['choices'][$i]['question'] = '';
+            if (!isset($choices[$i]['question'])) {
+                $choices[$i]['question'] = '';
             }
 
-            if (!isset($this->params['choices'][$i]['answers'])) {
-                $this->params['choices'][$i]['answers'] = [];
+            if (!isset($choices[$i]['answers'])) {
+                $choices[$i]['answers'] = [];
             }
 
-            shuffle($this->params['choices'][$i]['answers']);
+            $choices[$i]['answers'] = GeneralUtils::shuffle($choices[$i]['answers']);
         }
 
-        for ($i = 0; $i < count($this->params['choices']); $i++) {
+        for ($i = 0; $i < count($choices); $i++) {
             $container .= $this->renderSet(
                 [
                     'index' => $i,
-                    'total' => count($this->params['choices']),
-                    'choices' => $this->params['choices'][$i],
+                    'total' => count($choices),
+                    'choices' => $choices[$i],
                 ]
             );
             $container .= "\n";
@@ -82,6 +85,11 @@ class PlainTextGeneratorSingleChoiceSetMajor1Minor11 extends Generator implement
     private function renderSet($params)
     {
         $set = TextUtils::htmlToText($params['choices']['question']);
+
+        if (!str_starts_with($params['choices']['question'], '<p')) {
+            $set .= "\n";
+        }
+
         foreach ($params['choices']['answers'] as $alternative) {
             $option = TextUtils::htmlToText($alternative);
             $option = rtrim($option, "\n"); // $alternative could be <p> or plain text
@@ -89,5 +97,15 @@ class PlainTextGeneratorSingleChoiceSetMajor1Minor11 extends Generator implement
         }
 
         return $set;
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsSingleChoiceSetMajor1Minor11::getSolutionTexts($this->params);
     }
 }

@@ -127,44 +127,46 @@ class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements Generat
 
         $container .= '</div>'; // Closing dom-canvas-grid
         $container .= '</div>'; // Closing puzzle-container
-        $container .= '<div class="vocabulary-container" style="width: ' . $sizes['gridWidth'] . 'px;">';
-        $container .=
-            '<div ' .
-                'class="vocHeading"' .
-                'style="' .
-                    'font-size: ' . $headingFontSize . 'px;' .
-                    'overflow-y: auto;' .
-                    'padding: ' . $headingPaddingTopBottom . 'px 8px;' .
-                '"' .
-            '>';
-        $container .= '<em class="fa fa-book fa-fw"></em>';
-        $container .= $this->params['l10n']['wordListHeader'];
-        $container .= '</div>';
 
-        $container .= '<ul ' .
-            'style="'.
-                'margin: 0;' .
-                'padding-right: ' . $headingPaddingTopBottom .'px;' .
-                'padding-top: ' . $headingPaddingTopBottom . 'px;' .
-            '"' .
-        '>';
-
-        $marginBotton = $sizes['fontSize'] / 2;
-        for ($i = 0; $i < count($words); $i++) {
-            $container .= '<li style="display: inline-block; margin: 0 0 ' . $marginBotton . 'px 0;">';
-            $container .= '<div ' .
-                'class="word"' .
-                'style="' .
-                    'font-size:' . $sizes['fontSize'] . 'px;' .
-                '"' .
-            '>';
-            $container .= '<em class="fa fa-check"></em>';
-            $container .= $words[$i];
+        if ($this->params['behaviour']['showVocabulary'] ?? false) {
+            $container .= '<div class="vocabulary-container" style="width: ' . $sizes['gridWidth'] . 'px;">';
+            $container .=
+                '<div ' .
+                    'class="vocHeading"' .
+                    'style="' .
+                        'font-size: ' . $headingFontSize . 'px;' .
+                        'overflow-y: auto;' .
+                        'padding: ' . $headingPaddingTopBottom . 'px 8px;' .
+                    '"' .
+                '>';
+            $container .= '<em class="fa fa-book fa-fw"></em>';
+            $container .= $this->params['l10n']['wordListHeader'];
             $container .= '</div>';
-        }
-        $container .= '</ul>';
 
-        $container .= '</div>'; // Closing vocabulary-container
+            $container .= '<ul ' .
+                'style="'.
+                    'margin: 0;' .
+                    'padding-right: ' . $headingPaddingTopBottom .'px;' .
+                    'padding-top: ' . $headingPaddingTopBottom . 'px;' .
+                '"' .
+            '>';
+
+            $marginBotton = $sizes['fontSize'] / 2;
+            for ($i = 0; $i < count($words); $i++) {
+                $container .= '<li style="display: inline-block; margin: 0 0 ' . $marginBotton . 'px 0;">';
+                $container .= '<div ' .
+                    'class="word"' .
+                    'style="' .
+                        'font-size:' . $sizes['fontSize'] . 'px;' .
+                    '"' .
+                '>';
+                $container .= '<em class="fa fa-check"></em>';
+                $container .= $words[$i];
+                $container .= '</div>';
+            }
+            $container .= '</ul>';
+            $container .= '</div>'; // Closing vocabulary-container
+        }
         $container .= '</div>'; // Closing game-container
         $container .= '</div>'; // Closing h5p-play-area
 
@@ -207,5 +209,15 @@ class HtmlGeneratorFindTheWordsMajor1Minor4 extends Generator implements Generat
             'cellPaddingLeft' => $elementSize / 4 * self::$CHAR_SPACING_FACTOR,
             'cellPaddingTop' => $elementSize / 3 * self::$CHAR_SPACING_FACTOR
         ];
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsFindTheWordsMajor1Minor4::getSolutionTexts($this->params);
     }
 }

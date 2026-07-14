@@ -37,6 +37,7 @@ class HtmlGeneratorMain
     public $h5pContentUrl;
     public $h5pCoreUrl;
     public $h5pLibrariesUrl;
+    public $solution;
     private $javaScripts;
 
     /**
@@ -82,6 +83,7 @@ class HtmlGeneratorMain
         $this->h5pContentUrl = $h5pContentUrl;
         $this->h5pCoreUrl = $h5pCoreUrl;
         $this->h5pLibrariesUrl = $h5pLibrariesUrl;
+        $this->solution = $solution ?? null;
     }
 
     /**
@@ -168,7 +170,7 @@ class HtmlGeneratorMain
 
         $container = '<div class="h5p-container h5pClassName" style="">';
 
-        $this->newRunnable(
+        $instance = $this->newRunnable(
             $library,
             1,
             $container,
@@ -178,7 +180,16 @@ class HtmlGeneratorMain
             ]
         );
 
-        return $this->createMain($css, $container);
+        $solution = (is_object($instance) && method_exists($instance, 'showSolutions'))
+                ? $instance->showSolutions()
+                : Generator::SOLUTION_FALLBACK;
+
+        $results = [
+            'representation' => $this->createMain($css, $container),
+            'solution'       => $solution,
+        ];
+
+        return $results;
     }
 
     /**

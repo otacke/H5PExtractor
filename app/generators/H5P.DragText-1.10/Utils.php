@@ -108,4 +108,28 @@ class UtilsDragTextMajor1Minor10
 
         return $str;
     }
+
+    /**
+     * Get the solution text.
+     *
+     * @param array $params The params array.
+     *
+     * @return string The solution text.
+     */
+    public static function getSolutionTexts($params)
+    {
+        $solutions = [];
+        if (isset($params['textField'])) {
+            preg_match_all('/\*(.*?)\*/u', $params['textField'], $matches);
+            if (!empty($matches[1])) {
+                foreach ($matches[1] as $content) {
+                    $lexed = self::lex($content);
+                    if (is_array($lexed) && isset($lexed['text'])) {
+                        $solutions[] = $lexed['text'];
+                    }
+                }
+            }
+        }
+        return implode(', ', $solutions);
+    }
 }

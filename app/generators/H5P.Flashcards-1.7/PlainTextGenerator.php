@@ -45,17 +45,18 @@ class PlainTextGeneratorFlashcardsMajor1Minor7 extends Generator implements Gene
      */
     public function attach(&$container)
     {
-        $this->params['cards'] = $this->params['cards'] ?? [];
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
+        $cards = $this->params['cards'] ?? [];
         if ($this->params['randomCards']) {
-            shuffle($this->params['cards']);
+            $cards = GeneralUtils::shuffle($cards);
         }
 
         if (isset($this->params['description'])) {
             $container .= TextUtils::htmlToText($this->params['description']) . "\n\n";
         }
 
-        for ($i = 0; $i < count($this->params['cards']); $i++) {
-            $container .= $this->renderCard($this->params['cards'][$i], $i, count($this->params['cards']) - 1);
+        for ($i = 0; $i < count($cards); $i++) {
+            $container .= $this->renderCard($cards[$i], $i, count($this->params['cards']) - 1);
             $container .= "\n\n";
         }
 
@@ -71,8 +72,6 @@ class PlainTextGeneratorFlashcardsMajor1Minor7 extends Generator implements Gene
      */
     private function renderCard($params)
     {
-        error_log(print_r($params, true));
-
         $card = '';
         if (isset(($params['image']['path']))) {
             $card .= '![' . ($params['imageAltText'] ?? '') . ']' . "\n";
@@ -85,5 +84,15 @@ class PlainTextGeneratorFlashcardsMajor1Minor7 extends Generator implements Gene
         $card .= "\n" . '________________________________________';
 
         return $card;
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsFlashcardsMajor1Minor7::getSolutionTexts($this->params);
     }
 }

@@ -102,6 +102,8 @@ class PlainTextGeneratorMarkTheWordsMajor1Minor11 extends Generator implements G
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
+
         if (isset($this->params['media']['type'])) {
             $container .= $this->main->renderH5PQuestionMedia(
                 $this->params['media']['type']
@@ -122,5 +124,15 @@ class PlainTextGeneratorMarkTheWordsMajor1Minor11 extends Generator implements G
         }
 
         $container = trim($container);
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsMarkTheWordsMajor1Minor11::getSolutionTexts($this->params);
     }
 }

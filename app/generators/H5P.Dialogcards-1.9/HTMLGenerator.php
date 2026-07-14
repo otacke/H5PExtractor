@@ -64,18 +64,19 @@ class HtmlGeneratorDialogcardsMajor1Minor9 extends Generator implements Generato
             $this->params['description'] .
             '</div>';
 
+        $dialogs = $this->params['dialogs'];
         if ($this->params['behaviour']['randomCards'] ?? false) {
-            shuffle($this->params['dialogs']);
+            $dialogs = GeneralUtils::shuffle($dialogs);
         }
 
-        $cardsCount = count($this->params['dialogs']);
+        $cardsCount = count($dialogs);
         for ($index = 0; $index < $cardsCount; $index++) {
             $container .= self::buildCardWrapSet(
-                $this->params['dialogs'][$index]
+                $dialogs[$index]
             );
             $container .= self::buildFooter(
                 $index + 1,
-                count($this->params['dialogs'])
+                count($dialogs)
             );
             if ($index + 1 !== $cardsCount) {
                 $container .= '<span>&nbsp;</span>';

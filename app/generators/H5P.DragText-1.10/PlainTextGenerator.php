@@ -109,9 +109,19 @@ class PlainTextGeneratorDragTextMajor1Minor10 extends Generator implements Gener
 
         $container = str_replace(['<br>', '<br/>'], "\n", $container);
 
-        shuffle($draggables);
+        $draggables = GeneralUtils::shuffle($draggables);
         $container .= "\n\n" . implode(", ", $draggables);
 
         $container = trim($container);
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsDragTextMajor1Minor10::getSolutionTexts($this->params);
     }
 }

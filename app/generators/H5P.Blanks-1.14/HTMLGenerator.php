@@ -45,6 +45,7 @@ class HtmlGeneratorBlanksMajor1Minor14 extends Generator implements GeneratorInt
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
         $htmlClosing = TextUtils::getClosingTag($container);
 
         /* In theory, one could derive this automatically and do in the parent,
@@ -61,7 +62,6 @@ class HtmlGeneratorBlanksMajor1Minor14 extends Generator implements GeneratorInt
 
         $container .= '<div class="h5p-question-introduction">';
         $container .= '<div>' . $this->params['text'] . '</div>';
-        $container .= '</div>';
 
         if ($this->params['behaviour']['separateLines']) {
             $container .= '<div class="h5p-question-content h5p-separate-lines">';
@@ -93,5 +93,15 @@ class HtmlGeneratorBlanksMajor1Minor14 extends Generator implements GeneratorInt
         $container .= '</div>';
 
         $container .= $htmlClosing;
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsBlanksMajor1Minor14::getSolutionTexts($this->params);
     }
 }

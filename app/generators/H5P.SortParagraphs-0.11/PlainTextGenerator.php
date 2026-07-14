@@ -45,15 +45,27 @@ class PlainTextGeneratorSortParagraphsMajor0Minor11 extends Generator implements
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
         if (isset($this->params['taskDescription'])) {
             $container .= TextUtils::htmlToText($this->params['taskDescription']);
         }
 
         $numberOfParagraphs = count($this->params['paragraphs']);
+        $paragraphs = GeneralUtils::shuffle($this->params['paragraphs']);
         for ($i = 0; $i < $numberOfParagraphs; $i++) {
-            $container .= ($i + 1) . '. ' . TextUtils::htmlToText($this->params['paragraphs'][$i]);
+            $container .= ($i + 1) . '. ' . TextUtils::htmlToText($paragraphs[$i]);
         }
 
         $container = trim($container);
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsSortParagraphsMajor0Minor11::getSolutionTexts($this->params);
     }
 }

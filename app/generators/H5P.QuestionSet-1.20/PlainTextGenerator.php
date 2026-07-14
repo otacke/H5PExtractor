@@ -45,6 +45,7 @@ class PlainTextGeneratorQuestionSetMajor1Minor20 extends Generator implements Ge
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
         $output = '';
 
         if ($this->params['introPage']['showIntroPage']) {
@@ -141,5 +142,15 @@ class PlainTextGeneratorQuestionSetMajor1Minor20 extends Generator implements Ge
             $progressText
         );
         return '*' . $progressText . '*';
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsQuestionSetMajor1Minor20::getSolutionTexts($this->params, $this->main);
     }
 }

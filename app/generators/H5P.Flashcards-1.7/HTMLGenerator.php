@@ -45,9 +45,11 @@ class HtmlGeneratorFlashcardsMajor1Minor7 extends Generator implements Generator
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
         $this->params['cards'] = $this->params['cards'] ?? [];
-        if ($this->params['randomCards']) {
-            shuffle($this->params['cards']);
+        $cards = $this->params['cards'];
+        if ($cards) {
+            $cards = GeneralUtils::shuffle($cards);
         }
 
         $htmlClosing = TextUtils::getClosingTag($container);
@@ -77,8 +79,8 @@ class HtmlGeneratorFlashcardsMajor1Minor7 extends Generator implements Generator
                 'style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; padding-top: 1rem"' .
             '>';
 
-        for ($i = 0; $i < count($this->params['cards']); $i++) {
-            $container .= $this->renderCard($this->params['cards'][$i], $i, count($this->params['cards']) - 1);
+        for ($i = 0; $i < count($cards); $i++) {
+            $container .= $this->renderCard($cards[$i], $i, count($cards) - 1);
         }
 
         // Closing h5p-inner
@@ -138,5 +140,15 @@ class HtmlGeneratorFlashcardsMajor1Minor7 extends Generator implements Generator
         $card .= '</div>'; // Closing h5p-card
 
         return $card;
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsFlashcardsMajor1Minor7::getSolutionTexts($this->params);
     }
 }

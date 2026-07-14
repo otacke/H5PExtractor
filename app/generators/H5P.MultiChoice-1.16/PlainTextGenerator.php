@@ -45,8 +45,10 @@ class PlainTextGeneratorMultiChoiceMajor1Minor16 extends Generator implements Ge
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
+        $answers = $this->params['answers'] ?? [];
         if ($this->params['behaviour']['randomAnswers']) {
-            shuffle($this->params['answers']);
+            $answers = GeneralUtils::shuffle($answers);
         }
 
         if (isset($this->params['media']['type'])) {
@@ -59,7 +61,7 @@ class PlainTextGeneratorMultiChoiceMajor1Minor16 extends Generator implements Ge
 
         $numCorrect = count(
             array_filter(
-                $this->params['answers'],
+                $answers,
                 function ($answer) {
                     return $answer['correct'];
                 }
@@ -78,13 +80,23 @@ class PlainTextGeneratorMultiChoiceMajor1Minor16 extends Generator implements Ge
             $listItem = '[ ]';
         }
 
-        $answerCount = count($this->params['answers']);
+        $answerCount = count($answers);
         for ($answerIndex = 0; $answerIndex < $answerCount; $answerIndex++) {
-            $answerData = $this->params['answers'][$answerIndex];
+            $answerData = $answers[$answerIndex];
             $container .= $listItem . ' ' .
                 TextUtils::htmlToText(($answerData['text'] ?? "\n")) . "\n";
         }
 
         $container = trim($container);
+    }
+
+    /**
+     * Get the text of correct answers.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsMultiChoiceMajor1Minor16::getSolutionTexts($this->params['answers']);
     }
 }

@@ -52,7 +52,8 @@ class H5PExtractor
             'target' => 'print',
             'scope' => 'all',
             'customCssPre' => '',
-            'customCssPost' => ''
+            'customCssPost' => '',
+            'solutionStyle' => null
         ];
 
         foreach ($defaultConfig as $key => $value) {
@@ -67,8 +68,8 @@ class H5PExtractor
     /**
      * Done.
      *
-     * @param string|null $result The result. Should be null if there is an error.
-     * @param string|null $error  The error. Should be null if there is no error.
+     * @param mixed   $result The result. Should be null if there is an error.
+     * @param string  $error  The error. Should be null if there is no error.
      *
      * @return array The result or error.
      */
@@ -81,9 +82,48 @@ class H5PExtractor
         }
 
         return [
-            'result' => $result,
+            'result' => $this->extractRepresentation($result),
+            'solution' => $this->formatSolution($result),
             'error' => $error
         ];
+    }
+
+    /**
+     * Extract the representation from the result.
+     *
+     * @param mixed $result The result array.
+     *
+     * @return string|null The representation, or null if result is null.
+     */
+    private function extractRepresentation($result)
+    {
+        if (!isset($result)) {
+            return null;
+        }
+        return $result['representation'] ?? null;
+    }
+
+    /**
+     * Extract and format the solution from the result.
+     *
+     * @param mixed $result The result array.
+     *
+     * @return string|null The formatted solution, or null if result is null.
+     */
+    private function formatSolution($result)
+    {
+        if (!isset($result)) {
+            return null;
+        }
+
+        $solution = $result['solution'] ?? null;
+        if (is_string($solution)) {
+            $solution = str_replace('&nbsp;', ' ', $solution);
+        }
+        if ($this->config['solutionStyle'] === 'reversed') {
+            $solution = strrev($solution);
+        }
+        return $solution;
     }
 
     /**
@@ -161,7 +201,7 @@ class H5PExtractor
                     $this->config['customCssPost'],
                     $this->config['h5pContentUrl'],
                     $this->config['h5pCoreUrl'],
-                    $this->config['h5pLibrariesUrl']
+                    $this->config['h5pLibrariesUrl'],
                 );
                 break;
 
@@ -170,7 +210,7 @@ class H5PExtractor
                     $h5pFileHandler,
                     $this->config['renderWidth'],
                     $this->config['target'],
-                    $this->config['scope']
+                    $this->config['scope'],
                 );
                 break;
 

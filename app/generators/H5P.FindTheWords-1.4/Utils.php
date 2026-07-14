@@ -210,4 +210,21 @@ class UtilsFindTheWordsMajor1Minor4
             $grid[$y][$x] = $word[$i];
         }
     }
+
+    /**
+     * Get the solution text.
+     *
+     * @param array $params The params array.
+     *
+     * @return string The solution text.
+     */
+    public static function getSolutionTexts($params)
+    {
+        if (isset($params['wordList']) && is_string($params['wordList'])) {
+            $words = explode(',', $params['wordList']);
+            return implode(', ', array_map('trim', $words));
+        }
+
+        return Generator::SOLUTION_FALLBACK;
+    }
 }

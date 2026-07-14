@@ -41,4 +41,18 @@ class GeneralUtils
             'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
         );
     }
+
+    /**
+     * Shuffle an array.
+     *
+     * @param array $array The array to shuffle.
+     *
+     * @return array The shuffled array.
+     */
+    public static function shuffle(array $array): array
+    {
+        $shuffled = $array;
+        shuffle($shuffled);
+        return $shuffled;
+    }
 }

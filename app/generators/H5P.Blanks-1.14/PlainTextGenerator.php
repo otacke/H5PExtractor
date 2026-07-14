@@ -45,6 +45,8 @@ class PlainTextGeneratorBlanksMajor1Minor14 extends Generator implements Generat
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
+
         if (isset($this->params['media']['type'])) {
             $container .= $this->main->renderH5PQuestionMedia(
                 $this->params['media']['type']
@@ -52,6 +54,10 @@ class PlainTextGeneratorBlanksMajor1Minor14 extends Generator implements Generat
         }
 
         $container .= TextUtils::htmlToText($this->params['text']);
+
+        if (!str_starts_with($this->params['text'], '<p')) {
+            $container .= "\n";
+        }
 
         // loop through $this->params['questions']
         $questionCount = count($this->params['questions']);
@@ -71,5 +77,15 @@ class PlainTextGeneratorBlanksMajor1Minor14 extends Generator implements Generat
         }
 
         $container = trim($container);
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsBlanksMajor1Minor14::getSolutionTexts($this->params);
     }
 }

@@ -83,4 +83,14 @@ class PlainTextGeneratorColumnMajor1Minor16 extends Generator implements Generat
 
         $container = trim($container);
     }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsColumnMajor1Minor16::getSolutionTexts($this->params, $this->main);
+    }
 }

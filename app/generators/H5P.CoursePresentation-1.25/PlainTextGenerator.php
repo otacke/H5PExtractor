@@ -49,7 +49,7 @@ class PlainTextGeneratorCoursePresentationMajor1Minor25 extends Generator implem
 
         $output = '';
 
-        $slideString = (isset($this->params['l10n']['slide'])) ? $this->params['l10n']['slide'] : 'Slide';
+        $slideString = (isset($this->params['l10n']['slide'])) ? $this->params['l10n']['slide'] : 'Slide'; // TODO: i18n
         $slideProgressTemplate = $slideString . ' %d / %d';
 
         if (isset($this->params['presentation']['slides'])) {
@@ -116,5 +116,15 @@ class PlainTextGeneratorCoursePresentationMajor1Minor25 extends Generator implem
         }
 
         $container = trim($output);
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsCoursePresentationMajor1Minor25::getSolutionTexts($this->params, $this->main);
     }
 }

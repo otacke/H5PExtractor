@@ -122,7 +122,7 @@ class HtmlGeneratorDragTextMajor1Minor10 extends Generator implements GeneratorI
         $container .= '</div>';
 
         $container .= '<div class="h5p-drag-draggables-container">';
-        shuffle($draggables);
+        $draggables = GeneralUtils::shuffle($draggables);
         $container .= implode('', $draggables);
         $container .= '</div>';
 
@@ -150,5 +150,15 @@ class HtmlGeneratorDragTextMajor1Minor10 extends Generator implements GeneratorI
             '>' .
                 '<span>' . $text . '</span>' .
             '</div>';
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsDragTextMajor1Minor10::getSolutionTexts($this->params);
     }
 }

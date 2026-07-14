@@ -45,6 +45,7 @@ class HtmlGeneratorEssayMajor1Minor5 extends Generator implements GeneratorInter
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
         $htmlClosing = TextUtils::getClosingTag($container);
 
         /* In theory, one could derive this automatically and do in the parent,
@@ -79,5 +80,15 @@ class HtmlGeneratorEssayMajor1Minor5 extends Generator implements GeneratorInter
         $container .= '</div>';
 
         $container .= $htmlClosing;
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsEssayMajor1Minor5::getSolutionTexts($this->params);
     }
 }

@@ -24,6 +24,8 @@ namespace H5PExtractor;
  */
 class Generator
 {
+    public const SOLUTION_FALLBACK = null;
+
     protected $params;
     protected $contentId;
     protected $extras;
@@ -41,7 +43,7 @@ class Generator
     /**
      * Set the main class.
      *
-     * @param HtmlGeneratorMain $main The main class.
+     * @param HtmlGeneratorMain|PlainTextGeneratorMain $main The main class.
      */
     public function setMain($main)
     {

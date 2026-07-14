@@ -45,6 +45,8 @@ class PlainTextGeneratorEssayMajor1Minor5 extends Generator implements Generator
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
+
         if (isset($this->params['media']['type'])) {
             $container .= $this->main->renderH5PQuestionMedia(
                 $this->params['media']['type']
@@ -67,5 +69,15 @@ class PlainTextGeneratorEssayMajor1Minor5 extends Generator implements Generator
         }
 
         $container = trim($container);
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsEssayMajor1Minor5::getSolutionTexts($this->params);
     }
 }

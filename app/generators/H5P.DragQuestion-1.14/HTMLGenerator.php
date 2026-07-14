@@ -44,6 +44,7 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
         $task = $this->params['question']['task'] ?? [];
 
         $htmlClosing = TextUtils::getClosingTag($container);
@@ -60,7 +61,6 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
             'h5p-question h5p-dragquestion',
             $container
         );
-
         $container = str_replace(
             'style="',
             'style="width: ' . $renderWidth . 'px;',
@@ -211,5 +211,15 @@ class HtmlGeneratorDragQuestionMajor1Minor14 extends Generator implements Genera
         $container .= '</div>'; // h5p-question-content
 
         $container .= $htmlClosing;
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsDragQuestionMajor1Minor14::getSolutionTexts($this->params, $this->main);
     }
 }

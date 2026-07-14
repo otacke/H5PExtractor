@@ -48,6 +48,7 @@ class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements Generat
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
         $htmlClosing = TextUtils::getClosingTag($container);
 
         /* In theory, one could derive this automatically and do in the parent,
@@ -56,8 +57,9 @@ class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements Generat
          */
         $container = str_replace('h5pClassName', 'h5p-question h5p-multichoice', $container);
 
+        $answers = $this->params['answers'] ?? [];
         if ($this->params['behaviour']['randomAnswers']) {
-            shuffle($this->params['answers']);
+            $answers = GeneralUtils::shuffle($answers);
         }
 
         if (isset($this->params['media']['type'])) {
@@ -72,7 +74,7 @@ class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements Generat
 
         $numCorrect = count(
             array_filter(
-                $this->params['answers'],
+                $answers,
                 function ($answer) {
                     return $answer['correct'];
                 }
@@ -92,7 +94,7 @@ class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements Generat
         $container .= '<ul class="h5p-answers" role="' . $role . '">';
 
         $role = $mode === 'h5p-radio' ? 'radio' : 'checkbox';
-        $answerCount = count($this->params['answers']);
+        $answerCount = count($answers);
         for ($answerIndex = 0; $answerIndex < $answerCount; $answerIndex++) {
             $container .= '<li class="h5p-answer" role="' . $role . '">';
             $container .= '<div class="h5p-alternative-container">';
@@ -103,7 +105,7 @@ class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements Generat
              */
             $container .= '<div class="h5p-alternative-inner">';
 
-            $answerData = $this->params['answers'][$answerIndex];
+            $answerData = $answers[$answerIndex];
             $answerText = $answerData['text'] ?? '';
             if (!str_starts_with($answerText, '<div>')) {
                 $answerText = '<div>' . $answerText . '</div>';
@@ -120,5 +122,15 @@ class HtmlGeneratorMultiChoiceMajor1Minor16 extends Generator implements Generat
         $container .= '</div>'; // h5p-question-content
 
         $container .= $htmlClosing; // container
+    }
+
+    /**
+     * Get the text of correct answers.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsMultiChoiceMajor1Minor16::getSolutionTexts($this->params['answers']);
     }
 }

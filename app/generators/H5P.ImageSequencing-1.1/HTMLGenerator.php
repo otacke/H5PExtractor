@@ -45,6 +45,7 @@ class HtmlGeneratorImageSequencingMajor1Minor1 extends Generator implements Gene
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
         $htmlClosing = TextUtils::getClosingTag($container);
         $container = str_replace('h5pClassName', 'h5p-image-sequencing', $container);
 
@@ -57,10 +58,9 @@ class HtmlGeneratorImageSequencingMajor1Minor1 extends Generator implements Gene
 
         $container .= '<ul class="sortable ui-sortable">';
 
-        shuffle($this->params['sequenceImages']);
-
-        for ($i = 0; $i < count($this->params['sequenceImages']); $i++) {
-            $imgSrc = $this->buildFileSource($this->params['sequenceImages'][$i]['image']['path']);
+        $shuffledImages = GeneralUtils::shuffle($this->params['sequenceImages']);
+        for ($i = 0; $i < count($shuffledImages); $i++) {
+            $imgSrc = $this->buildFileSource($shuffledImages[$i]['image']['path']);
 
             $container .=
                 '<li class="sequencing-item draggabled ui-sortable-handle ui-droppable">';
@@ -71,7 +71,7 @@ class HtmlGeneratorImageSequencingMajor1Minor1 extends Generator implements Gene
             $container .= '<div class="image-desc">';
             $container .=
                 '<span class="text">' .
-                    $this->params['sequenceImages'][$i]['imageDescription'] .
+                    $shuffledImages[$i]['imageDescription'] .
                 '</span>';
             $container .= '</div>';
             $container .= '</span>';
@@ -81,5 +81,15 @@ class HtmlGeneratorImageSequencingMajor1Minor1 extends Generator implements Gene
         $container .= '</ul>';
 
         $container .= $htmlClosing;
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsImageSequencingMajor1Minor1::getSolutionTexts($this->params);
     }
 }

@@ -43,6 +43,7 @@ class HtmlGeneratorQuestionSetMajor1Minor20 extends Generator implements Generat
      */
     public function attach(&$container)
     {
+        include_once __DIR__ . DIRECTORY_SEPARATOR . 'Utils.php';
         $htmlClosing = TextUtils::getClosingTag($container);
 
         $styleProps = ['overflow: hidden'];
@@ -73,28 +74,29 @@ class HtmlGeneratorQuestionSetMajor1Minor20 extends Generator implements Generat
             $container .= '<div style="height: 1rem;"></div>';
         }
 
+        $questions = $this->params['questions'] ?? [];
         $index = 0;
         $poolSize = $this->params['poolSize'] ?? 0;
         $needsShuffling = ($this->params['randomQuestions'] ?? false) ||
             $poolSize > 0;
 
         if ($needsShuffling) {
-            shuffle($this->params['questions']);
+            $questions = GeneralUtils::shuffle($questions);
         }
 
         if ($poolSize > 0) {
-            $this->params['questions'] = array_slice(
-                $this->params['questions'],
+            $questions = array_slice(
+                $questions,
                 0,
-                $this->params['poolSize']
+                $poolSize
             );
         }
 
         // This diverges from the original view of H5P.Question, because we
         // want to display all questions at once.
-        foreach ($this->params['questions'] as $question) {
+        foreach ($questions as $question) {
             $container .= $this->buildSlide($originalContainer, $question, $index);
-            if ($index < count($this->params['questions']) - 1) {
+            if ($index < count($questions) - 1) {
                 $container .= '<div style="height: 1rem;"></div>';
             }
             $index++;
@@ -230,5 +232,15 @@ class HtmlGeneratorQuestionSetMajor1Minor20 extends Generator implements Generat
         $footer .= '</div>'; // qs-footer
 
         return $footer;
+    }
+
+    /**
+     * Get the solution text.
+     *
+     * @return string The solution text.
+     */
+    public function showSolutions()
+    {
+        return UtilsQuestionSetMajor1Minor20::getSolutionTexts($this->params, $this->main);
     }
 }
