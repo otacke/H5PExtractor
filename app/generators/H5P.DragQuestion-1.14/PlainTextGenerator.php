@@ -59,14 +59,18 @@ class PlainTextGeneratorDragQuestionMajor1Minor14 extends Generator implements G
 
         $dropzones = [];
         foreach ($task['dropZones'] ?? [] as $dropZone) {
-            $container .= '__________';
+            $dropzoneText = '__________';
 
             if ($dropZone['showLabel'] && trim($dropZone['label']) !== '') {
-                $dropzoneText .= ' (' . TextUtils::htmlToText($dropZone['label']) . ')';
+                $dropzoneLabel = ' (' . TextUtils::htmlToTextInOneLine($dropZone['label']) . ')';
+                $dropzoneText .= $dropzoneLabel;
                 $dropzones[] = $dropzoneText;
             }
         }
-        $container .= implode(' | ', $dropzones) . "\n\n";
+        foreach ($dropzones as $dropzone) {
+            $container .= $dropzone . "\n\n";
+        }
+        $container .= "\n";
 
         $container .= '**Draggables**' . "\n\n"; // TODO i18n
 
@@ -87,7 +91,9 @@ class PlainTextGeneratorDragQuestionMajor1Minor14 extends Generator implements G
 
             $draggables[] = $innerContainer;
         }
-        $container .= implode(' | ', $draggables);
+        foreach ($draggables as $draggable) {
+            $container .= '- ' . $draggable . "\n";
+        }
 
         $container = trim($container);
     }
