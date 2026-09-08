@@ -46,7 +46,9 @@ class PlainTextGeneratorAdvancedTextMajor1Minor1 extends Generator implements Ge
     public function attach(&$container)
     {
         if (isset($this->params['text'])) {
-            $container .= TextUtils::htmlToText($this->params['text']);
+            $container .= isset($this->params['h5pExtractorSingleLine']) ?
+              TextUtils::htmlToTextInOneLine($this->params['text']) :
+              TextUtils::htmlToText($this->params['text']);
         }
 
         $container = trim($container);

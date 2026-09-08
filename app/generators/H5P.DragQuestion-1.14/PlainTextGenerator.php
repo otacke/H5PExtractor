@@ -66,7 +66,7 @@ class PlainTextGeneratorDragQuestionMajor1Minor14 extends Generator implements G
                 $dropzones[] = $dropzoneText;
             }
         }
-        $container .= implode(', ', $dropzones) . "\n\n";
+        $container .= implode(' | ', $dropzones) . "\n\n";
 
         $container .= '**Draggables**' . "\n\n"; // TODO i18n
 
@@ -75,6 +75,8 @@ class PlainTextGeneratorDragQuestionMajor1Minor14 extends Generator implements G
             if (count($draggable['dropZones'] ?? []) === 0) {
                 continue; // Just "decoration"
             }
+
+            $draggable['type']['params']['h5pExtractorSingleLine'] = true;
 
             $innerContainer = '';
             $this->main->newRunnable(
@@ -85,7 +87,7 @@ class PlainTextGeneratorDragQuestionMajor1Minor14 extends Generator implements G
 
             $draggables[] = $innerContainer;
         }
-        $container .= implode(', ', $draggables);
+        $container .= implode(' | ', $draggables);
 
         $container = trim($container);
     }
