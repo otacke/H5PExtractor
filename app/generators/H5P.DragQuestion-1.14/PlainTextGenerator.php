@@ -57,20 +57,20 @@ class PlainTextGeneratorDragQuestionMajor1Minor14 extends Generator implements G
         // Could be fun to try to represent this in ASCII art ;-)
         $container .= '**Dropzones**' . "\n\n"; // TODO i18n
 
+        $dropzones = [];
         foreach ($task['dropZones'] ?? [] as $dropZone) {
             $container .= '__________';
 
             if ($dropZone['showLabel'] && trim($dropZone['label']) !== '') {
-                $container .= ' (' . TextUtils::htmlToText($dropZone['label']) . ')';
+                $dropzoneText .= ' (' . TextUtils::htmlToText($dropZone['label']) . ')';
+                $dropzones[] = $dropzoneText;
             }
-
-            $container .= ", ";
         }
-
-        $container .= "\n\n";
+        $container .= implode(', ', $dropzones) . "\n\n";
 
         $container .= '**Draggables**' . "\n\n"; // TODO i18n
 
+        $draggables = [];
         foreach ($task['elements'] ?? [] as $draggable) {
             if (count($draggable['dropZones'] ?? []) === 0) {
                 continue; // Just "decoration"
@@ -83,8 +83,9 @@ class PlainTextGeneratorDragQuestionMajor1Minor14 extends Generator implements G
                 $innerContainer
             );
 
-            $container .= $innerContainer . ", ";
+            $draggables[] = $innerContainer;
         }
+        $container .= implode(', ', $draggables);
 
         $container = trim($container);
     }
