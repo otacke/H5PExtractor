@@ -490,9 +490,11 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
         $height = $params['height'];
 
         // Lots of unpleasant customization, because neither grid nor flex render properly in Pressbooks
-        $navigation = '<nav class="h5p-cp-navigation" style="width:' . $width .'px;height:' . $height . 'px">';
+        $navigation = '<nav class="h5p-cp-navigation" style="width:' .
+          $width .'px;height:' . $height . 'px">';
 
-        $navigation .= '<div class="h5p-progressbar" style="display:block;width:' . $width .'px;height:' . $height . 'px">';
+        $navigation .= '<div class="h5p-progressbar"' .
+          ' style="display:block;width:' . $width .'px;height:' . $height . 'px">';
 
         for ($i = 0; $i <= $params['maxIndex']; $i++) {
             $selected = ($i === $params['index']) ?
@@ -504,7 +506,8 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
             $navigation .=
                 '<div ' .
                     'class="h5p-progressbar-part' . $show . $selected . '"' .
-                    'style="float:left;width:' . $width / ($params['maxIndex'] + 1) - 1 . 'px;height:' . $height . 'px"' .
+                    'style="float:left;width:' . $width / ($params['maxIndex'] + 1) - 1 . 'px;' .
+                    'height:' . $height . 'px"' .
                 '>';
 
             if ($params['hasTasks'][$i]) {
@@ -541,7 +544,9 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
         $footer = '<div class="h5p-footer" style="display:block;width:' . $width . 'px;height: ' . $height . 'px">';
 
         // LEFT (Title)
-        $footer .= '<div class="h5p-footer-left-adjusted" style="float:left;width:' . $width * 0.4 . 'px; height:' . $height .'px">';
+        $footer .= '<div class="h5p-footer-left-adjusted" style="float:left;' .
+          'width:' . $width * 0.4 . 'px;' .
+          'height:' . $height .'px">';
 
         $title = '';
         if (isset($params['keywords']) &&
@@ -560,7 +565,9 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
         $footer .= '</div>'; // Closing .h5p-footer-left-adjusted
 
         // CENTER
-        $footer .= '<div class="h5p-footer-center-adjusted" style="float:left;width:' . $width * 0.2 . 'px; height:' . $height .'px">';
+        $footer .= '<div class="h5p-footer-center-adjusted" style="float:left;' .
+          'width:' . $width * 0.2 . 'px;' .
+          'height:' . $height .'px">';
 
         $disabled = $index === 0 ? 'true' : 'false';
         $footer .=
@@ -592,7 +599,9 @@ class HtmlGeneratorCoursePresentationMajor1Minor25 extends Generator implements 
         $footer .= '</div>'; // Closing .h5p-footer-center-adjusted
 
         // RIGHT (toolbar)
-        $footer .= '<div class="h5p-footer-right-adjusted" style="float:left;width:' . $width * 0.4 . 'px; height:' . $height .'px">';
+        $footer .= '<div class="h5p-footer-right-adjusted" style="float:left;' .
+          'width:' . $width * 0.4 . 'px;' .
+          'height:' . $height .'px">';
         $footer .= '</div>';
 
         $footer .= '</div>'; // Closing h5p-footer

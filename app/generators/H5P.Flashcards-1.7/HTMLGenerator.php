@@ -76,7 +76,8 @@ class HtmlGeneratorFlashcardsMajor1Minor7 extends Generator implements Generator
             '<div ' .
                 'class="h5p-inner"' .
                 // Older renderers do not support 'grid' - and also not 'gap', so we use margin on cards
-                'style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; padding-top: 1rem"' .
+                'style="display: flex;' .
+                  ' flex-direction: row; flex-wrap: wrap; justify-content: space-between; padding-top: 1rem"' .
             '>';
 
         for ($i = 0; $i < count($cards); $i++) {
